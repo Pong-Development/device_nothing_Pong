@@ -50,4 +50,6 @@
         <item>org.lineageos.aperture</item>
     </string-array>
 
+    <!-- Whether the device supports wireless charging or not -->
+    <bool name="config_deviceSupportsWirelessCharging">true</bool>
 </resources>
