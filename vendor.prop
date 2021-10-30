@@ -165,6 +165,7 @@ debug.sf.disable_client_composition_cache=0
 debug.sf.enable_advanced_sf_phase_offset=1
 debug.sf.enable_gl_backpressure=1
 debug.sf.enable_transaction_tracing=false
+debug.sf.latch_unsignaled=0
 debug.sf.predict_hwc_composition_strategy=0
 debug.sf.high_fps_early_gl_phase_offset_ns=-2000000
 debug.sf.high_fps_early_phase_offset_ns=-4000000
