@@ -324,6 +324,7 @@ subsystem mem_buf_vm
 /dev/nfc-nci              0660    nfc         nfc
 /dev/nq-nci               0660    nfc         nfc
 /dev/assd                 0660    nfc         nfc
+/dev/st21nfc              0660    nfc         nfc
 
 # eSE permissions
 /dev/st54spi_gpio         0660   system     system
