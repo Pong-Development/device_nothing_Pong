@@ -77,6 +77,9 @@ subsystem mem_buf_vm
 #permissions for UFS RPMB BSG device node
 /dev/0:0:0:49476          0600   system     system
 
+#permissions for GPT listener on LUN4
+/dev/0:0:0:4              0600   system     root
+
 #permissions for CSVT
 /dev/smd11                0660   radio      radio
 
