@@ -31,6 +31,9 @@ value:2910
 [AID_VENDOR_NXP_WEAVER]
 value:2911
 
+[AID_VENDOR_SSGTZD]
+value:2912
+
 [vendor/bin/hw/android.hardware.security.keymint-service.strongbox]
 mode: 0755
 user: AID_VENDOR_NXP_STRONGBOX
