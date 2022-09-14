@@ -37,6 +37,9 @@ value:2912
 [AID_VENDOR_THALES_STRONGBOX]
 value:2913
 
+[AID_VENDOR_QCC]
+value:2914
+
 [vendor/bin/hw/android.hardware.security.keymint-service.strongbox-thales]
 mode: 0755
 user: AID_VENDOR_THALES_STRONGBOX
