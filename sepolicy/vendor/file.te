@@ -1,2 +1,5 @@
 # Fingerprint
 type vendor_persist_goodix_file, file_type;
+
+# PowerShare
+type sysfs_powershare, sysfs_type, fs_type;

@@ -18,3 +18,6 @@
 
 # LEDs
 /sys/devices/platform/soc/994000.i2c/i2c-0/0-003a/leds/led_strips(/.*)?                            u:object_r:sysfs_leds:s0
+
+# Powershare
+/vendor/bin/hw/vendor\.lineage\.powershare@1\.0-service\.nothing                   u:object_r:hal_lineage_powershare_default_exec:s0

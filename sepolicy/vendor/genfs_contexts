@@ -5,6 +5,9 @@ genfscon sysfs /devices/platform/goodix_ts.0/single_tap             u:object_r:v
 # Vibrator
 genfscon sysfs /devices/platform/soc/88c000.i2c/i2c-3/3-005a/leds/vibrator   u:object_r:sysfs_vibrator:s0
 
+# PowerShare
+genfscon sysfs /class/qcom-battery/wireless_boost_en                            u:object_r:sysfs_powershare:s0
+
 # Wakeup
 genfscon sysfs /devices/platform/soc/88c000.i2c/i2c-3/3-005a/wakeup u:object_r:sysfs_wakeup:s0
 genfscon sysfs /devices/platform/soc/994000.i2c/i2c-0/0-003a/wakeup u:object_r:sysfs_wakeup:s0
