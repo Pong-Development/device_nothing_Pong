@@ -57,6 +57,7 @@ echo 325 > /proc/sys/walt/walt_low_latency_task_threshold
 # cpuset parameters
 echo 0-1 > /dev/cpuset/background/cpus
 echo 0-3 > /dev/cpuset/system-background/cpus
+echo 0-6 > /dev/cpuset/foreground/cpus
 
 # Set restricted cpuset to the same CPUs as system-background
 cat /dev/cpuset/system-background/cpus > /dev/cpuset/restricted/cpus
