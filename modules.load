@@ -44,7 +44,6 @@ rq_stats.ko
 dcc_v2.ko
 smcinvoke_mod.ko
 microdump_collector.ko
-llcc_perfmon.ko
 smp2p_sleepstate.ko
 sensors_ssc.ko
 glink_pkt.ko
@@ -197,7 +196,6 @@ simulated_ntc.ko
 slimbus.ko
 slim-qcom-ngd-ctrl.ko
 hwmon.ko
-qti_amoled_ecm.ko
 coresight.ko
 coresight-tmc.ko
 coresight-funnel.ko
