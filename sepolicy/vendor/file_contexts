@@ -18,3 +18,6 @@
 
 # Powershare
 /vendor/bin/hw/vendor\.lineage\.powershare@1\.0-service\.nothing                   u:object_r:hal_lineage_powershare_default_exec:s0
+
+# vibrator
+/(vendor|system/vendor)/bin/hw/vendor\.qti\.hardware\.vibrator\.service\.nt                        u:object_r:hal_vibrator_default_exec:s0
