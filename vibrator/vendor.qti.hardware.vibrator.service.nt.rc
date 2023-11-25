@@ -7,3 +7,8 @@ on late-init
     chown system system /sys/class/leds/aw_vibrator/activate
     chown system system /sys/class/leds/aw_vibrator/duration
     chown system system /sys/class/leds/aw_vibrator/state
+    chown system system /sys/class/leds/aw_vibrator/brightness
+    chown system system /sys/class/leds/aw_vibrator/gain
+    chown system system /sys/class/leds/aw_vibrator/loop
+    chown system system /sys/class/leds/aw_vibrator/vmax
+    chown system system /sys/class/leds/aw_vibrator/index
