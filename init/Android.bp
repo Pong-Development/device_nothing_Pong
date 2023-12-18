@@ -9,6 +9,11 @@ prebuilt_etc {
     vendor: true,
 }
 
+prebuilt_etc {                                                         name: "fstab.zram",
+    src: "fstab.zram",
+    vendor: true,                                                  
+}
+
 prebuilt_etc {
     name: "init.nt.rc",
     src: "init.nt.rc",
