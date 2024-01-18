@@ -40,7 +40,7 @@
 # Fingerprint
 /dev/goodix_fp												u:object_r:fingerprint_device:s0
 /mnt/vendor/persist/goodix(/.*)?									u:object_r:vendor_persist_goodix_file:s0
-/vendor/bin/hw/android\.hardware\.biometrics\.fingerprint@2\.3-service\.nothing				u:object_r:hal_fingerprint_default_exec:s0
+/vendor/bin/hw/android\.hardware\.biometrics\.fingerprint-service\.nothing				u:object_r:hal_fingerprint_default_exec:s0
 
 # LEDs
 /sys/devices/platform/soc/994000.i2c/i2c-0/0-003a/leds/led_strips(/.*)?					u:object_r:sysfs_leds:s0
