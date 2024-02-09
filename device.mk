@@ -152,9 +152,6 @@ PRODUCT_PACKAGES += \
     init.target.rc \
     ueventd.phone2.rc
 
-# Kernel
-KERNEL_PREBUILT_DIR := $(DEVICE_PATH)-kernel
-
 # Keymaster
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.keystore.app_attest_key.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.keystore.app_attest_key.xml
