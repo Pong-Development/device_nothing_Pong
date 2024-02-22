@@ -95,6 +95,30 @@
          but the display is fully on. -->
     <integer name="config_autoBrightnessShortTermModelTimeout">120000</integer>
 
+    <string-array name="config_nightDisplayColorTemperatureCoefficients">
+       <item>0.0000000000</item>
+       <item>0.0000000000</item>
+       <item>1.0000000000</item>
+       <item>0.0000000000</item>
+       <item>0.0001636364</item>
+       <item>0.3352000000</item>
+       <item>0.0000000000</item>
+       <item>0.0003496503</item>
+       <item>-0.4376923077</item>
+    </string-array>
+
+    <string-array name="config_nightDisplayColorTemperatureCoefficientsNative">
+       <item>0.0000000000</item>
+       <item>0.0000000000</item>
+       <item>1.0000000000</item>
+       <item>0.0000000000</item>
+       <item>0.0001636364</item>
+       <item>0.3352000000</item>
+       <item>0.0000000000</item>
+       <item>0.0003496503</item>
+       <item>-0.4376923077</item>
+    </string-array>
+
     <!-- Boolean indicating whether display white balance is supported. -->
     <bool name="config_displayWhiteBalanceAvailable">true</bool>
 
