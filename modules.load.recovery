@@ -5,7 +5,6 @@ clk-rpmh.ko
 gcc-waipio.ko
 icc-rpmh.ko
 qcom_ipcc.ko
-qcom_ipc_logging.ko
 qcom-pdc.ko
 qcom_tsens.ko
 rpmh-regulator.ko
@@ -54,8 +53,6 @@ msm_geni_serial.ko
 nvmem_qcom-spmi-sdam.ko
 phy-generic.ko
 phy-qcom-ufs.ko
-phy-qcom-ufs-qmp-v4-waipio.ko
-phy-qcom-ufs-qmp-v4-diwali.ko
 phy-qcom-ufs-qmp-v4-cape.ko
 pinctrl-cape.ko
 pinctrl-diwali.ko
@@ -92,7 +89,6 @@ ufshcd-crypto-qti.ko
 ufs_qcom.ko
 arm_smmu.ko
 msm-geni-se.ko
-mem-offline.ko
 qcom_aoss.ko
 msm_qmp.ko
 qcom_rimps.ko
@@ -106,15 +102,11 @@ msm_sysstats.ko
 zsmalloc.ko
 lzo.ko
 lzo-rle.ko
-msm_show_resume_irq.ko
 mhi_cntrl_qcom.ko
 mhi.ko
 mhi_dev_uci.ko
 mhi_dev_netdev.ko
 mhi_dev_dtr.ko
-phy-qcom-ufs-qmp-v4-lahaina.ko
-phy-qcom-ufs-qmp-v4-parrot.ko
-phy-qcom-ufs-qmp-v4-anarok.ko
 phy-qcom-ufs-qmp-v3.ko
 phy-qcom-ufs-qmp-14nm.ko
 pinctrl-spmi-gpio.ko
@@ -175,13 +167,11 @@ qcom_soc_wdt.ko
 sys_pm_vx.ko
 msm_ext_display.ko
 icnss2.ko
-rimps_log.ko
 plh_scmi.ko
 gplaf_scmi.ko
 shared_rail_scmi.ko
 qdss_bridge.ko
 memlat.ko
-qcom_logbuf_vendor_hooks.ko
 panel_event_notifier.ko
 qcom_sync_file.ko
 hung_task_enh.ko
@@ -228,7 +218,6 @@ usb_f_qdss.ko
 usb_f_ccid.ko
 usb_f_cdev.ko
 usb_f_gsi.ko
-f_fs_ipc_log.ko
 ucsi_glink.ko
 repeater.ko
 repeater-i2c-eusb2.ko

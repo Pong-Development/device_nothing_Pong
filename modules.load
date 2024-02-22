@@ -2,15 +2,11 @@ msm_sysstats.ko
 zsmalloc.ko
 lzo.ko
 lzo-rle.ko
-msm_show_resume_irq.ko
 mhi_cntrl_qcom.ko
 mhi.ko
 mhi_dev_uci.ko
 mhi_dev_netdev.ko
 mhi_dev_dtr.ko
-phy-qcom-ufs-qmp-v4-lahaina.ko
-phy-qcom-ufs-qmp-v4-parrot.ko
-phy-qcom-ufs-qmp-v4-anarok.ko
 phy-qcom-ufs-qmp-v3.ko
 phy-qcom-ufs-qmp-14nm.ko
 pinctrl-spmi-gpio.ko
@@ -71,13 +67,11 @@ qcom_soc_wdt.ko
 sys_pm_vx.ko
 msm_ext_display.ko
 icnss2.ko
-rimps_log.ko
 plh_scmi.ko
 gplaf_scmi.ko
 shared_rail_scmi.ko
 qdss_bridge.ko
 memlat.ko
-qcom_logbuf_vendor_hooks.ko
 panel_event_notifier.ko
 qcom_sync_file.ko
 hung_task_enh.ko
@@ -124,7 +118,6 @@ usb_f_qdss.ko
 usb_f_ccid.ko
 usb_f_cdev.ko
 usb_f_gsi.ko
-f_fs_ipc_log.ko
 ucsi_glink.ko
 repeater.ko
 repeater-i2c-eusb2.ko
@@ -259,8 +252,6 @@ tfa98xx_dlkm.ko
 wsa883x_dlkm.ko
 wcd938x_dlkm.ko
 wcd938x_slave_dlkm.ko
-wcd937x_dlkm.ko
-wcd937x_slave_dlkm.ko
 hdmi_dlkm.ko
 camera.ko
 msm-cvp.ko
