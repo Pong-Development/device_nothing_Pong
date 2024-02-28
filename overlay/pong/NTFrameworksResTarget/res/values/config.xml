@@ -304,5 +304,7 @@
 
     <!-- Whether to use Richtap vibration -->
     <bool name="config_usesRichtapVibration">true</bool>
-
+    
+     <!-- Fingerprint from stock ROM -->
+    <string name="config_stockFingerprint" translatable="false">Nothing/Pong/Pong:12/SKQ1.230722.001/2401161446:user/release-keys</string>
 </resources>
