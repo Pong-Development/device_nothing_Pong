@@ -257,7 +257,7 @@
     <integer-array name="config_udfps_sensor_props" translatable="false" >
         <item>540</item>  <!-- <item>sensorLocationX</item> -->
         <item>2186</item> <!-- <item>sensorLocationY</item> -->
-        <item>97</item>  <!-- <item>sensorRadius</item> -->
+        <item>93</item>  <!-- <item>sensorRadius</item> -->
     </integer-array>
 
     <!-- Type of the udfps long press sensor. Empty if long press is not supported. -->
