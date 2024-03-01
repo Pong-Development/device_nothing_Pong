@@ -364,6 +364,10 @@ PRODUCT_PACKAGES += \
 # Project ID Quota
 $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 
+# Paranoid Glyph
+PRODUCT_PACKAGES += \
+    ParanoidGlyphPhone2
+
 # Partitions
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
 
