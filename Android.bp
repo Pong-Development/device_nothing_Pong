@@ -4,7 +4,14 @@
 //
 
 soong_namespace {
-    imports: ["hardware/qcom-caf/bootctrl", "vendor/qcom/opensource/commonsys-intf/display"],
+    imports: [
+        "hardware/google/interfaces",
+        "hardware/google/pixel",
+        "hardware/lineage/interfaces/power-libperfmgr",
+        "hardware/qcom-caf/bootctrl",
+        "hardware/qcom-caf/common/libqti-perfd-client",
+        "vendor/qcom/opensource/commonsys-intf/display",
+    ],
 }
 
 cc_library_shared {
