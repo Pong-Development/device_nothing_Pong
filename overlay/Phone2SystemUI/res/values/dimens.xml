@@ -20,7 +20,7 @@
     <dimen name="status_bar_header_height_keyguard">@*android:dimen/status_bar_height</dimen>
 
     <!-- Margin on the bottom of the indication text on Keyguard -->
-    <dimen name="keyguard_indication_margin_bottom">320px</dimen>
+    <dimen name="keyguard_indication_margin_bottom">12dp</dimen>
 
     <!-- Margin on the left side of the carrier text on Keyguard -->
     <dimen name="keyguard_carrier_text_margin">@*android:dimen/rounded_corner_content_padding</dimen>
