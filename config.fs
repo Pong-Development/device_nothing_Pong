@@ -215,6 +215,12 @@ user:  AID_GPS
 group: AID_GPS
 caps: SETUID SETGID
 
+[vendor/bin/lowi-server]
+mode: 0755
+user:  AID_GPS
+group: AID_GPS
+caps: NET_ADMIN
+
 [vendor/bin/xtwifi-client]
 mode: 0755
 user:  AID_GPS
