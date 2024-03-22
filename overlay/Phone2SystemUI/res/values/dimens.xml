@@ -23,7 +23,7 @@
     <dimen name="keyguard_indication_margin_bottom">12dp</dimen>
 
     <!-- Margin on the left side of the carrier text on Keyguard -->
-    <dimen name="keyguard_carrier_text_margin">@*android:dimen/rounded_corner_content_padding</dimen>
+    <dimen name="keyguard_carrier_text_margin">0dp</dimen>
 
     <!-- Location on the screen of the center of the physical power button. -->
     <dimen name="physical_power_button_center_screen_location_y">1009.0px</dimen>
