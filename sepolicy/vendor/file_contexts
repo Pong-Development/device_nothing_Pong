@@ -13,9 +13,6 @@
 # Sensors
 /(vendor|system/vendor)/bin/hw/android.hardware.sensors@[0-9].[0-9]-service.nt-multihal       u:object_r:hal_sensors_default_exec:s0
 
-# Vibrator
-/dev/aw86927_haptic                            u:object_r:aac_richtap_device:s0
-
 # LEDs
 /sys/devices/platform/soc/994000.i2c/i2c-0/0-003a/leds/led_strips(/.*)?                            u:object_r:sysfs_leds:s0
 
