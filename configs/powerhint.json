@@ -123,7 +123,7 @@
       "Path": "/dev/cpuctl/top-app/cpu.uclamp.min",
       "Values": [
         "0",
-        "25",
+        "30",
         "50"
       ],
       "DefaultIndex": 0,
@@ -379,21 +379,9 @@
     },
     {
       "PowerHint": "INTERACTION",
-      "Node": "CPUBigClusterMinFreq",
-      "Duration": 0,
-      "Value": "1324800"
-    },
-    {
-      "PowerHint": "INTERACTION",
-      "Node": "CPULittleClusterMinFreq",
-      "Duration": 0,
-      "Value": "1363200"
-    },
-    {
-      "PowerHint": "INTERACTION",
       "Node": "UclampTAMin",
       "Duration": 0,
-      "Value": "25"
+      "Value": "30"
     },
     {
       "PowerHint": "INTERACTION",
@@ -478,12 +466,6 @@
       "Node": "LLCCBWMinFreq",
       "Duration": 0,
       "Value": "600000"
-    },
-    {
-      "PowerHint": "INTERACTION",
-      "Node": "GPUMinFreq",
-      "Duration": 0,
-      "Value": "364000000"
     },
     {
       "PowerHint": "INTERACTIVE",
