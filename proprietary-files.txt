@@ -641,7 +641,7 @@ vendor/etc/charger_fw_fstab.qti
 
 # CNE - from LA.VENDOR.1.0.r1-16000-WAIPIO.QSSI13.0
 vendor/app/CACertService/CACertService.apk|6feac0cc0ce8cb6f324ae1974827b0a6fe3b4874
-vendor/app/CneApp/CneApp.apk|1f4e699630c4f8434d5f08fa28b0b9effa911a56
+vendor/app/CneApp/CneApp.apk;REQUIRED=CneApp.libvndfwk_detect_jni.qti_vendor_symlink|1f4e699630c4f8434d5f08fa28b0b9effa911a56
 vendor/bin/cnd|0ca3f0b515ad05188a494f4dd5f2aba8f8140234
 vendor/bin/mutualex|5042545dce571c9c4024b0210ad5c9fc330fe85f
 vendor/etc/cne/mwqem.conf|c42ad47b34b511075e5dfb9047d32f881fe0c159
