@@ -10,6 +10,7 @@ cc_binary {
         "service.cpp",
     ],
     shared_libs: [
+        "libbase",
         "libcutils",
         "liblog",
         "libhidlbase",
