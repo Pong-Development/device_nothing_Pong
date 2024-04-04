@@ -23,7 +23,6 @@ import androidx.preference.PreferenceFragment;
 import androidx.preference.PreferenceManager;
 
 import com.android.settingslib.collapsingtoolbar.CollapsingToolbarBaseActivity;
-import com.android.settingslib.widget.R;
 
 public class DeviceExtrasActivity extends CollapsingToolbarBaseActivity {
 
@@ -33,11 +32,11 @@ public class DeviceExtrasActivity extends CollapsingToolbarBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Fragment fragment = getFragmentManager().findFragmentById(R.id.content_frame);
+        Fragment fragment = getFragmentManager().findFragmentById(com.android.settingslib.collapsingtoolbar.R.id.content_frame);
         if (fragment == null) {
             mDeviceExtrasFragment = new DeviceExtras();
             getFragmentManager().beginTransaction()
-                .add(R.id.content_frame, mDeviceExtrasFragment)
+                .add(com.android.settingslib.collapsingtoolbar.R.id.content_frame, mDeviceExtrasFragment)
                 .commit();
         } else {
             mDeviceExtrasFragment = (DeviceExtras) fragment;

@@ -23,7 +23,7 @@
         android:key="power"
         android:title="@string/power_title">
         
-    <SwitchPreference
+    <SwitchPreferenceCompat
             android:key="powershare"
             android:icon="@drawable/ic_powershare"
             android:title="@string/powershare_mode_title"
