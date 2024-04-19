@@ -1,0 +1,14 @@
+type init_sim_restart, domain, coredomain;
+type init_sim_restart_exec, system_file_type, exec_type, file_type;
+
+init_daemon_domain(init_sim_restart)
+
+allow init_sim_restart init:unix_stream_socket connectto;
+allow init_sim_restart property_socket:sock_file write;
+allow init_sim_restart shell_exec:file { execute getattr map read };
+allow init_sim_restart toolbox_exec:file { execute execute_no_trans getattr map open read };
+
+allow init_sim_restart radio:binder call;
+allow init_sim_restart radio_service:service_manager find;
+allow init_sim_restart servicemanager:binder call;
+allow init_sim_restart system_file:file execute_no_trans;

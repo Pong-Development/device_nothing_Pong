@@ -68,3 +68,8 @@ sh_binary {
     src: "init.qcom.sh",
     vendor: true,
 }
+
+sh_binary {
+    name: "init.sim.restart.sh",
+    src: "init.sim.restart.sh",
+}

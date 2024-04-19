@@ -1,0 +1,2 @@
+# Init
+/system/bin/init\.sim\.restart\.sh                              u:object_r:init_sim_restart_exec:s0
