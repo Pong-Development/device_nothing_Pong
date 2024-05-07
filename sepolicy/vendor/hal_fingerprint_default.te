@@ -8,4 +8,3 @@ allow hal_fingerprint_default {
 set_prop(hal_fingerprint_default, system_fingerprint_prop)
 get_prop(hal_fingerprint_default, system_fingerprint_prop)
 
-rw_dir_file(hal_fingerprint_default, vendor_persist_goodix_file)

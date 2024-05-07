@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#define LOG_TAG "android.hardware.biometrics.fingerprint@2.3-service.nothing"
+#define LOG_TAG "android.hardware.biometrics.fingerprint@2.3-service.nt"
 
 #include <android/hardware/biometrics/fingerprint/2.1/types.h>
 #include <android/hardware/biometrics/fingerprint/2.3/IBiometricsFingerprint.h>
