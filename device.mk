@@ -29,6 +29,13 @@ PRODUCT_PACKAGES += \
     otapreopt_script \
     update_engine_sideload
 
+# Dolby Props
+PRODUCT_VENDOR_PROPERTIES += \
+    ro.vendor.dolby.dax.version=DAX3_3.6.0.12_r1 \
+    ro.vendor.audio.dolby.dax.version=DAX3_3.6 \
+    ro.vendor.audio.dolby.dax.support=true \
+    ro.vendor.audio.dolby.surround.enable=true
+
 # AAPT
 PRODUCT_AAPT_CONFIG := normal
 PRODUCT_AAPT_PREF_CONFIG := xxhdpi
