@@ -21,7 +21,6 @@ cqhci.ko
 crypto-qti-common.ko
 crypto-qti-hwkm.ko
 dcvs_fp.ko
-debug-regulator.ko
 dispcc-diwali.ko
 dispcc-waipio.ko
 gcc-diwali.ko
@@ -74,7 +73,6 @@ qcom_wdt_core.ko
 qnoc-diwali.ko
 qnoc-qos.ko
 qrtr.ko
-qti-regmap-debugfs.ko
 regmap-spmi.ko
 rtc-pm8xxx.ko
 secure_buffer.ko
@@ -120,7 +118,6 @@ videocc-diwali.ko
 bam_dma.ko
 gpi.ko
 pci-edma.ko
-qcom_cpuss_sleep_stats.ko
 mdt_loader.ko
 cdsp-loader.ko
 qcom_ramdump.ko
@@ -146,7 +143,6 @@ glink_pkt.ko
 glink_probe.ko
 pmic_glink.ko
 qti_battery_debug.ko
-charger-ulog-glink.ko
 altmode-glink.ko
 pmic-pon-log.ko
 msm_performance.ko
@@ -177,7 +173,6 @@ hvc_gunyah.ko
 msm_rng.ko
 frpc-adsprpc.ko
 rdbg.ko
-qcom_iommu_debug.ko
 lt9611uxc.ko
 msm_kgsl.ko
 zram.ko
@@ -257,7 +252,6 @@ leds-aw20036.ko
 plh_vendor.ko
 gplaf_vendor.ko
 shared_rail_vendor.ko
-tz_log.ko
 qce50.ko
 qcedev-mod.ko
 ipa_fmwk.ko
@@ -281,7 +275,6 @@ gh_virtio_backend.ko
 qcom-spmi-adc5.ko
 qcom-vadc-common.ko
 nvmem_qfprom.ko
-icc-test.ko
 qnoc-parrot.ko
 nothing_bootloader_log.ko
 nothing_restart_handler.ko
