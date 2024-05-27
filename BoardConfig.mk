@@ -62,6 +62,9 @@ BOARD_KERNEL_SEPARATED_DTBO := true
 BOARD_INCLUDE_DTB_IN_BOOTIMG := true
 BOARD_USES_QCOM_MERGE_DTBS_SCRIPT := true
 
+# Camera
+TARGET_CAMERA_SERVICE_EXT_LIB := //$(DEVICE_PATH):libcameraservice_extension.Pong
+
 # Display
 SOONG_CONFIG_qtidisplay_udfps := true
 TARGET_SCREEN_DENSITY := 420
