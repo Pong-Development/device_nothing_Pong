@@ -5,6 +5,9 @@ audio.offload.min.duration.secs=30
 audio.offload.video=true
 ro.af.client_heap_size_kbyte=7168
 
+# Blur
+ro.launcher.blur.appLaunch=0
+
 # GMS
 ro.opa.eligible_device=true
 
