@@ -1,3 +1,6 @@
+# Blur
+ro.launcher.blur.appLaunch=0
+
 # Camera
 ro.camerax.extensions.enabled=true
 
