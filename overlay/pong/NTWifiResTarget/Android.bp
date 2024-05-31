@@ -7,4 +7,3 @@ runtime_resource_overlay {
     name: "NTWifiResTarget",
     product_specific: true,
 }
-
