@@ -52,13 +52,19 @@ PRODUCT_PACKAGES += \
     audio.r_submix.default \
     audio.usb.default \
     audioadsprpcd \
+    libaudiopreprocessing \
     libbatterylistener \
+    libbundlewrapper \
+    libdownmix \
+    libdynproc \
+    libeffectproxy \
     libhfp_pal \
     libqcompostprocbundle \
     libqcomvisualizer \
     libqcomvoiceprocessing \
     libsndcardparser \
     libtinycompress \
+    libvisualizer \
     libvolumelistener \
     vendor.qti.hardware.AGMIPC@1.0-service \
     vendor.qti.hardware.pal@1.0-impl
