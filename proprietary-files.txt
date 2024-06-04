@@ -277,6 +277,7 @@ vendor/lib64/vendor.qti.hardware.bluetooth_sar@1.0.so
 vendor/lib64/vendor.qti.hardware.bluetooth_sar@1.1.so
 
 # Camera
+system_ext/lib64/libofflineproc_jni.so
 system_ext/etc/permissions/advancedSample_camera_extensions.xml
 system_ext/etc/permissions/com.nothing.feature.xml
 system_ext/framework/androidx.camera.extensions.impl.advanced.jar
@@ -531,6 +532,7 @@ vendor/lib64/libarcsoft_hdr_detection.so
 vendor/lib64/libarcsoft_high_dynamic_range.so
 vendor/lib64/libarcsoft_high_dynamic_range_v5.so
 vendor/lib64/libarcsoft_low_light_hdr.so
+vendor/lib64/libarcsoft_mf_superresolution.so
 vendor/lib64/libarcsoft_mcxmflpolicy.so
 vendor/lib64/libarcsoft_night_video.so
 vendor/lib64/libarcsoft_portrait_distortion_correction.so

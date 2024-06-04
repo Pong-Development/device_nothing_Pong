@@ -74,6 +74,7 @@ TARGET_USES_FOD_ZPOS := true
 
 # Camera
 PRODUCT_COPY_FILES += \
+    $(DEVICE_PATH)/configs/public.libraries.system_ext.txt:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/public.libraries.txt \
     frameworks/native/data/etc/android.hardware.camera.concurrent.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.concurrent.xml \
     frameworks/native/data/etc/android.hardware.camera.flash-autofocus.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.flash-autofocus.xml \
     frameworks/native/data/etc/android.hardware.camera.front.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.front.xml \
@@ -336,3 +337,4 @@ PRODUCT_COPY_FILES += \
 
 # Vendor Makefile
 $(call inherit-product, vendor/nothing/phone2/phone2-vendor.mk)
+$(call inherit-product, vendor/nothing/camera/nothing-camera.mk)
