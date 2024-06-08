@@ -28,19 +28,19 @@
 /vendor/lib64/libsuperresolution_raw.arcsoft\.so                u:object_r:same_process_hal_file:s0
 
 # Fingerprint
-/dev/goodix_fp                                                                                     u:object_r:fingerprint_device:s0
-/mnt/vendor/persist/goodix(/.*)?                                                                   u:object_r:vendor_persist_goodix_file:s0
-/vendor/bin/hw/android\.hardware\.biometrics\.fingerprint@2\.3-service\.nothing                    u:object_r:hal_fingerprint_default_exec:s0
+/dev/goodix_fp                                                                                   	u:object_r:fingerprint_device:s0
+/mnt/vendor/persist/goodix(/.*)?                                                              		u:object_r:vendor_persist_goodix_file:s0
+/vendor/bin/hw/android\.hardware\.biometrics\.fingerprint@2\.3-service\.nothing                 	u:object_r:hal_fingerprint_default_exec:s0
 
 # LEDs
-/sys/devices/platform/soc/994000.i2c/i2c-0/0-003a/leds/led_strips(/.*)?                            u:object_r:sysfs_leds:s0
+/sys/devices/platform/soc/994000.i2c/i2c-0/0-003a/leds/led_strips(/.*)?                          	u:object_r:sysfs_leds:s0
 
 # NFC
-/dev/pn553                                                                                         u:object_r:nfc_device:s0
-/vendor/bin/hw/android\.hardware\.nfc_snxxx@1\.2-service                                           u:object_r:hal_nfc_default_exec:s0
+/dev/pn553                                                                                       	u:object_r:nfc_device:s0
+/vendor/bin/hw/android\.hardware\.nfc_snxxx@1\.2-service                                         	u:object_r:hal_nfc_default_exec:s0
 
 # Sensors
 /(vendor|system/vendor)/bin/hw/android.hardware.sensors@[0-9].[0-9]-service.phone2-multihal       u:object_r:hal_sensors_default_exec:s0
 
 # Vibrator
-/dev/aw86927_haptic                                                                                u:object_r:aac_richtap_device:s0
+/(vendor|system/vendor)/bin/hw/vendor\.qti\.hardware\.vibrator\.service\.nt                      	u:object_r:hal_vibrator_default_exec:s0

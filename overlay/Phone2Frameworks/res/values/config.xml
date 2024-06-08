@@ -349,9 +349,6 @@
     <!-- Type of the tap sensor. Empty if tap is not supported. -->
     <string name="config_dozeTapSensorType" translatable="false">co.aospa.sensor.single_touch</string>
 
-    <!-- Whether to use Richtap vibration -->
-    <bool name="config_usesRichtapVibration">true</bool>
-
     <!-- Fingerprint from stock ROM -->
     <string name="config_stockFingerprint" translatable="false">Nothing/Pong/Pong:12/SKQ1.230722.001/2404101247:user/release-keys</string>
 
