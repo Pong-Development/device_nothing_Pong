@@ -46,6 +46,12 @@ persist.sys.fuse.passthrough.enable=true
 # Gatekeeper
 vendor.gatekeeper.disable_spu=true
 
+# Graphics
+ro.hardware.egl=adreno
+ro.hardware.vulkan=adreno
+ro.opengles.version=196610
+graphics.gpu.profiler.support=true
+
 # Incremental FS
 ro.incremental.enable=yes
 
