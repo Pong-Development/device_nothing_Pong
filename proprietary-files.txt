@@ -127,6 +127,7 @@ vendor/lib64/libadm.so
 vendor/lib64/libar-acdb.so
 vendor/lib64/libar-gpr.so
 -vendor/lib64/libar-gsl.so
+-vendor/lib/libar-pal.so
 -vendor/lib64/libar-pal.so
 -vendor/lib64/libats.so
 vendor/lib64/libaudio_log_utils.so
