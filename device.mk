@@ -150,13 +150,21 @@ PRODUCT_PACKAGES += \
     fstab.qcom \
     fstab.qcom.vendor_ramdisk \
     init.class_main.sh \
+    init.crda.sh \
+    init.kernel.post_boot-cape.sh \
+    init.kernel.post_boot.sh \
+    init.mdm.sh \
     init.nt.rc \
     init.qcom.early_boot.sh \
     init.qcom.rc \
     init.qcom.recovery.rc \
     init.qcom.sh \
+    init.qti.kernel.rc \
+    init.qti.kernel.sh \
+    init.qti.write.sh \
     init.target.rc \
-    ueventd.qcom.rc
+    ueventd.qcom.rc \
+    vendor_modprobe.sh
 
 # Kernel
 KERNEL_PREBUILT_DIR := $(DEVICE_PATH)-kernel
