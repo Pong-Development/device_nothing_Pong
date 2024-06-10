@@ -46,6 +46,9 @@ value:2915
 [AID_VENDOR_THALES_WEAVER]
 value:2916
 
+[AID_VENDOR_THALES_AUTHSECRET]
+value:2917
+
 [vendor/bin/hw/android.hardware.security.keymint-service.strongbox-thales]
 mode: 0755
 user: AID_VENDOR_THALES_STRONGBOX
@@ -58,6 +61,11 @@ user: AID_VENDOR_THALES_WEAVER
 group: AID_SYSTEM
 caps: SYS_ADMIN SYS_NICE
 
+[vendor/bin/hw/android.hardware.authsecret-service.thales-qti]
+mode: 0755
+user: AID_VENDOR_THALES_AUTHSECRET
+group: AID_SYSTEM
+caps: SYS_ADMIN SYS_NICE
 
 [vendor/bin/wcnss_filter]
 mode: 0755
