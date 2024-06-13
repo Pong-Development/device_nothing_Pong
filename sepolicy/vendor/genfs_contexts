@@ -1,35 +1,35 @@
 # Charging Control
-genfscon sysfs /class/qcom-battery/charging_en                      															u:object_r:vendor_sysfs_usb_supply:s0
+genfscon sysfs /class/qcom-battery/charging_en																			u:object_r:vendor_sysfs_usb_supply:s0
 
 # Display
-genfscon sysfs /devices/platform/soc/soc:qcom,dsi-display-primary               													u:object_r:vendor_sysfs_graphics:s0
+genfscon sysfs /devices/platform/soc/soc:qcom,dsi-display-primary																u:object_r:vendor_sysfs_graphics:s0
 
 # Extcon
-genfscon sysfs /devices/platform/soc/soc:spf_core_platform/soc:spf_core_platform:lpass-cdc/wcd938x-codec/extcon/extcon3/cable.0/name							u:object_r:sysfs_extcon:s0
-genfscon sysfs /devices/platform/soc/soc:spf_core_platform/soc:spf_core_platform:lpass-cdc/wcd938x-codec/extcon/extcon3/cable.1/name							u:object_r:sysfs_extcon:s0
-genfscon sysfs /devices/platform/soc/soc:spf_core_platform/soc:spf_core_platform:lpass-cdc/wcd938x-codec/extcon/extcon3/cable.2/name							u:object_r:sysfs_extcon:s0
-genfscon sysfs /devices/platform/soc/soc:spf_core_platform/soc:spf_core_platform:lpass-cdc/wcd938x-codec/extcon/extcon3/cable.3/name							u:object_r:sysfs_extcon:s0
-genfscon sysfs /devices/platform/soc/soc:qcom,pmic_glink/soc:qcom,pmic_glink:qcom,battery_charger/extcon/extcon4/cable.0/name								u:object_r:sysfs_extcon:s0
-genfscon sysfs /devices/platform/soc/soc:qcom,pmic_glink/soc:qcom,pmic_glink:qcom,battery_charger/extcon/extcon4/cable.1/name								u:object_r:sysfs_extcon:s0
+genfscon sysfs /devices/platform/soc/soc:spf_core_platform/soc:spf_core_platform:lpass-cdc/wcd938x-codec/extcon/extcon3/cable.0/name								u:object_r:sysfs_extcon:s0
+genfscon sysfs /devices/platform/soc/soc:spf_core_platform/soc:spf_core_platform:lpass-cdc/wcd938x-codec/extcon/extcon3/cable.1/name								u:object_r:sysfs_extcon:s0
+genfscon sysfs /devices/platform/soc/soc:spf_core_platform/soc:spf_core_platform:lpass-cdc/wcd938x-codec/extcon/extcon3/cable.2/name								u:object_r:sysfs_extcon:s0
+genfscon sysfs /devices/platform/soc/soc:spf_core_platform/soc:spf_core_platform:lpass-cdc/wcd938x-codec/extcon/extcon3/cable.3/name								u:object_r:sysfs_extcon:s0
+genfscon sysfs /devices/platform/soc/soc:qcom,pmic_glink/soc:qcom,pmic_glink:qcom,battery_charger/extcon/extcon4/cable.0/name									u:object_r:sysfs_extcon:s0
+genfscon sysfs /devices/platform/soc/soc:qcom,pmic_glink/soc:qcom,pmic_glink:qcom,battery_charger/extcon/extcon4/cable.1/name									u:object_r:sysfs_extcon:s0
 
 # Gestures
-genfscon sysfs /devices/platform/goodix_ts.0/fp_state               															u:object_r:vendor_sysfs_sensors:s0
-genfscon sysfs /devices/platform/goodix_ts.0/single_tap             															u:object_r:vendor_sysfs_sensors:s0
+genfscon sysfs /devices/platform/goodix_ts.0/fp_state																		u:object_r:vendor_sysfs_sensors:s0
+genfscon sysfs /devices/platform/goodix_ts.0/single_tap																		u:object_r:vendor_sysfs_sensors:s0
 
 # PowerShare
-genfscon sysfs /class/qcom-battery/wireless_boost_en                															u:object_r:sysfs_powershare:s0
-genfscon sysfs /class/qcom-battery/wls_reverse_status               															u:object_r:sysfs_powershare:s0
+genfscon sysfs /class/qcom-battery/wireless_boost_en																		u:object_r:sysfs_powershare:s0
+genfscon sysfs /class/qcom-battery/wls_reverse_status																		u:object_r:sysfs_powershare:s0
 
 # Vibrator
-genfscon sysfs /devices/platform/soc/88c000.i2c/i2c-3/3-005a/leds/aw_vibrator   													u:object_r:sysfs_vibrator:s0
+genfscon sysfs /devices/platform/soc/88c000.i2c/i2c-3/3-005a/leds/aw_vibrator															u:object_r:sysfs_vibrator:s0
 
 # Wakeup
-genfscon sysfs /devices/platform/soc/3000000.remoteproc-adsp/remoteproc/remoteproc0/3000000.remoteproc-adsp:glink-edge/3000000.remoteproc-adsp:glink-edge.adsp_apps.-1.-1/wakeup	u:object_r:sysfs_wakeup:s0
-genfscon sysfs /devices/platform/soc/88c000.i2c/i2c-3/3-005a/wakeup 															u:object_r:sysfs_wakeup:s0
-genfscon sysfs /devices/platform/soc/994000.i2c/i2c-0/0-003a/wakeup 															u:object_r:sysfs_wakeup:s0
-genfscon sysfs /devices/platform/soc/a600000.ssusb/a600000.dwc3/wakeup 															u:object_r:sysfs_wakeup:s0
-genfscon sysfs /devices/platform/soc/soc:goodix_fp@0/wakeup 																u:object_r:sysfs_wakeup:s0
-genfscon sysfs /devices/platform/soc/soc:qcom,pmic_glink/soc:qcom,pmic_glink:qcom,ucsi/power_supply/ucsi-source-psy-soc:qcom,pmic_glink:qcom,ucsi1/wakeup 				u:object_r:sysfs_wakeup:s0
-genfscon sysfs /devices/virtual/fastrpc/adsprpc-smd-secure/wakeup 															u:object_r:sysfs_wakeup:s0
-genfscon sysfs /devices/virtual/fastrpc/adsprpc-smd/wakeup 																u:object_r:sysfs_wakeup:s0
-genfscon sysfs /devices/virtual/input/input4/wakeup 																	u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/platform/soc/3000000.remoteproc-adsp/remoteproc/remoteproc0/3000000.remoteproc-adsp:glink-edge/3000000.remoteproc-adsp:glink-edge.adsp_apps.-1.-1/wakeup		u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/platform/soc/88c000.i2c/i2c-3/3-005a/wakeup																u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/platform/soc/994000.i2c/i2c-0/0-003a/wakeup																u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/platform/soc/a600000.ssusb/a600000.dwc3/wakeup																u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/platform/soc/soc:goodix_fp@0/wakeup																	u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/platform/soc/soc:qcom,pmic_glink/soc:qcom,pmic_glink:qcom,ucsi/power_supply/ucsi-source-psy-soc:qcom,pmic_glink:qcom,ucsi1/wakeup					u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/virtual/fastrpc/adsprpc-smd-secure/wakeup																u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/virtual/fastrpc/adsprpc-smd/wakeup																	u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/virtual/input/input4/wakeup																		u:object_r:sysfs_wakeup:s0
