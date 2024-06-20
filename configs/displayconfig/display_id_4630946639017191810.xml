@@ -1,46 +1,82 @@
-<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
-
 <displayConfiguration>
-    <!-- Global Brightness-Nit mapping -->
     <screenBrightnessMap>
         <point>
-            <value>0.035433073</value>
+            <value>0.0</value>
             <nits>2.0</nits>
         </point>
         <point>
-            <value>0.858154296875</value>
-            <nits>498.0</nits>
+            <value>0.02442</value>
+            <nits>2.6</nits>
+        </point>
+        <point>
+            <value>0.131868</value>
+            <nits>10.0</nits>
+        </point>
+        <point>
+            <value>0.2967</value>
+            <nits>50.0</nits>
+        </point>
+        <point>
+            <value>0.41465</value>
+            <nits>100.0</nits>
+        </point>
+        <point>
+            <value>0.5707</value>
+            <nits>200.0</nits>
+        </point>
+        <point>
+            <value>0.6908</value>
+            <nits>300.0</nits>
+        </point>
+        <point>
+            <value>0.858364</value>
+            <nits>490.0</nits>
+        </point>
+        <point>
+            <value>0.99634</value>
+            <nits>980.0</nits>
         </point>
         <point>
             <value>1.0</value>
-            <nits>998.0</nits>
+            <nits>1440.0</nits>
         </point>
     </screenBrightnessMap>
     <!-- root node for HBM-->
     <highBrightnessMode enabled="true">
-        <!-- Transition point brightness from normal to HBM mode -->
-        <transitionPoint>0.858154296875</transitionPoint>
-        <!-- Minimum lux to enter HBM -->
-        <minimumLux>6001</minimumLux>
-        <!-- Time limitation for HBM-->
+        <transitionPoint>0.8615196078431</transitionPoint> <!-- 3515/4080 -->
+        <minimumLux>7500.0</minimumLux>
         <timing>
-            <timeWindowSecs>0</timeWindowSecs>
-            <timeMaxSecs>0</timeMaxSecs>
-            <timeMinSecs>0</timeMinSecs>
+            <!-- allow for 5 minutes out of every 30 minutes -->
+            <timeWindowSecs>1800</timeWindowSecs>
+            <timeMaxSecs>300</timeMaxSecs>
+            <timeMinSecs>60</timeMinSecs>
         </timing>
-        <!-- Thermal limitation for HBM -->
-        <thermalStatusLimit>critical</thermalStatusLimit>
-        <!-- Low power mode limitation for HBM -->
-        <allowInLowPowerMode>true</allowInLowPowerMode>
-        <minimumHdrPercentOfScreen>0</minimumHdrPercentOfScreen>
+        <minimumHdrPercentOfScreen>0.4</minimumHdrPercentOfScreen>
+        <!--sdrHdrRatioMap, backed by spline, must have at least two entries -->
         <sdrHdrRatioMap>
             <point>
                 <sdrNits>2.0</sdrNits>
-                <hdrRatio>2.25</hdrRatio>
+                <hdrRatio>4.5</hdrRatio>
             </point>
             <point>
-                <sdrNits>498.0</sdrNits>
-                <hdrRatio>2.25</hdrRatio>
+                <sdrNits>100.0</sdrNits>
+                <hdrRatio>4.5</hdrRatio>
+            </point>
+            <point>
+                <sdrNits>200.0</sdrNits>
+                <hdrRatio>3.0</hdrRatio>
+            </point>
+            <point>
+                <sdrNits>300.0</sdrNits>
+                <hdrRatio>2.5</hdrRatio>
+            </point>
+            <point>
+                <sdrNits>400.0</sdrNits>
+                <hdrRatio>2.0</hdrRatio>
+            </point>
+            <point>
+                <sdrNits>490.0</sdrNits>
+                <hdrRatio>2.0</hdrRatio>
             </point>
         </sdrHdrRatioMap>
     </highBrightnessMode>
