@@ -1,3 +1,8 @@
+//
+// Copyright (C) 2021-2024 The LineageOS Project
+// SPDX-License-Identifier: Apache-2.0
+//
+
 soong_namespace {
     imports: ["hardware/qcom-caf/bootctrl", "vendor/qcom/opensource/commonsys-intf/display"],
 }
@@ -42,4 +47,25 @@ cc_library_shared {
     shared_libs: ["vendor.qti.hardware.display.config-V6-ndk"],
     system_ext_specific: true,
     vendor_available: true,
+}
+
+install_symlink {
+    name: "firmware_wlanmdsp.otaupdate_symlink",
+    vendor: true,
+    installed_location: "firmware/wlanmdsp.otaupdate",
+    symlink_target: "/data/vendor/firmware/wlanmdsp.mbn",
+}
+
+install_symlink {
+    name: "firmware_wlan_mac.bin_symlink",
+    vendor: true,
+    installed_location: "firmware/wlan/qca_cld/qca6490/wlan_mac.bin",
+    symlink_target: "/mnt/vendor/persist/qca6490/wlan_mac.bin",
+}
+
+install_symlink {
+    name: "firmware_WCNSS_qcom_cfg.ini_symlink",
+    vendor: true,
+    installed_location: "firmware/wlan/qca_cld/qca6490/WCNSS_qcom_cfg.ini",
+    symlink_target: "/vendor/etc/wifi/qca6490/WCNSS_qcom_cfg.ini",
 }
