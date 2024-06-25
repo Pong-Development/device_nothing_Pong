@@ -346,11 +346,19 @@ LedVibratorDevice::LedVibratorDevice() {
     }
 
     mDetected = true;
+    mTimeoutMs = 0;
+    mLevel = 3;
 }
 
 int LedVibratorDevice::write_value(const char *file, const char *value) {
     int fd;
     int ret;
+    int val = 80;
+
+    if (!strcmp(file, LED_DEVICE "/gain")) {
+        val = mLevel * strtoul(value, NULL, 0) / 3;
+	value = std::to_string(val).c_str();
+    }
 
     fd = TEMP_FAILURE_RETRY(open(file, O_WRONLY));
     if (fd < 0) {
@@ -382,43 +390,56 @@ int LedVibratorDevice::write_value(const char *file, int value) {
 }
 
 int LedVibratorDevice::on(int32_t timeoutMs) {
+    mTimeoutMs = timeoutMs;
+                  
+    return 0;
+}
+
+int LedVibratorDevice::setAmplitude(float amplitude) {
     int ret = 0;
-    int gain = 0;  
-    
-    if (timeoutMs < 20) {
-        gain = 4 + 4.6*timeoutMs;
-        ret |= write_value(LED_DEVICE "/duration", timeoutMs);
+    int gain = 0;
+
+    if (amplitude > 0.0f && amplitude <= 0.455716f)
+        mLevel = 1;
+    else if (amplitude > 0.455716f && amplitude <= 0.709427f)
+        mLevel = 2;
+    else if (amplitude > 0.709427f)
+        mLevel = 3;
+
+    if (mTimeoutMs < 20) {
+        gain = 4 + 4.6*mTimeoutMs;
+        ret |= write_value(LED_DEVICE "/duration", mTimeoutMs);
         ret |= write_value(LED_DEVICE "/index", "1");
         ret |= write_value(LED_DEVICE "/loop", "0x00 0x00");
         ret |= write_value(LED_DEVICE "/vmax", "9000");
         ret |= write_value(LED_DEVICE "/gain", gain);
         ret |= write_value(LED_DEVICE "/brightness", "1");
-    } else if (timeoutMs < 40) {
-        gain = 4 + 3.1*timeoutMs;
-        ret |= write_value(LED_DEVICE "/duration", timeoutMs);
+    } else if (mTimeoutMs < 40) {
+        gain = 4 + 3.1*mTimeoutMs;
+        ret |= write_value(LED_DEVICE "/duration", mTimeoutMs);
         ret |= write_value(LED_DEVICE "/index", "1");
         ret |= write_value(LED_DEVICE "/loop", "0x00 0x00");
         ret |= write_value(LED_DEVICE "/vmax", "9000");
         ret |= write_value(LED_DEVICE "/gain", gain);
         ret |= write_value(LED_DEVICE "/brightness", "1");
-    } else if (timeoutMs < 101) {
-        gain = 4 + 2.5*timeoutMs;
+    } else if (mTimeoutMs < 101) {
+        gain = 4 + 2.5*mTimeoutMs;
         if (gain > 154)
             gain = 154;             // 0x9A (Should never exceed this)
-        ret |= write_value(LED_DEVICE "/duration", timeoutMs);
+        ret |= write_value(LED_DEVICE "/duration", mTimeoutMs);
         ret |= write_value(LED_DEVICE "/index", "1");
         ret |= write_value(LED_DEVICE "/loop", "0x00 0x00");
         ret |= write_value(LED_DEVICE "/vmax", "9000");
         ret |= write_value(LED_DEVICE "/gain", gain);
         ret |= write_value(LED_DEVICE "/brightness", "1");
     } else {
-        ret |= write_value(LED_DEVICE "/duration", timeoutMs);
+        ret |= write_value(LED_DEVICE "/duration", mTimeoutMs);
         ret |= write_value(LED_DEVICE "/index", "4");
         ret |= write_value(LED_DEVICE "/vmax", "9000");
         ret |= write_value(LED_DEVICE "/gain", "0x80");
         ret |= write_value(LED_DEVICE "/brightness", "1");
     }
-                  
+
     return ret;
 }
 
@@ -436,6 +457,7 @@ ndk::ScopedAStatus Vibrator::getCapabilities(int32_t* _aidl_return) {
     *_aidl_return = IVibrator::CAP_ON_CALLBACK;
 
     if (ledVib.mDetected) {
+	*_aidl_return |= IVibrator::CAP_AMPLITUDE_CONTROL;
         ALOGD("QTI Vibrator reporting capabilities: %d", *_aidl_return);
         return ndk::ScopedAStatus::ok();
     }
@@ -499,6 +521,21 @@ ndk::ScopedAStatus Vibrator::perform(Effect effect, EffectStrength es, const std
     ALOGD("Vibrator perform effect %d", effect);
 
     if (ledVib.mDetected) {
+	switch (es) {
+            case EffectStrength::LIGHT:
+                ledVib.mLevel = 1;
+                break;
+            case EffectStrength::MEDIUM:
+                ledVib.mLevel = 2;
+                break;
+            case EffectStrength::STRONG:
+                ledVib.mLevel = 3;
+                break;
+	    default:
+		ledVib.mLevel = 3;
+		break;
+        }
+
         switch (effect) {
         case Effect::CLICK:
             ledVib.write_value(LED_DEVICE "/duration", "10");
@@ -611,10 +648,14 @@ ndk::ScopedAStatus Vibrator::setAmplitude(float amplitude) {
     uint8_t tmp;
     int ret;
 
-    if (ledVib.mDetected)
-        return ndk::ScopedAStatus(AStatus_fromExceptionCode(EX_UNSUPPORTED_OPERATION));
-
     ALOGD("Vibrator set amplitude: %f", amplitude);
+
+    if (ledVib.mDetected) {
+        ret = ledVib.setAmplitude(amplitude);
+        if (ret != 0)
+            return ndk::ScopedAStatus(AStatus_fromExceptionCode(EX_SERVICE_SPECIFIC));
+        return ndk::ScopedAStatus::ok();
+    }
 
     if (amplitude <= 0.0f || amplitude > 1.0f)
         return ndk::ScopedAStatus(AStatus_fromExceptionCode(EX_ILLEGAL_ARGUMENT));
