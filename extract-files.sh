@@ -67,6 +67,9 @@ function blob_fixup() {
         vendor/lib64/hw/audio.primary.taro.so)
             "${PATCHELF}" --replace-needed "libstagefright_foundation.so" "libstagefright_foundation-v33.so" "${2}"
             ;;
+        vendor/etc/media_codecs_cape.xml|vendor/etc/media_codecs_cape_vendor.xml)
+            sed -Ei "/media_codecs_(google_audio|google_telephony|google_video|vendor_audio)/d" "${2}"
+            ;;
     esac
 }
 
