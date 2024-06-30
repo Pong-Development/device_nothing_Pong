@@ -107,4 +107,15 @@
         <effect name="gamedap" library="gamedap" uuid="3783c334-d3a0-4d13-874f-0032e5fb80e2"/>
         <!--DOLBY END-->
     </effects>
+    <postprocess>
+        <stream type="voice_call">
+            <apply effect="voice_helper"/>
+        </stream>
+    </postprocess>
+    <preprocess>
+        <stream type="voice_communication">
+            <apply effect="aec"/>
+            <apply effect="ns"/>
+        </stream>
+    </preprocess>
 </audio_effects_conf>
