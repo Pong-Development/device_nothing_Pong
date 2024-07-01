@@ -19,5 +19,8 @@
 # Powershare
 /vendor/bin/hw/vendor\.lineage\.powershare@1\.0-service\.nothing                   u:object_r:hal_lineage_powershare_default_exec:s0
 
+# UFS Devices
+/dev/block/platform/soc/1d84000.ufshc/by-name/vbmeta_vendor_[ab]                    u:object_r:vendor_custom_ab_block_device:s0
+
 # vibrator
 /(vendor|system/vendor)/bin/hw/vendor\.qti\.hardware\.vibrator\.service\.nt                        u:object_r:hal_vibrator_default_exec:s0
