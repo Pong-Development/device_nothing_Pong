@@ -11,5 +11,5 @@ persist.data.df.agg.dl_size=4096
 persist.vendor.data.mode=concurrent
 
 # Nothing Feature
-ro.build.nothing.feature.base=0x120a040124b4247b9fffL
+ro.build.nothing.feature.base=0x124a040124b4247b9fffL
 ro.build.nothing.feature.diff.device.Pong=0x4a404803d9842800

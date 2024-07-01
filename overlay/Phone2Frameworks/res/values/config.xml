@@ -376,7 +376,7 @@
     <string name="config_dozeTapSensorType" translatable="false">co.aospa.sensor.single_touch</string>
 
     <!-- Fingerprint from stock ROM -->
-    <string name="config_stockFingerprint" translatable="false">Nothing/Pong/Pong:12/SKQ1.230722.001/2404101247:user/release-keys</string>
+    <string name="config_stockFingerprint" translatable="false">Nothing/Pong/Pong:12/SKQ1.230722.001/2406061801:user/release-keys</string>
 
     <!-- Vibrator pattern for feedback about a long screen/key press -->
     <integer-array name="config_longPressVibePattern">
