@@ -8,6 +8,6 @@
 
     <overlay
         android:isStatic="true"
-        android:priority="201"
+        android:priority="250"
         android:targetPackage="com.android.carrierconfig" />
 </manifest>
