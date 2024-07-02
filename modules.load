@@ -18,7 +18,6 @@ camcc-diwali.ko
 debugcc-diwali.ko
 videocc-waipio.ko
 gpucc-waipio.ko
-debugcc-waipio.ko
 gpucc-diwali.ko
 videocc-diwali.ko
 bam_dma.ko
@@ -48,7 +47,6 @@ sensors_ssc.ko
 glink_pkt.ko
 glink_probe.ko
 pmic_glink.ko
-qti_battery_debug.ko
 altmode-glink.ko
 pmic-pon-log.ko
 msm_performance.ko
@@ -71,7 +69,6 @@ qdss_bridge.ko
 memlat.ko
 panel_event_notifier.ko
 qcom_sync_file.ko
-hung_task_enh.ko
 qfprom-sys.ko
 qcom_pm8008-regulator.ko
 qpnp-amoled-regulator.ko
@@ -91,8 +88,6 @@ slot_status.ko
 qcom-i2c-pmic.ko
 sg.ko
 spi-msm-geni.ko
-spmi-pmic-arb-debug.ko
-spmi-glink-debug.ko
 cnss2.ko
 cnss_utils.ko
 wlan_firmware_service.ko
@@ -148,7 +143,6 @@ qti_cpufreq_cdev.ko
 qti_devfreq_cdev.ko
 btpower.ko
 bt_fm_slim.ko
-qcom-cpufreq-hw-debug.ko
 qcom_lpm.ko
 sdhci-msm.ko
 leds-qti-flash.ko
@@ -190,24 +184,6 @@ simulated_ntc.ko
 slimbus.ko
 slim-qcom-ngd-ctrl.ko
 hwmon.ko
-coresight.ko
-coresight-tmc.ko
-coresight-funnel.ko
-coresight-replicator.ko
-coresight-stm.ko
-coresight-cti.ko
-coresight-tpda.ko
-coresight-tpdm.ko
-coresight-csr.ko
-coresight-dummy.ko
-coresight-remote-etm.ko
-coresight-tgu.ko
-coresight-hwevent.ko
-stm_core.ko
-stm_p_basic.ko
-stm_p_ost.ko
-stm_console.ko
-stm_ftrace.ko
 snd-usb-audio-qmi.ko
 qrtr-smd.ko
 qrtr-mhi.ko
