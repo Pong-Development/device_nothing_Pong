@@ -8,19 +8,21 @@ vendor.audio.dolby.ds2.enabled=false
 vendor.audio.dolby.ds2.hardbypass=false
 
 # Bluetooth
-bluetooth.profile.bap.broadcast.assist.enabled=true
-bluetooth.profile.bap.unicast.server.enabled=true
-bluetooth.profile.bas.client.enabled=true
-bluetooth.profile.csip.set_coordinator.enabled=true
-bluetooth.profile.hap.client.enabled=true
-bluetooth.profile.mcp.server.enabled=true
-bluetooth.profile.tbs.server.enabled=true
-bluetooth.profile.vc.server.enabled=true
-persist.sys.fflag.override.settings_bluetooth_hearing_aid=true
+bluetooth.hardware.power.idle_cur_ma=6
+bluetooth.hardware.power.operating_voltage_mv=3700
+bluetooth.hardware.power.rx_cur_ma=28
+bluetooth.hardware.power.tx_cur_ma=36
+bluetooth.profile.sap.server.enabled=true
+persist.vendor.bt.aac_frm_ctl.enabled=true
+persist.vendor.bt.aac_vbr_frm_ctl.enabled=true
 persist.vendor.btstack.aac_frm_ctl.enabled=true
 persist.vendor.qcom.bluetooth.a2dp_offload_cap=sbc-aptx-aptxtws-aptxhd-aac-ldac-aptxadaptiver2
 persist.vendor.qcom.bluetooth.aac_frm_ctl.enabled=true
+persist.vendor.qcom.bluetooth.aac_vbr_ctl.enabled=true
 persist.vendor.qcom.bluetooth.aptxadaptiver2_1_support=true
+persist.sys.fflag.override.settings_bluetooth_hearing_aid=true
+ro.bluetooth.a2dp_offload.supported=true
+ro.vendor.bluetooth.csip_qti=true
 
 # Display
 ro.surface_flinger.use_content_detection_for_refresh_rate=true
