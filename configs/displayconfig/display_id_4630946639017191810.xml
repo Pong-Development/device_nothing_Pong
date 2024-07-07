@@ -44,7 +44,7 @@
     <!-- root node for HBM-->
     <highBrightnessMode enabled="true">
         <transitionPoint>0.8615196078431</transitionPoint> <!-- 3515/4080 -->
-        <minimumLux>7500.0</minimumLux>
+        <minimumLux>6000.0</minimumLux>
         <timing>
             <!-- allow for 5 minutes out of every 30 minutes -->
             <timeWindowSecs>1800</timeWindowSecs>
