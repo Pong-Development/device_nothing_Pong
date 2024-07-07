@@ -42,7 +42,7 @@
         </point>
     </screenBrightnessMap>
     <highBrightnessMode enabled="true">
-        <transitionPoint>0.8615196078431</transitionPoint> <!-- 3515/4080 -->
+        <transitionPoint>0.858364</transitionPoint>
         <minimumLux>6000.0</minimumLux>
         <timing>
             <!-- allow for 5 minutes out of every 30 minutes -->
