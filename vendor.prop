@@ -64,5 +64,9 @@ debug.stagefright.c2inputsurface=-1
 # Netflix
 ro.netflix.bsp_rev=Q8450-34634-1
 
+# NTF
+ro.vendor.nothing.feature.base=0x8124a040124b4247b97ffL
+ro.vendor.nothing.feature.diff.device.Pong=0x4a404803d9842000
+
 # Sensors
 persist.vendor.sensors.enable.mag_filter=true
