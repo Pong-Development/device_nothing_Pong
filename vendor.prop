@@ -189,6 +189,10 @@ debug.stagefright.c2inputsurface=-1
 debug.stagefright.ccodec=4
 debug.stagefright.omx_default_rank=0
 
+# NTF
+ro.vendor.nothing.feature.base=0x8124a040124b4247b97ffL
+ro.vendor.nothing.feature.diff.device.Pong=0x4a404803d9842000
+
 # Perf
 ro.vendor.extension_library=libqti-perfd-client.so
 
