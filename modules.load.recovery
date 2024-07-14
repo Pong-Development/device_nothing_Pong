@@ -36,14 +36,11 @@ hwkm.ko
 icc-bcm-voter.ko
 icc-debug.ko
 iommu-logger.ko
-kryo_arm64_edac.ko
 llcc-qcom.ko
 mac80211.ko
 mem_buf_dev.ko
 mem_buf.ko
 mem-hooks.ko
-memory_dump_v2.ko
-minidump.ko
 msm_dma_iommu_mapping.ko
 pinctrl-waipio.ko
 qnoc-waipio.ko
@@ -96,7 +93,6 @@ c1dcvs_vendor.ko
 c1dcvs_scmi.ko
 bcl_pmic5.ko
 nfc_i2c.ko
-nothing_writeback_kmsg.ko
 cpuprime_online_helper.ko
 msm_sysstats.ko
 zsmalloc.ko
@@ -251,7 +247,6 @@ qti_cpufreq_cdev.ko
 qti_devfreq_cdev.ko
 btpower.ko
 bt_fm_slim.ko
-qcom_edac.ko
 qcom-cpufreq-hw-debug.ko
 qcom_lpm.ko
 sdhci-msm.ko
