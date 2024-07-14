@@ -42,7 +42,7 @@
         <item>restart</item>
         <item>restart_recovery</item>
         <item>restart_bootloader</item>
-        <item>restart_fastboot</item>
+        <item>restart_systemui</item>
     </string-array>
 
     <!-- The list of package IDs that are allowed to skip camera high frame rate checks. -->
