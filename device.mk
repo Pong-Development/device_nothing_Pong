@@ -276,7 +276,6 @@ PRODUCT_PACKAGES += \
     init.qcom.sh \
     init.qcom.usb.rc \
     init.qcom.usb.sh \
-    init.sim.restart.sh \
     init.target.rc \
     ueventd.nt.rc \
     ueventd.qcom.rc
