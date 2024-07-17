@@ -171,7 +171,6 @@ gh_virtio_backend.ko
 qcom-spmi-adc5.ko
 qcom-vadc-common.ko
 nvmem_qfprom.ko
-qnoc-parrot.ko
 nothing_bootloader_log.ko
 nothing_restart_handler.ko
 nothing_task_meminfo.ko
