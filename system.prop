@@ -1,0 +1,3 @@
+# Camera
+vendor.camera.aux.packagelist=com.android.camera,app.grapheneos.camera,org.lineageos.aperture,org.lineageos.aperture.dev
+
