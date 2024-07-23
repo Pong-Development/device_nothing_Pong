@@ -65,6 +65,7 @@ qdss_bridge.ko
 memlat.ko
 panel_event_notifier.ko
 qcom_sync_file.ko
+hung_task_enh.ko
 qfprom-sys.ko
 qcom_pm8008-regulator.ko
 qpnp-amoled-regulator.ko
