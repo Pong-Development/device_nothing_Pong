@@ -409,7 +409,7 @@ PRODUCT_PACKAGES += \
     vendor.qti.hardware.perf@2.3.vendor
 
 PRODUCT_COPY_FILES += \
-    vendor/qcom/opensource/power/config/taro/powerhint.xml:$(TARGET_COPY_OUT_VENDOR)/etc/powerhint.xml
+    $(LOCAL_PATH)/configs/perf/powerhint.xml:$(TARGET_COPY_OUT_VENDOR)/etc/powerhint.xml
 
 # PowerShare
 PRODUCT_PACKAGES += \
