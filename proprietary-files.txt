@@ -1731,6 +1731,13 @@ vendor/etc/init/vendor.qti.tftp.rc
 vendor/bin/thermal-engine-v2
 vendor/etc/init/init_thermal-engine-v2.rc
 vendor/etc/thermal-engine.conf
+vendor/etc/thermal.high.conf
+vendor/etc/thermal.low.conf
+vendor/etc/thermal.mid.conf
+vendor/etc/thermal.noth.camera.conf
+vendor/etc/thermal.super.conf
+vendor/etc/thermal.third.camera.conf
+-vendor/lib64/liblmthermallistner.so
 -vendor/lib64/libthermalclient.so
 
 # Time Services
