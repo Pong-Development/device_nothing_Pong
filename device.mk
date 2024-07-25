@@ -176,13 +176,7 @@ PRODUCT_PACKAGES += \
     vendor.display.config@2.0.vendor \
     vendor.qti.hardware.display.allocator-service \
     vendor.qti.hardware.display.composer-service \
-    vendor.qti.hardware.display.config-V1-ndk_platform.vendor \
-    vendor.qti.hardware.display.config-V2-ndk.vendor \
     vendor.qti.hardware.display.config-V2-ndk_platform.vendor \
-    vendor.qti.hardware.display.config-V3-ndk_platform.vendor \
-    vendor.qti.hardware.display.config-V4-ndk_platform.vendor \
-    vendor.qti.hardware.display.config-V5-ndk_platform.vendor \
-    vendor.qti.hardware.display.config-V6-ndk_platform.vendor \
     vendor.qti.hardware.display.demura-service \
     vendor.qti.hardware.display.mapper@1.1.vendor \
     vendor.qti.hardware.display.mapper@2.0.vendor \
