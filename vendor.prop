@@ -95,7 +95,7 @@ vendor.qc2audio.suspend.enabled=true
 vendor.qc2audio.per_frame.flac.dec.enabled=true
 
 # Camera
-vendor.camera.aux.packageexcludelist=org.telegram.messenger,org.thunderdog.challegram
+vendor.camera.aux.packageexcludelist=org.telegram.messenger,org.thunderdog.challegram,us.zoom.videomeetings
 
 # Chipset
 ro.soc.manufacturer=QTI
