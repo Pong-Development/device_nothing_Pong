@@ -52,9 +52,9 @@ ________________________________________________________________________________
                 <Prop Name="vendor.perf.fps_switch.enable" Value="1" Target="diwali" />
                 <Prop Name="ro.vendor.perf.gfl.tap_ignore_enable" Value="true" />
                 <Prop Name="ro.vendor.perf.ss" Value="true" Target="diwali"/>
-                <Prop Name="ro.vendor.perf.splh" Value="none" Target="cape,taro,ukee"/>
+                <Prop Name="ro.vendor.perf.splh" Value="hw" Target="cape,taro,ukee"/>
                 <!--splh is true/false for ss -->
-                <Prop Name="ro.vendor.perf.splh" Value="none" Target="diwali"/>
+                <Prop Name="ro.vendor.perf.splh" Value="true" Target="diwali"/>
                 <Prop Name="ro.vendor.perf.lplh" Value="false" Target="cape,taro,ukee"/>
                 <Prop Name="ro.vendor.perf.lplh" Value="true" Target="diwali"/>
                 <Prop Name="ro.vendor.perf.lal" Value="true" Target="diwali"/>
