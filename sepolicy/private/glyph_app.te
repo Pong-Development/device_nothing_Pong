@@ -21,6 +21,8 @@ allow glyph_app {
   surfaceflinger_service
   vendor_perf_service
   vibrator_manager_service
+  voiceinteraction_service
+  virtual_device_service
 }:service_manager find;
 
 allow glyph_app system_app_data_file:dir create_dir_perms;
