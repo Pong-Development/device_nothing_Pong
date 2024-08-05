@@ -46,6 +46,11 @@
         </interface>
     </hal>
     <hal format="hidl">
+        <name>android.hardware.media.c2</name>
+        <transport>hwbinder</transport>
+        <fqname>@1.0::IComponentStore/default1</fqname>
+    </hal>
+    <hal format="hidl">
         <name>android.hardware.drm</name>
         <transport>hwbinder</transport>
         <fqname>@1.3::ICryptoFactory/wfdhdcp</fqname>
