@@ -154,9 +154,6 @@ vendor/lib64/vendor.qti.hardware.ListenSoundModel@1.0.so
 
 # Audio FX modules
 vendor/lib64/soundfx/libshoebox.so
-vendor/lib64/soundfx/libqcbassboost.so
-vendor/lib64/soundfx/libqcreverb.so
-vendor/lib64/soundfx/libqcvirt.so
 vendor/lib64/soundfx/libasphere.so
 vendor/lib64/libops.so
 
