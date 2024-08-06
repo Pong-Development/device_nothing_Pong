@@ -1,6 +1,7 @@
 # Audio
 persist.vendor.audio_hal.dsp_bit_width_enforce_mode=24
 ro.vendor.audio.downmix.attenuation=1
+ro.audio.spatializer_enabled=true
 ro.vendor.audio.dolby.dax.support=true
 ro.vendor.audio.dolby.surround.enable=true
 vendor.audio.dolby.ds2.enabled=false
