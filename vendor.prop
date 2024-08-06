@@ -15,6 +15,7 @@ ro.af.client_heap_size_kbyte=7168
 ro.audio.flinger_standbytime_ms=2000
 ro.vendor.audio.downmix.attenuation=1
 ro.vendor.audio.sdk.ssr=false
+ro.audio.spatializer_enabled=true
 ro.vendor.audio.dolby.dax.support=true
 ro.vendor.audio.dolby.surround.enable=true
 vendor.audio.adm.buffering.ms=2
