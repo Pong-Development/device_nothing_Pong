@@ -51,12 +51,6 @@ persist.sys.fuse.passthrough.enable=true
 # Gatekeeper
 vendor.gatekeeper.disable_spu=true
 
-# Graphics
-ro.hardware.egl=adreno
-ro.hardware.vulkan=adreno
-ro.opengles.version=196610
-graphics.gpu.profiler.support=true
-
 # Incremental FS
 ro.incremental.enable=yes
 
@@ -65,6 +59,7 @@ ro.hardware.keystore_desede=true
 
 # Media
 debug.stagefright.c2inputsurface=-1
+vendor.media.omx=0
 
 # Netflix
 ro.netflix.bsp_rev=Q8450-34634-1
