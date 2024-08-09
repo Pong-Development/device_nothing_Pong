@@ -329,9 +329,10 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     libavservices_minijail \
     libavservices_minijail.vendor \
-    libcodec2_hidl@1.0.vendor \
+    libcodec2_hidl@1.2.vendor \
     libcodec2_vndk.vendor \
     libcodec2_soft_common.vendor \
+    libsfplugin_ccodec_utils.vendor \
     libpalclient
 
 # msm_irqbalance
