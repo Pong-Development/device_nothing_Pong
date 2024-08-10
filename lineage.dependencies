@@ -1,0 +1,39 @@
+[
+    {
+        "remote":       "github",
+        "repository":   "Pong-Development/vendor_nothing_Pong",
+        "target_path":  "vendor/nothing/Pong",
+        "revision":     "14",
+        "clone-depth":  "1"
+    },
+    {
+        "remote":       "github",
+        "repository":   "Pong-Development/android_kernel_nothing_sm8475",
+        "target_path":  "kernel/nothing/sm8475",
+        "clone-depth":  "1"
+    },
+    {
+        "remote":       "github",
+        "repository":   "Pong-Development/hardware_qcom-caf_sm8450_display",
+        "target_path":  "hardware/qcom-caf/sm8450/display",
+        "revision":     "14"
+    },
+    {
+        "remote":       "github",
+        "repository":   "Pong-Development/android_packages_apps_ParanoidGlyph",
+        "target_path":  "packages/apps/ParanoidGlyph",
+        "revision":     "14"
+    },
+    {
+        "remote":       "github",
+        "repository":   "Pong-Development/device_qcom_sepolicy_vndr",
+        "target_path":  "device/qcom/sepolicy_vndr/sm8450",
+        "revision":     "14"
+    }
+    {
+        "remote":       "github",
+        "repository":   "Pong-Development/hardware_qcom_audio-ar",
+        "target_path":  "hardware/qcom-caf/sm8450/audio/primary-hal",
+        "revision":     "14"
+    }
+]
