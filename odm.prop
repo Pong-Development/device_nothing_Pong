@@ -2,7 +2,6 @@
 persist.vendor.audio.spv4.enable=false
 persist.vendor.audio.vbat.enabled=false
 ro.audio.monitorRotation=true
-ro.config.media_vol_steps=20
 
 # Bluetooth
 persist.vendor.bluetooth.modem_nv_support=true
