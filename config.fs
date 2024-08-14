@@ -251,7 +251,7 @@ caps: NET_ADMIN
 mode: 0755
 user:  AID_GPS
 group: AID_GPS
-caps: NET_BIND_SERVICE BLOCK_SUSPEND WAKE_ALARM
+caps: 0
 
 [vendor/bin/sensors.qti]
 mode: 0755
