@@ -173,7 +173,6 @@ vendor/etc/audio/sku_cape/audio_policy_volumes.xml
 vendor/etc/audio/sku_cape/default_volume_tables.xml
 vendor/etc/audio/sku_cape/mixer_paths_waipio_cdp.xml
 vendor/etc/audio/sku_cape/mixer_paths_waipio_mtp.xml
-vendor/etc/audio/sku_cape/mixer_paths_waipio_qrd.xml
 vendor/etc/audio/sku_cape/r_submix_audio_policy_configuration.xml
 vendor/etc/audio/sku_cape/resourcemanager_upd.xml
 vendor/etc/audio/sku_cape/resourcemanager_waipio_cdp.xml
