@@ -352,6 +352,13 @@ case "$target" in
                 ;;
         esac
         ;;
+    "parrot")
+         case "$soc_hwid" in
+             602|568|654|653|582|581)
+                 setprop vendor.fastrpc.disable.cdsprpcd.daemon 1
+                 ;;
+         esac
+         ;;
     "sdm710" | "msmpeafowl")
         case "$soc_hwplatform" in
             *)
