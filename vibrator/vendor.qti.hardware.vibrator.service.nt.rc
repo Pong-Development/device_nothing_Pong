@@ -1,9 +1,4 @@
-service vendor.qti.vibrator /vendor/bin/hw/vendor.qti.hardware.vibrator.service.nt
-    class hal
-    user system
-    group system input
-
-on late-init
+on boot
     chown system system /sys/class/leds/aw_vibrator/activate
     chown system system /sys/class/leds/aw_vibrator/duration
     chown system system /sys/class/leds/aw_vibrator/state
@@ -12,3 +7,11 @@ on late-init
     chown system system /sys/class/leds/aw_vibrator/loop
     chown system system /sys/class/leds/aw_vibrator/vmax
     chown system system /sys/class/leds/aw_vibrator/index
+
+service vendor.qti.vibrator /vendor/bin/hw/vendor.qti.hardware.vibrator.service.nt
+    class hal
+    user system
+    group system input
+
+on property:sys.boot_completed=1
+    restart vendor.qti.vibrator
