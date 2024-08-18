@@ -456,11 +456,7 @@ int LedVibratorDevice::off()
 ndk::ScopedAStatus Vibrator::getCapabilities(int32_t* _aidl_return) {
     *_aidl_return = IVibrator::CAP_ON_CALLBACK;
 
-    if (ledVib.mDetected) {
-	*_aidl_return |= IVibrator::CAP_AMPLITUDE_CONTROL;
-        ALOGD("QTI Vibrator reporting capabilities: %d", *_aidl_return);
-        return ndk::ScopedAStatus::ok();
-    }
+    *_aidl_return |= IVibrator::CAP_AMPLITUDE_CONTROL;
 
     if (ff.mSupportGain)
         *_aidl_return |= IVibrator::CAP_AMPLITUDE_CONTROL;
