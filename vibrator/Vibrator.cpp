@@ -399,12 +399,7 @@ int LedVibratorDevice::setAmplitude(float amplitude) {
     int ret = 0;
     int gain = 0;
 
-    if (amplitude > 0.0f && amplitude <= 0.455716f)
-        mLevel = 1;
-    else if (amplitude > 0.455716f && amplitude <= 0.709427f)
-        mLevel = 2;
-    else if (amplitude > 0.709427f)
-        mLevel = 3;
+    mLevel = amplitude * 3;
 
     if (mTimeoutMs < 20) {
         gain = 4 + 4.6*mTimeoutMs;
