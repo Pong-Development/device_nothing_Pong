@@ -226,7 +226,8 @@ PRODUCT_PACKAGES += \
     Phone2Nfc \
     Phone2Settings \
     Phone2SettingsProvider \
-    Phone2SystemUI
+    Phone2SystemUI \
+    PongAperture 
 
 # Paranoid Glyph
 PRODUCT_PACKAGES += \
