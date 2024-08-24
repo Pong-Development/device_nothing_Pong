@@ -33,10 +33,6 @@
             <nits>490.0</nits>
         </point>
         <point>
-            <value>0.99634</value>
-            <nits>980.0</nits>
-        </point>
-        <point>
             <value>1.0</value>
             <nits>1440.0</nits>
         </point>
@@ -53,33 +49,6 @@
         </timing>
         <!-- Thermal limitation for HBM -->
         <thermalStatusLimit>critical</thermalStatusLimit>
-        <minimumHdrPercentOfScreen>0.4</minimumHdrPercentOfScreen>
-        <!--sdrHdrRatioMap, backed by spline, must have at least two entries -->
-        <sdrHdrRatioMap>
-            <point>
-                <sdrNits>2.0</sdrNits>
-                <hdrRatio>4.5</hdrRatio>
-            </point>
-            <point>
-                <sdrNits>100.0</sdrNits>
-                <hdrRatio>4.5</hdrRatio>
-            </point>
-            <point>
-                <sdrNits>200.0</sdrNits>
-                <hdrRatio>3.0</hdrRatio>
-            </point>
-            <point>
-                <sdrNits>300.0</sdrNits>
-                <hdrRatio>2.5</hdrRatio>
-            </point>
-            <point>
-                <sdrNits>400.0</sdrNits>
-                <hdrRatio>2.0</hdrRatio>
-            </point>
-            <point>
-                <sdrNits>490.0</sdrNits>
-                <hdrRatio>2.0</hdrRatio>
-            </point>
-        </sdrHdrRatioMap>
+        <minimumHdrPercentOfScreen>0</minimumHdrPercentOfScreen>
     </highBrightnessMode>
 </displayConfiguration>
