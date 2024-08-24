@@ -1,2 +1,5 @@
 # Glyph
 user=system seinfo=platform isPrivApp=true name=co.aospa.glyph domain=glyph_app type=system_app_data_file levelFrom=all
+
+# Device Extras
+user=system seinfo=platform isPrivApp=true name=org.neoteric.device.DeviceExtras domain=device_extras type=system_app_data_file levelFrom=all

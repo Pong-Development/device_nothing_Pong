@@ -40,6 +40,9 @@ on property:sys.boot_completed=1
     chown system system /sys/class/qcom-battery/wls_reverse_status
     chmod 0666 /sys/class/qcom-battery/wls_reverse_status
 
+    # OTG
+    chown system system /proc/charger/nt_otg_enable
+
 service ssgqmigd /vendor/bin/ssgqmigd64
     override
     class late_start
