@@ -1,3 +1,9 @@
 # Camera
 vendor.camera.aux.packagelist=com.android.camera,app.grapheneos.camera,org.lineageos.aperture,org.lineageos.aperture.dev
 
+#infinty
+ro.infinity.soc=Snapdragon® 8+ Gen 1 
+ro.infinity.battery=4700 mAh
+ro.infinity.display=Amoled LTPO 120hz
+ro.infinity.camera=50mp+50mp & 32mp
+ro.product.marketname=Nothing Phone 2 
