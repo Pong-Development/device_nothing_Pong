@@ -3,3 +3,10 @@ ro.camerax.extensions.enabled=true
 log.tag.CHIUSECASE=ERROR
 vendor.camera.aux.packagelist=org.lineageos.aperture,com.instagram.android,com.snapchat.android,com.nothing.camera
 persist.vendor.camera.privapp.list=com.nothing.camera
+
+#infinty
+ro.infinity.soc=Snapdragon® 8+ Gen 1 
+ro.infinity.battery=4700 mAh
+ro.infinity.display=Amoled LTPO 120hz
+ro.infinity.camera=50mp+50mp & 32mp
+ro.product.marketname=Nothing Phone 2 
