@@ -53,7 +53,7 @@ public class OTGTileService extends TileService {
     }
 
     private void setEnabled(boolean enabled) {
-        FileUtils.writeValue(OTGModeSwitch.FILE, enabled ? "1" : "0");
+        FileUtils.writeValue(OTGModeSwitch.FILE, enabled ? "3" : "4");
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPrefs.edit().putBoolean(DeviceExtras.KEY_OTG_SWITCH, enabled).apply();
     }

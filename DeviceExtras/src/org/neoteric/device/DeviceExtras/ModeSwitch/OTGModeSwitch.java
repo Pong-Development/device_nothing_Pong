@@ -32,13 +32,13 @@ public class OTGModeSwitch implements OnPreferenceChangeListener {
     }
 
     public static boolean isCurrentlyEnabled() {
-        return (isSupported() && FileUtils.getFileValueAsBoolean(FILE, false));
+        return (isSupported() && FileUtils.getFileValueAsBoolean(FILE, false, "3", "4"));
     }
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         Boolean enabled = (Boolean) newValue;
-        FileUtils.writeValue(FILE, enabled ? "1" : "0");
+        FileUtils.writeValue(FILE, enabled ? "3" : "4");
         return true;
     }
 }
