@@ -5,5 +5,5 @@
 
 runtime_resource_overlay {
     name: "NTFrameworksResTarget",
-    product_specific: true,
+    device_specific: true,
 }
