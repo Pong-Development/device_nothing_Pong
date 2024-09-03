@@ -31,8 +31,12 @@ public class Startup extends BroadcastReceiver {
         boolean enabled = false;
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         enabled = sharedPrefs.getBoolean(DeviceExtras.KEY_POWERSHARE_SWITCH, false);
-        if (enabled) {
-        restore(PowerShareModeSwitch.getFile(), enabled);
+        if (PowerShareModeSwitch.isSupported() && enabled) {
+        restore(PowerShareModeSwitch.FILE, enabled);
+        }
+        enabled = sharedPrefs.getBoolean(DeviceExtras.KEY_OTG_SWITCH, false);
+        if (OTGModeSwitch.isSupported() && enabled) {
+        restore(OTGModeSwitch.FILE, enabled);
         }
     }
 

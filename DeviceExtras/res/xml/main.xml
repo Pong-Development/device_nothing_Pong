@@ -30,4 +30,14 @@
             android:summary="@string/powershare_mode_summary" />
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:key="usb"
+        android:title="@string/usb_title">
+        
+    <SwitchPreferenceCompat
+            android:key="otg"
+            android:icon="@drawable/ic_otg_mode"
+            android:title="@string/otg_mode_title"
+            android:summary="@string/otg_mode_summary" />
+    </PreferenceCategory>
 </PreferenceScreen>

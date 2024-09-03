@@ -33,11 +33,11 @@ public class DeviceExtrasActivity extends CollapsingToolbarBaseActivity {
         super.onCreate(savedInstanceState);
 
         Fragment fragment = getFragmentManager().findFragmentById(com.android.settingslib.collapsingtoolbar.R.id.content_frame);
-        if (fragment == null) {
+	if (fragment == null) {
             mDeviceExtrasFragment = new DeviceExtras();
             getFragmentManager().beginTransaction()
                 .add(com.android.settingslib.collapsingtoolbar.R.id.content_frame, mDeviceExtrasFragment)
-                .commit();
+	        .commit();
         } else {
             mDeviceExtrasFragment = (DeviceExtras) fragment;
         }

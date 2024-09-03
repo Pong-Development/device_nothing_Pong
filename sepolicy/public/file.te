@@ -1,2 +1,5 @@
 # PowerShare
 type sysfs_powershare, sysfs_type, fs_type;
+
+# OTG Switch
+type proc_otg_switch, file_type;

@@ -1,0 +1,35 @@
+type device_extras, domain;
+typeattribute device_extras mlstrustedsubject;
+
+app_domain(device_extras)
+
+allow device_extras {
+  activity_service
+  activity_task_service
+  audio_service
+  audioserver_service
+  autofill_service
+  batteryproperties_service
+  batterystats_service
+  content_capture_service
+  game_service
+  gpu_service
+  hint_service
+  media_session_service
+  netstats_service
+  sensorservice_service
+  surfaceflinger_service
+  vendor_perf_service
+  voiceinteraction_service
+  vibrator_manager_service
+}:service_manager find;
+
+allow device_extras system_app_data_file:dir create_dir_perms;
+allow device_extras system_app_data_file:{
+  file
+  lnk_file
+} create_file_perms;
+
+allow device_extras sysfs_powershare:dir r_dir_perms;
+allow device_extras sysfs_powershare:{ file lnk_file } rw_file_perms;
+allow device_extras proc_otg_switch:{ file lnk_file } rw_file_perms;

@@ -17,7 +17,6 @@
 */
 package org.neoteric.device.DeviceExtras;
 
-import android.annotation.TargetApi;
 import android.content.SharedPreferences;
 import android.service.quicksettings.Tile;
 import android.service.quicksettings.TileService;
@@ -25,48 +24,37 @@ import androidx.preference.PreferenceManager;
 
 import org.neoteric.device.DeviceExtras.DeviceExtras;
 
-@TargetApi(24)
-public class PowerShareTileService extends TileService {
-    private boolean enabled = false;
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    public void onTileAdded() {
-        super.onTileAdded();
-    }
-
-    @Override
-    public void onTileRemoved() {
-        super.onTileRemoved();
-    }
-
+public class OTGTileService extends TileService {
     @Override
     public void onStartListening() {
         super.onStartListening();
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        enabled = PowerShareModeSwitch.isCurrentlyEnabled(this);
-        getQsTile().setState(enabled ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
-        getQsTile().updateTile();
-
+        updateState();
     }
 
-    @Override
-    public void onStopListening() {
-        super.onStopListening();
+     private void updateState() {
+        Tile mTile = getQsTile();
+        boolean enabled = getEnabled();
+        mTile.setSubtitle(enabled ?
+                getString(R.string.accessibility_quick_settings_on) :
+                getString(R.string.accessibility_quick_settings_off));
+        mTile.setState(enabled ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
+        mTile.updateTile();
     }
 
     @Override
     public void onClick() {
         super.onClick();
+        setEnabled(!getEnabled());
+        updateState();
+    }
+
+    private boolean getEnabled() {
+        return OTGModeSwitch.isCurrentlyEnabled();
+    }
+
+    private void setEnabled(boolean enabled) {
+        FileUtils.writeValue(OTGModeSwitch.FILE, enabled ? "3" : "4");
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        enabled = PowerShareModeSwitch.isCurrentlyEnabled(this);
-        FileUtils.writeValue(PowerShareModeSwitch.getFile(), enabled ? "0" : "1");
-        sharedPrefs.edit().putBoolean(DeviceExtras.KEY_POWERSHARE_SWITCH, enabled ? false : true).commit();
-        getQsTile().setState(enabled ? Tile.STATE_INACTIVE : Tile.STATE_ACTIVE);
-        getQsTile().updateTile();
+        sharedPrefs.edit().putBoolean(DeviceExtras.KEY_OTG_SWITCH, enabled).apply();
     }
 }

@@ -23,22 +23,22 @@ import androidx.preference.Preference.OnPreferenceChangeListener;
 
 import org.neoteric.device.DeviceExtras.FileUtils;
 
-public class PowerShareModeSwitch implements OnPreferenceChangeListener {
+public class OTGModeSwitch implements OnPreferenceChangeListener {
 
-    public static final String FILE = "/sys/class/qcom-battery/wireless_boost_en";
+    public static final String FILE = "/proc/charger/nt_otg_enable";
 
     public static boolean isSupported() {
         return FileUtils.fileWritable(FILE);
     }
 
     public static boolean isCurrentlyEnabled() {
-        return (isSupported() && FileUtils.getFileValueAsBoolean(FILE, false));
+        return (isSupported() && FileUtils.getFileValueAsBoolean(FILE, false, "3", "4"));
     }
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         Boolean enabled = (Boolean) newValue;
-        FileUtils.writeValue(FILE, enabled ? "1" : "0");
+        FileUtils.writeValue(FILE, enabled ? "3" : "4");
         return true;
     }
 }

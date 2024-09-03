@@ -24,6 +24,7 @@ android_app {
     platform_apis: true,
     system_ext_specific: true,
     privileged: true,
+    min_sdk_version: "current",
     srcs: [
         "src/**/*.java",
         "src/**/*.kt",

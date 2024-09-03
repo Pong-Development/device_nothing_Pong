@@ -23,47 +23,36 @@
     android:versionCode="4"
     android:versionName="4.0">
 
-    <uses-permission android:name="android.permission.INJECT_EVENTS" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-
-    <uses-sdk
-        android:minSdkVersion="28"
-        android:targetSdkVersion="29" />
 
     <application
         android:label="@string/device_title"
         android:persistent="true"
-        android:theme="@style/Theme.SubSettingsBase"
         android:defaultToDeviceProtectedStorage="true"
         android:directBootAware="true">
 
-        <provider
-            android:name="androidx.startup.InitializationProvider"
-            android:authorities="${applicationId}.androidx-startup"
-            tools:replace="android:authorities"/>
-
         <receiver
             android:name="org.neoteric.device.DeviceExtras.Startup"
-            android:defaultToDeviceProtectedStorage="true"
-            android:directBootAware="true"
-            android:enabled="true"
-            android:exported="false">
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED"
+            android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
 
-        <activity 
-            android:name="org.neoteric.device.DeviceExtras" />
+        <activity
+            android:name="org.neoteric.device.DeviceExtras"
+            android:exported="true" 
+            android:theme="@style/Theme.SubSettingsBase"/>
 
         <!-- DeviceExtras -->
         <activity
             android:name="org.neoteric.device.DeviceExtras.DeviceExtrasActivity"
-            android:label="@string/device_title">
+            android:exported="true"
+            android:label="@string/device_title"
+            android:theme="@style/Theme.SubSettingsBase">
             <intent-filter>
                 <action android:name="com.android.settings.action.EXTRA_SETTINGS" />
             </intent-filter>
@@ -86,8 +75,21 @@
         <!-- PowerShare tile -->
         <service
             android:name="org.neoteric.device.DeviceExtras.PowerShareTileService"
+            android:exported="true"
             android:icon="@drawable/ic_powershare"
             android:label="@string/powershare_mode_title"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
+        <!-- OTG tile -->
+        <service
+            android:name="org.neoteric.device.DeviceExtras.OTGTileService"
+            android:exported="true"
+            android:icon="@drawable/ic_otg_mode"
+            android:label="@string/otg_mode_title"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />

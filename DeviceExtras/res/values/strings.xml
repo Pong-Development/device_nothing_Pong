@@ -24,4 +24,13 @@
     <string name="power_title">Power</string>
     <string name="powershare_mode_title">Wireless powershare</string>
     <string name="powershare_mode_summary">Enable reverse wireless charging</string>
+
+     <!-- USB -->
+    <string name="usb_title">USB</string>
+    <string name="otg_mode_title">USB-OTG</string>
+    <string name="otg_mode_summary">Enable USB on-the-go mode</string>
+
+    <!-- QS tile -->
+    <string name="accessibility_quick_settings_off">Off</string>
+    <string name="accessibility_quick_settings_on">On</string>
 </resources>

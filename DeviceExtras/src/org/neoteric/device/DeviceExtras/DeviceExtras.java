@@ -26,7 +26,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragment;
-import androidx.preference.PreferenceGroup;
 import androidx.preference.PreferenceManager;
 import androidx.preference.SwitchPreferenceCompat;
 import androidx.preference.TwoStatePreference;
@@ -36,8 +35,10 @@ import org.neoteric.device.DeviceExtras.R;
 
 public class DeviceExtras extends PreferenceFragment {
     public static final String KEY_POWERSHARE_SWITCH = "powershare";
+    public static final String KEY_OTG_SWITCH = "otg";
 
     private static TwoStatePreference mPowerShareModeSwitch;
+    private static TwoStatePreference mOTGModeSwitch;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -48,8 +49,15 @@ public class DeviceExtras extends PreferenceFragment {
         // PowerShare
         mPowerShareModeSwitch = (TwoStatePreference) findPreference(KEY_POWERSHARE_SWITCH);
         if (PowerShareModeSwitch.isSupported()) {
-            mPowerShareModeSwitch.setChecked(PowerShareModeSwitch.isCurrentlyEnabled(this.getContext()));
+            mPowerShareModeSwitch.setChecked(PowerShareModeSwitch.isCurrentlyEnabled());
             mPowerShareModeSwitch.setOnPreferenceChangeListener(new PowerShareModeSwitch());
+        }
+
+        // OTG
+        mOTGModeSwitch = (TwoStatePreference) findPreference(KEY_OTG_SWITCH);
+        if (OTGModeSwitch.isSupported()) {
+            mOTGModeSwitch.setChecked(OTGModeSwitch.isCurrentlyEnabled());
+            mOTGModeSwitch.setOnPreferenceChangeListener(new OTGModeSwitch());
         }
     }
 
@@ -57,17 +65,6 @@ public class DeviceExtras extends PreferenceFragment {
     public void onResume() {
         super.onResume();
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getContext());
-    }
-
-    private void removePref(Preference pref) {
-        PreferenceGroup parent = pref.getParent();
-        if (parent == null) {
-            return;
-        }
-        parent.removePreference(pref);
-        if (parent.getPreferenceCount() == 0) {
-            removePref(parent);
-        }
     }
 
     @Override
