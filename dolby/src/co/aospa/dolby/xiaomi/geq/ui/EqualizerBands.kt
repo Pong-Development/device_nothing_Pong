@@ -20,20 +20,20 @@ fun EqualizerBands(viewModel: EqualizerViewModel) {
     val preset by viewModel.preset.collectAsState()
     val bandGains = preset.bandGains
 
-    Row {
-        BandGainSliderLabels()
-        LazyRow(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            items(bandGains.size) { index ->
-                BandGainSlider(
-                    bandGains[index],
-                    onValueChangeFinished = {
-                        viewModel.setGain(index, it)
-                    }
-                )
-            }
+    LazyRow(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        item {
+            BandGainSliderLabels()
+        }
+        items(bandGains.size) { index ->
+            BandGainSlider(
+                bandGains[index],
+                onValueChangeFinished = {
+                    viewModel.setGain(index, it)
+                }
+            )
         }
     }
 }
