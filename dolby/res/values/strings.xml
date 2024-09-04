@@ -36,7 +36,7 @@
     <string name="dolby_profile_voice">Voice</string>
 
     <!-- Dolby equalizer presets -->
-    <string name="dolby_preset_default">Flat</string>
+    <string name="dolby_preset_default">Flat (off)</string>
     <string name="dolby_preset_rock">Rock</string>
     <string name="dolby_preset_jazz">Jazz</string>
     <string name="dolby_preset_pop">Pop</string>
@@ -60,5 +60,11 @@
     <string name="dolby_geq_reset_gains_prompt">Do you want to reset this preset to defaults?</string>
     <string name="dolby_geq_preset_name_exists">Preset name already exists!</string>
     <string name="dolby_geq_preset_name_too_long">Preset name is too long!</string>
+
+    <!-- Dolby intelligent EQ -->
+    <string name="dolby_ieq">Intelligent equalizer</string>
+    <string name="dolby_balanced">Balanced</string>
+    <string name="dolby_warm">Warm</string>
+    <string name="dolby_detailed">Detailed</string>
 
 </resources>
