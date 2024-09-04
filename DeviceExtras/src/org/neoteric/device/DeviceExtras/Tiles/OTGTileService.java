@@ -31,14 +31,16 @@ public class OTGTileService extends TileService {
         updateState();
     }
 
-     private void updateState() {
+    private void updateState() {
         Tile mTile = getQsTile();
-        boolean enabled = getEnabled();
-        mTile.setSubtitle(enabled ?
-                getString(R.string.accessibility_quick_settings_on) :
-                getString(R.string.accessibility_quick_settings_off));
-        mTile.setState(enabled ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
-        mTile.updateTile();
+        if (mTile != null) {
+            boolean enabled = getEnabled();
+            mTile.setSubtitle(enabled ?
+                    getString(R.string.accessibility_quick_settings_on) :
+                    getString(R.string.accessibility_quick_settings_off));
+            mTile.setState(enabled ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
+            mTile.updateTile();
+        }
     }
 
     @Override
@@ -49,7 +51,7 @@ public class OTGTileService extends TileService {
     }
 
     private boolean getEnabled() {
-        return OTGModeSwitch.isCurrentlyEnabled();
+        return PreferenceManager.getDefaultSharedPreferences(this).getBoolean(DeviceExtras.KEY_OTG_SWITCH, false);
     }
 
     private void setEnabled(boolean enabled) {
