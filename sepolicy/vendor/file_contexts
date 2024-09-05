@@ -1,6 +1,9 @@
 # Data files
 /data/vendor/dolby(/.*)?   u:object_r:vendor_data_file:s0
 
+# Charging control
+/vendor/bin/nt-charging-control	   u:object_r:nt_chg_exec:s0
+
 # Dolby
 /(vendor|system/vendor)/bin/hw/vendor\.dolby\.hardware\.dms@2\.0-service                                        u:object_r:hal_dms_default_exec:s0
 /(vendor|system/vendor)/bin/hw/vendor\.dolby\.media\.c2@1\.0-service                      u:object_r:mediacodec_exec:s0
