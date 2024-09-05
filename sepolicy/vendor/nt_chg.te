@@ -1,0 +1,9 @@
+type nt_chg, domain;
+type nt_chg_exec, file_type, exec_type, vendor_file_type;
+
+init_daemon_domain(nt_chg)
+allow nt_chg servicemanager:binder call;
+hal_client_domain(nt_chg, hal_health)
+
+rw_dir_file(nt_chg, vendor_sysfs_usb_supply)
+r_dir_file(nt_chg, sysfs_thermal)
