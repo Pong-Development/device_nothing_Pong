@@ -68,8 +68,8 @@ vendor.media.omx=0
 ro.netflix.bsp_rev=Q8450-34634-1
 
 # NTF
-ro.vendor.nothing.feature.base=0x8124a040124b4247b97ffL
-ro.vendor.nothing.feature.diff.device.Pong=0x4a404803d9842000
+ro.vendor.nothing.feature.base=0x428124a040124b4247b97ffL
+ro.vendor.nothing.feature.diff.device.Pong=0x80004a404803d9842000L
 
 # Sensors
 persist.vendor.sensors.enable.mag_filter=true
