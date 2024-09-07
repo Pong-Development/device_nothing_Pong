@@ -135,6 +135,18 @@ on charger
     wait /sys/class/udc/${sys.usb.controller}
     setprop sys.usb.configfs 1
     write /sys/kernel/cnss/charger_mode 1
+#only use cpu0 in power off charge
+    write /sys/devices/system/cpu/cpu0/online 1
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor   powersave
+    write /sys/devices/system/cpu/cpu1/online 0
+    write /sys/devices/system/cpu/cpu2/online 0
+    write /sys/devices/system/cpu/cpu3/online 0
+    write /sys/devices/system/cpu/cpu4/online 0
+    write /sys/devices/system/cpu/cpu5/online 0
+    write /sys/devices/system/cpu/cpu6/online 0
+    write /sys/devices/system/cpu/cpu7/online 0
+    start vendor.nt-charging-control-poweroff
+    stop vendor.audioadsprpcd_audiopd
 
 #service vendor.lowi /vendor/bin/sscrpcd
 #   class core
@@ -147,6 +159,12 @@ service vendor.pd_mapper /vendor/bin/pd-mapper
     class core
     user system
     group system
+
+#nt-charging-control
+service vendor.nt-charging-control-poweroff /vendor/bin/nt-charging-control
+     class core
+     group system
+     disabled
 
 #Peripheral manager
 service vendor.per_mgr /vendor/bin/pm-service
