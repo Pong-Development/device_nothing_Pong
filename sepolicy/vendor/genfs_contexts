@@ -18,7 +18,7 @@ genfscon sysfs /devices/platform/goodix_ts.0/fp_state																		u:object_
 genfscon sysfs /devices/platform/goodix_ts.0/single_tap																		u:object_r:vendor_sysfs_sensors:s0
 
 # OTG Switch
-genfscon proc /charger/nt_otg_enable																																							u:object_r:proc_otg_switch:s0
+genfscon proc /charger/nt_otg_enable																				u:object_r:proc_charger:s0
 
 # PowerShare
 genfscon sysfs /class/qcom-battery/wireless_boost_en																		u:object_r:sysfs_powershare:s0
