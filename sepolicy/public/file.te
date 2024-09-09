@@ -1,2 +1,2 @@
-# OTG Switch
-type proc_otg_switch, file_type;
+# Charger
+type proc_charger, fs_type, proc_type;
