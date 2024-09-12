@@ -199,9 +199,6 @@ vendor.media.omx=0
 ro.vendor.nothing.feature.base=0x8124a040124b4247b97ffL
 ro.vendor.nothing.feature.diff.device.Pong=0x4a404803d9842000
 
-# Perf
-ro.vendor.extension_library=libqti-perfd-client.so
-
 # Radio
 persist.radio.multisim.config=dsds
 persist.vendor.radio.apm_sim_not_pwdn=1

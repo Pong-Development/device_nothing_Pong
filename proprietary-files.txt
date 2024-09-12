@@ -1352,83 +1352,6 @@ vendor/bin/pm-proxy|2e647a20a62050907a2e89f9bc2f97fff9416faa
 vendor/bin/pm-service|dfa886f157dfd13b6aac5cb6206a8bcb84f3c7d4
 vendor/lib64/libperipheral_client.so|63dc01ab96af1cd62b3bf5d18b8f1636e120aec8
 
-# Perf
-vendor/bin/hw/vendor.qti.hardware.perf-hal-service
-vendor/etc/init/vendor.qti.hardware.perf-hal-service.rc
-vendor/etc/perf/avcsysnodesconfigs.xml
-vendor/etc/perf/commonresourceconfigs.xml
-vendor/etc/perf/commonsysnodesconfigs.xml
-vendor/etc/perf/perfboostsconfig.xml
-vendor/etc/perf/targetconfig.xml
-vendor/etc/perf/targetresourceconfigs.xml
-vendor/etc/perf/targetsysnodesconfigs.xml
-vendor/etc/perf/testcommonresourceconfigs.xml
-vendor/etc/perf/testtargetresourceconfigs.xml
-vendor/etc/seccomp_policy/qapeservice.policy
-vendor/etc/vintf/manifest/vendor.qti.hardware.perf.xml
-vendor/lib64/liblearningmodule.so
-vendor/lib64/libmeters.so
-vendor/lib64/libperfconfig.so
-vendor/lib64/libperfgluelayer.so
-vendor/lib64/libperfioctl.so
-vendor/lib64/libqti-perfd-client.so
-vendor/lib64/libqti-perfd.so
-vendor/lib64/libqti-util.so
-vendor/lib64/libqti-utils.so
-vendor/lib64/libreffeature.so
-vendor/lib64/libskewknob.so
-
-# Perf LM
-vendor/bin/hw/vendor.qti.hardware.iop@2.0-service
-vendor/etc/init/vendor.qti.hardware.iop@2.0-service.rc
-vendor/etc/lm/AdaptLaunchFeature.xml
-vendor/etc/lm/AppClassifierFeature.xml
-vendor/etc/lm/LightningLaunchesFeature.xml
-vendor/etc/lm/ProCompFeature.xml
-vendor/etc/lm/QAPE.xml
-vendor/etc/lm/QGPE.xml
-vendor/etc/lm/QGPEActionMap.xml
-vendor/etc/lm/SilkyScrollsFeature.xml
-vendor/etc/lm/sPLHFeature.xml
-vendor/lib64/libadaptlaunch.so
-vendor/lib64/libapengine.so
-vendor/lib64/libappclassifier.so
-vendor/lib64/liblightninglaunches.so
-vendor/lib64/liblmutils-ns.so
-vendor/lib64/libmemperfd.so
-vendor/lib64/libmeters-ns.so
-vendor/lib64/libpasrutils.so
-vendor/lib64/libprekill.so
-vendor/lib64/libprocomp.so
-vendor/lib64/libqapesdk.so
-vendor/lib64/libqti-iopd-client.so
-vendor/lib64/libqti-iopd.so
-vendor/lib64/libsilkyscrolls.so
-vendor/lib64/libsplh.so
-vendor/lib64/vendor.qti.hardware.iop@1.0.so
-vendor/lib64/vendor.qti.hardware.iop@2.0.so
-vendor/lib64/vendor.qti.memory.pasrmanager@1.0.so
-vendor/lib64/vendor.qti.memory.pasrmanager@1.1.so
-vendor/lib64/vendor.qti.power.pasrmanager@1.0.so
-
-# Power
-vendor/bin/poweropt-service
-vendor/etc/init/poweropt-service.rc
-vendor/etc/pwr/PSMPowerOptFeature.xml
-vendor/etc/pwr/PowerFeatureConfig.xml
-vendor/etc/pwr/StandbyFeature.xml
-vendor/etc/pwr/VendorScenarioPowerOptFeature.xml
-vendor/etc/pwr/VideoPowerOptFeature.xml
-vendor/etc/vintf/manifest/vendor.qti.hardware.power.powermodule.xml
-vendor/lib64/libgamepoweroptfeature.so
-vendor/lib64/libpowercallback.so
-vendor/lib64/libpowercore.so
-vendor/lib64/libpsmoptfeature.so
-vendor/lib64/libstandbyfeature.so
-vendor/lib64/libvendorscenariopoweroptfeature.so
-vendor/lib64/libvideooptfeature.so
-vendor/lib64/vendor.qti.hardware.power.powermodule@1.0.so
-
 # Power-off alarm
 system_ext/app/PowerOffAlarm/PowerOffAlarm.apk
 system_ext/framework/vendor.qti.hardware.alarm-V1.0-java.jar
@@ -1486,13 +1409,6 @@ vendor/lib64/libqmiextservices.so|90d55e3ba3d20f9cfe232cc982bdf83867abfef7
 vendor/lib64/libqmiservices.so|2a3f19068b3bbe2851a0ff08e8e6526e507356f5
 vendor/lib64/libsmemlog.so|68549500f61af1848c04292967723e355c69772d
 
-# QSPM
-vendor/bin/vendor.qti.qspmhal@1.0-service
-vendor/etc/init/vendor.qti.qspmhal@1.0-service.rc
-vendor/etc/seccomp_policy/qspm.policy
-vendor/lib64/vendor.qti.qspmhal@1.0-impl.so
-vendor/lib64/vendor.qti.qspmhal@1.0.so
-
 # QESDK
 system_ext/lib64/libqesdk_ndk_platform.qti.so
 vendor/etc/seccomp_policy/qesdk.policy
@@ -1503,12 +1419,6 @@ vendor/lib64/vendor.qti.qesdhal@1.0.so
 vendor/lib64/vendor.qti.qesdhal@1.1-impl.so
 vendor/lib64/vendor.qti.qesdhal@1.1.so
 vendor/lib64/vendor.qti.qesdsys-V1-ndk_platform.so
-
-# QTI service tracker
-vendor/bin/hw/vendor.qti.hardware.servicetracker@1.2-service
-vendor/etc/init/vendor.qti.hardware.servicetracker@1.2-service.rc
-vendor/etc/vintf/manifest/vendor.qti.hardware.servicetracker@1.2-service.xml
-vendor/lib64/hw/vendor.qti.hardware.servicetracker@1.2-impl.so
 
 # QVR
 vendor/bin/qvrdatalogger
