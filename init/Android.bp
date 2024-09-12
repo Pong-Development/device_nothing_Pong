@@ -69,6 +69,12 @@ sh_binary {
 }
 
 sh_binary {
+    name: "init.kernel.post_boot-cape.sh",
+    src: "init.kernel.post_boot-cape.sh",
+    vendor: true,
+}
+
+sh_binary {
     name: "init.qcom.early_boot.sh",
     src: "init.qcom.early_boot.sh",
     vendor: true,

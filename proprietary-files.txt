@@ -1222,7 +1222,6 @@ vendor/lib64/vendor.qti.imsrtpservice@3.0.so|d0c6af735416f43fb26d4e7de5471e9bef6
 vendor/bin/msm_irqbalance
 
 # Kernel
-vendor/bin/init.kernel.post_boot-cape.sh
 vendor/bin/init.qcom.class_core.sh
 vendor/bin/init.qcom.post_boot.sh
 vendor/bin/init.qti.kernel.sh
