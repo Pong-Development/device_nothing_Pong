@@ -5,9 +5,9 @@
 #
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/lineage_Pong.mk
+    $(LOCAL_DIR)/pixelage_Pong.mk
 
 COMMON_LUNCH_CHOICES := \
-    lineage_Pong-user \
-    lineage_Pong-userdebug \
-    lineage_Pong-eng
+    pixelage_Pong-user \
+    pixelage_Pong-userdebug \
+    pixelage_Pong-eng
