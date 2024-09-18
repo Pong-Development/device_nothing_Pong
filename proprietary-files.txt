@@ -1340,12 +1340,6 @@ vendor/etc/libnfc-nxp.conf
 # NFC firmware
 vendor/lib64/libpn560_fw.so
 
-# OMX
-vendor/lib64/libAlacSwDec.so
-vendor/lib64/libApeSwDec.so
-vendor/lib64/libEvrcSwCodec.so
-vendor/lib64/libFlacSwDec.so
-
 # Peripheral manager - from LA.VENDOR.1.0.r1-16000-WAIPIO.QSSI13.0
 vendor/bin/pm-proxy|2e647a20a62050907a2e89f9bc2f97fff9416faa
 vendor/bin/pm-service|dfa886f157dfd13b6aac5cb6206a8bcb84f3c7d4
