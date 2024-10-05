@@ -374,8 +374,13 @@ void Session::notify(const fingerprint_msg_t* msg) {
             int32_t vendorCode = 0;
             AcquiredInfo result =
                     VendorAcquiredFilter(msg->data.acquired.acquired_info, &vendorCode);
-            ALOGD("onAcquired(%hhd, %d)", result, vendorCode);
-            mCb->onAcquired(result, vendorCode);
+            if (result != AcquiredInfo::VENDOR) {
+                ALOGD("onAcquired(%d, %d)", result, vendorCode);
+                mCb->onAcquired(result, vendorCode);
+            } else {
+                ALOGW("onAcquired(AcquiredInfo::VENDOR, %d)", vendorCode);
+                // Do not send onAcquired or illumination will be turned off prematurely
+            }
         } break;
         case FINGERPRINT_TEMPLATE_ENROLLING: {
             ALOGD("onEnrollResult(fid=%d, gid=%d, rem=%d)", msg->data.enroll.finger.fid,
