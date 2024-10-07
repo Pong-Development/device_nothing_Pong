@@ -33,6 +33,11 @@ static T get(const std::string& path, const T& def) {
 bool supportsTorchStrengthControlExt() {
     return true;
 }
+
+bool supportsSetTorchModeExt() {
+    return true;
+}
+
 int32_t getTorchDefaultStrengthLevelExt() {
     return 7;
 }
