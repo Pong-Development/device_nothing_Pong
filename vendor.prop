@@ -67,6 +67,10 @@ vendor.audio_hal.period_multiplier=3
 vendor.audio_hal.period_size=192
 vendor.voice.path.for.pcm.voip=true
 
+# Biometrics
+ro.vendor.fingerprint.type=udfps_optical
+ro.vendor.fingerprint.sensor_location=540|2186|93
+
 # Bluetooth
 bluetooth.device.class_of_device=90,2,12
 bluetooth.device.default_name=Nothing Phone (2)
