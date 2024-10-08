@@ -1,48 +1,25 @@
 /*
- * Copyright (C) 2017 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * SPDX-License-Identifier: Apache-2.0
  */
 
-#define LOG_TAG "android.hardware.biometrics.fingerprint@2.3-service.nt"
+#include "Fingerprint.h"
 
-#include <android/hardware/biometrics/fingerprint/2.1/types.h>
-#include <android/hardware/biometrics/fingerprint/2.3/IBiometricsFingerprint.h>
-#include <android/log.h>
-#include <hidl/HidlSupport.h>
-#include <hidl/HidlTransportSupport.h>
-#include "BiometricsFingerprint.h"
+#include <android/binder_manager.h>
+#include <android/binder_process.h>
+#include <android-base/logging.h>
 
-using android::sp;
-using android::hardware::configureRpcThreadpool;
-using android::hardware::joinRpcThreadpool;
-using android::hardware::biometrics::fingerprint::V2_3::IBiometricsFingerprint;
-using android::hardware::biometrics::fingerprint::V2_3::implementation::BiometricsFingerprint;
+using ::aidl::android::hardware::biometrics::fingerprint::Fingerprint;
 
 int main() {
-    android::sp<IBiometricsFingerprint> bio = BiometricsFingerprint::getInstance();
+    ABinderProcess_setThreadPoolMaxThreadCount(0);
+    std::shared_ptr<Fingerprint> fingerprint = ndk::SharedRefBase::make<Fingerprint>();
 
-    configureRpcThreadpool(1, true /*callerWillJoin*/);
+    const std::string instance = std::string() + Fingerprint::descriptor + "/default";
+    binder_status_t status = AServiceManager_addService(fingerprint->asBinder().get(), instance.c_str());
+    CHECK(status == STATUS_OK);
 
-    if (bio != nullptr) {
-        if (::android::OK != bio->registerAsService()) {
-            return 1;
-        }
-    } else {
-        ALOGE("Can't create instance of BiometricsFingerprint, nullptr");
-    }
-
-    joinRpcThreadpool();
-
-    return 0;  // should never get here
+    ABinderProcess_joinThreadPool();
+    return EXIT_FAILURE; // should not reach
 }
