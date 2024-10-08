@@ -35,7 +35,7 @@ bool supportsTorchStrengthControlExt() {
 }
 
 bool supportsSetTorchModeExt() {
-    return true;
+    return false;
 }
 
 int32_t getTorchDefaultStrengthLevelExt() {
@@ -61,4 +61,9 @@ void setTorchStrengthLevelExt(int32_t torchStrength) {
     }
     if (torchStrength > 0)
         set(TOGGLE_SWITCH, 255);
+}
+
+void setTorchModeExt(bool enabled) {
+    int32_t strength = getTorchDefaultStrengthLevelExt();
+    setTorchStrengthLevelExt(enabled ? strength : 0);
 }
