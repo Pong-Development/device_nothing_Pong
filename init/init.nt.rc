@@ -51,3 +51,5 @@ on post-fs-data
     # Enable WLAN SSR
     write /sys/kernel/cnss/recovery 1
 
+on property:sys.boot_completed=1
+    swapon_all /vendor/etc/fstab.zram
