@@ -1,29 +1,46 @@
+//
+// Copyright (C) 2024 The LineageOS Project
+//
+// SPDX-License-Identifier: Apache-2.0
+//
+
 cc_binary {
-    name: "android.hardware.biometrics.fingerprint@2.3-service.nt",
-    defaults: ["hidl_defaults"],
-    init_rc: ["android.hardware.biometrics.fingerprint@2.3-service.nt.rc"],
-    vintf_fragments: ["android.hardware.biometrics.fingerprint@2.3-service.nt.xml"],
+    name: "android.hardware.biometrics.fingerprint-service.nothing",
     vendor: true,
     relative_install_path: "hw",
+    init_rc: ["android.hardware.biometrics.fingerprint-service.nothing.rc"],
+    vintf_fragments: ["android.hardware.biometrics.fingerprint-service.nothing.xml"],
+    local_include_dirs: ["include"],
     srcs: [
-        "BiometricsFingerprint.cpp",
+        "CancellationSignal.cpp",
+        "Fingerprint.cpp",
+        "LockoutTracker.cpp",
+        "Session.cpp",
         "service.cpp",
     ],
     shared_libs: [
         "libbase",
+        "libbinder_ndk",
         "libcutils",
-        "liblog",
-        "libhidlbase",
         "libhardware",
-        "libutils",
-        "android.hardware.biometrics.fingerprint@2.1",
-        "android.hardware.biometrics.fingerprint@2.2",
-        "android.hardware.biometrics.fingerprint@2.3",
+        "libdl",
+        "liblog",
+        "android.hardware.biometrics.fingerprint-V3-ndk",
+        "android.hardware.biometrics.common-V3-ndk",
+        "android.hardware.biometrics.common.util",
     ],
+    static_libs: ["libandroid.hardware.biometrics.fingerprint.NothingProps"],
+}
+
+sysprop_library {
+    name: "android.hardware.biometrics.fingerprint.NothingProps",
+    srcs: ["fingerprint.sysprop"],
+    property_owner: "Vendor",
+    vendor: true,
 }
 
 cc_library_static {
-    name: "libudfps_extension.nt",
+    name: "libudfps_extension.nothing",
     srcs: ["UdfpsExtension.cpp"],
     include_dirs: [
         "frameworks/native/services/surfaceflinger/CompositionEngine/include"
