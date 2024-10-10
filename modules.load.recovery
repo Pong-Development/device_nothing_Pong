@@ -105,6 +105,7 @@ pci-msm-drv.ko
 camcc-waipio.ko
 videocc-waipio.ko
 gpucc-waipio.ko
+debugcc-waipio.ko
 bam_dma.ko
 gpi.ko
 pci-edma.ko
