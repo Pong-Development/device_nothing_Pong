@@ -64,6 +64,9 @@ function blob_fixup() {
         vendor/lib64/hw/audio.primary.taro.so)
             "${PATCHELF}" --replace-needed "libstagefright_foundation.so" "libstagefright_foundation-v33.so" "${2}"
             ;;
+        vendor/lib64/libwvhidl.so)
+            grep -q "libcrypto_shim.so" "${2}" || "${PATCHELF}" --add-needed "libcrypto_shim.so" "${2}"
+            ;;
     esac
 }
 
