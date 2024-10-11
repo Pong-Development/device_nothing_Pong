@@ -84,7 +84,8 @@ PRODUCT_PACKAGES += \
 
 # Charging
 PRODUCT_PACKAGES += \
-    nt-charging-control
+    nt-charging-control \
+    nt-charging-control_recovery
 
 # Dalvik
 $(call inherit-product, frameworks/native/build/phone-xhdpi-6144-dalvik-heap.mk)

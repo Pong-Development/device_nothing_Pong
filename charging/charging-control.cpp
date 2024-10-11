@@ -1,9 +1,9 @@
-#define LOG_TAG "vendor.nt-charging-control"
+#define LOG_TAG "nt-charging-control"
 
+#include <fcntl.h>
 #include <chrono>
 #include <iterator>
 #include <fstream>
-#include <iostream>
 #include <thread>
 #include <log/log.h>
 #include "charging-control.h"
@@ -124,9 +124,9 @@ ndk::ScopedAStatus ChargeStatusListener::healthInfoChanged(const HealthInfo& inf
     if (info.batteryStatus != mStatus) {
         mStatus = info.batteryStatus;
         ALOGD("Battery status changed: %d", mStatus);
+        usbChgActive = stoi(read_line(USB_CHG_ONLINE));
+        wlsChgActive = stoi(read_line(WLS_CHG_ONLINE));
         if (mStatus == BatteryStatus::CHARGING) {
-            usbChgActive = stoi(read_line(USB_CHG_ONLINE));
-            wlsChgActive = stoi(read_line(WLS_CHG_ONLINE));
             if (usbChgActive) {
                 string usbChgType = read_line(USB_CHG_TYPE);
                 if (usbChgType.find("[PD_PPS]") != string::npos) {
@@ -148,6 +148,7 @@ ndk::ScopedAStatus ChargeStatusListener::healthInfoChanged(const HealthInfo& inf
             }).detach();
         } else {
             enableChgLimit = false;
+            usingPps = false;
         }
     }
     return ndk::ScopedAStatus::ok();

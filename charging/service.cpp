@@ -1,4 +1,4 @@
-#define LOG_TAG "vendor.nt-charging-control.service"
+#define LOG_TAG "nt-charging-control.service"
 
 #include <android/binder_manager.h>
 #include <android/binder_process.h>
