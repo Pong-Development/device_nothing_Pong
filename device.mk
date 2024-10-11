@@ -310,6 +310,10 @@ TARGET_COMMON_QTI_COMPONENTS := \
     wfd \
     wlan
 
+# Radio
+PRODUCT_PACKAGES += \
+    libhidlbase_shim
+
 # Remove unwanted packages
 PRODUCT_PACKAGES += \
     RemovePackages
