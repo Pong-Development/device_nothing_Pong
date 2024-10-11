@@ -14,14 +14,12 @@
 // limitations under the License.
 //
 
-cc_binary {
-    name: "nt-charging-control",
-    init_rc: ["charging-control.rc"],
+cc_defaults {
+    name: "nt-charging-control-defaults",
     srcs: [
         "service.cpp",
         "charging-control.cpp",
     ],
-    vendor: true,
     shared_libs: [
         "libcutils",
         "libutils",
@@ -30,4 +28,22 @@ cc_binary {
         "libbinder_ndk",
         "android.hardware.health-V2-ndk",
     ],
+    cflags: [
+        "-Wall",
+        "-Werror",
+    ],
+}
+
+cc_binary {
+    name: "nt-charging-control",
+    init_rc: ["charging-control.rc"],
+    defaults: ["nt-charging-control-defaults"],
+    vendor: true,
+}
+
+cc_binary {
+    name: "nt-charging-control_recovery",
+    init_rc: ["charging-control_recovery.rc"],
+    defaults: ["nt-charging-control-defaults"],
+    recovery: true,
 }

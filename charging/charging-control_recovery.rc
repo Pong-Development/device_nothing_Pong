@@ -1,0 +1,3 @@
+service nt-charging-control_recovery /system/bin/nt-charging-control_recovery
+    class core
+    group system

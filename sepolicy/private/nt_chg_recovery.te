@@ -1,0 +1,7 @@
+type nt_chg_recovery_exec, file_type, exec_type, system_file_type;
+
+init_daemon_domain(nt_chg_recovery)
+allow nt_chg_recovery servicemanager:binder call;
+hal_client_domain(nt_chg_recovery, hal_health)
+
+r_dir_file(nt_chg_recovery, sysfs_thermal)

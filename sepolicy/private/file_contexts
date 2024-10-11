@@ -1,0 +1,2 @@
+# Charging control
+/system/bin/nt-charging-control_recovery						u:object_r:nt_chg_recovery_exec:s0

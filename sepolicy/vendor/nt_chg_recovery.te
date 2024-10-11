@@ -1,0 +1,2 @@
+rw_dir_file(nt_chg_recovery, vendor_sysfs_battery_supply)
+r_dir_file(nt_chg_recovery, vendor_sysfs_usb_supply)
