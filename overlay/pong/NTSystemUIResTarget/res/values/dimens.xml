@@ -26,4 +26,6 @@
     <!-- Udfps fingerprint animation -->
     <dimen name="udfps_animation_offset">35dp</dimen>
 
+    <!-- Pixel pitch of the device. um/px -->
+    <item name="pixel_pitch" format="float" type="dimen">64.51</item>
 </resources>
