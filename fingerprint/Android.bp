@@ -38,14 +38,3 @@ sysprop_library {
     property_owner: "Vendor",
     vendor: true,
 }
-
-cc_library_static {
-    name: "libudfps_extension.nothing",
-    srcs: ["UdfpsExtension.cpp"],
-    include_dirs: [
-        "frameworks/native/services/surfaceflinger/CompositionEngine/include"
-    ],
-    header_libs: [
-        "qti_display_kernel_headers",
-    ],
-}
