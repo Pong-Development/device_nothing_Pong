@@ -444,7 +444,7 @@ int LedVibratorDevice::setAmplitude(float amplitude) {
     } else {
         ret |= write_value(LED_DEVICE "/index", "4");
         ret |= write_value(LED_DEVICE "/vmax", "9408");
-        ret |= write_value(LED_DEVICE "/gain", "0x7e");
+        ret |= write_value(LED_DEVICE "/gain", "0x7d");
         ret |= write_value(LED_DEVICE "/brightness", "1");
     }
 
