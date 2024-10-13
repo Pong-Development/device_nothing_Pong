@@ -5,7 +5,9 @@
       "Path": "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq",
       "Values": [
         "9999999",
-        "1574400"
+        "1804800",
+        "1670400",
+        "1440000"
       ],
       "DefaultIndex": 0,
       "ResetOnInit": true
@@ -15,8 +17,9 @@
       "Path": "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq",
       "Values": [
         "9999999",
-        "1363200",
-        "614400"
+        "1555200",
+        "1132800",
+        "691200"
       ],
       "ResetOnInit": true
     },
@@ -43,7 +46,9 @@
       "Path": "/sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq",
       "Values": [
         "9999999",
-        "2342400",
+        "2496000",
+        "2227200",
+        "1996800",
         "1555200"
       ],
       "DefaultIndex": 0,
@@ -84,6 +89,7 @@
       "Path": "/sys/devices/system/cpu/cpu7/cpufreq/scaling_max_freq",
       "Values": [
         "9999999",
+        "2995200",
         "2361600",
         "1536000"
       ],
@@ -95,7 +101,8 @@
       "Path": "/sys/devices/system/cpu/cpu7/cpufreq/scaling_min_freq",
       "Values": [
         "9999999",
-        "1286400",
+        "1536000",
+        "1283400",
         "787200"
       ],
       "ResetOnInit": true
@@ -308,7 +315,7 @@
       "PowerHint": "SUSTAINED_PERFORMANCE",
       "Node": "CPUBigClusterMaxFreq",
       "Duration": 0,
-      "Value": "1555200"
+      "Value": "2227200"
     },
     {
       "PowerHint": "SUSTAINED_PERFORMANCE",
@@ -320,13 +327,13 @@
       "PowerHint": "SUSTAINED_PERFORMANCE",
       "Node": "CPULittleClusterMaxFreq",
       "Duration": 0,
-      "Value": "1574400"
+      "Value": "1670400"
     },
     {
       "PowerHint": "SUSTAINED_PERFORMANCE",
       "Node": "GPUMaxFreq",
       "Duration": 0,
-      "Value": "515000000"
+      "Value": "862000000"
     },
     {
       "PowerHint": "INTERACTION",
@@ -536,7 +543,7 @@
       "PowerHint": "Flipendo",
       "Node": "CPULittleClusterMaxFreq",
       "Duration": 0,
-      "Value": "1574400"
+      "Value": "1440000"
     },
     {
       "PowerHint": "Flipendo",
