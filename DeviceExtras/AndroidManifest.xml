@@ -95,18 +95,5 @@
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
         </service>
-
-        <!-- Search Indexing -->
-        <provider
-            android:name="org.neoteric.device.DeviceExtras.ConfigPanelSearchIndexablesProvider"
-            android:authorities="org.neoteric.device"
-            android:exported="true"
-            android:grantUriPermissions="true"
-            android:multiprocess="false"
-            android:permission="android.permission.READ_SEARCH_INDEXABLES">
-            <intent-filter>
-                <action android:name="android.content.action.SEARCH_INDEXABLES_PROVIDER" />
-            </intent-filter>
-        </provider>
     </application>
 </manifest>
