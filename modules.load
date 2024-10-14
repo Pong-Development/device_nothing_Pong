@@ -2,7 +2,6 @@ msm_sysstats.ko
 zsmalloc.ko
 lzo.ko
 lzo-rle.ko
-msm_show_resume_irq.ko
 mhi_cntrl_qcom.ko
 mhi.ko
 mhi_dev_uci.ko
@@ -17,7 +16,6 @@ pci-msm-drv.ko
 camcc-waipio.ko
 videocc-waipio.ko
 gpucc-waipio.ko
-debugcc-waipio.ko
 bam_dma.ko
 gpi.ko
 pci-edma.ko
@@ -40,7 +38,6 @@ rq_stats.ko
 dcc_v2.ko
 smcinvoke_mod.ko
 microdump_collector.ko
-llcc_perfmon.ko
 smp2p_sleepstate.ko
 sensors_ssc.ko
 glink_pkt.ko
@@ -66,7 +63,6 @@ gplaf_scmi.ko
 shared_rail_scmi.ko
 qdss_bridge.ko
 memlat.ko
-qcom_logbuf_vendor_hooks.ko
 panel_event_notifier.ko
 qcom_sync_file.ko
 hung_task_enh.ko
@@ -144,7 +140,6 @@ qti_cpufreq_cdev.ko
 qti_devfreq_cdev.ko
 btpower.ko
 bt_fm_slim.ko
-qcom_edac.ko
 qcom_lpm.ko
 sdhci-msm.ko
 leds-qti-flash.ko
@@ -185,16 +180,11 @@ simulated_ntc.ko
 slimbus.ko
 slim-qcom-ngd-ctrl.ko
 hwmon.ko
-qti_amoled_ecm.ko
-stm_core.ko
-stm_p_basic.ko
-stm_p_ost.ko
-stm_console.ko
-stm_ftrace.ko
 snd-usb-audio-qmi.ko
 qrtr-smd.ko
 qrtr-mhi.ko
 qrtr-gunyah.ko
+qca_cld3_qca6490.ko
 qca_cld3_qca6490.ko
 q6_notifier_dlkm.ko
 spf_core_dlkm.ko
@@ -226,8 +216,6 @@ tfa98xx_dlkm.ko
 wsa883x_dlkm.ko
 wcd938x_dlkm.ko
 wcd938x_slave_dlkm.ko
-wcd937x_dlkm.ko
-wcd937x_slave_dlkm.ko
 hdmi_dlkm.ko
 camera.ko
 msm-cvp.ko

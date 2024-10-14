@@ -28,17 +28,15 @@ gh_ctrl.ko
 gh_dbl.ko
 gh_msgq.ko
 gh_rm_drv.ko
+gh_virt_wdt.ko
 hwkm.ko
 icc-bcm-voter.ko
 iommu-logger.ko
-kryo_arm64_edac.ko
 llcc-qcom.ko
 mac80211.ko
 mem_buf_dev.ko
 mem_buf.ko
 mem-hooks.ko
-memory_dump_v2.ko
-minidump.ko
 msm_dma_iommu_mapping.ko
 pinctrl-waipio.ko
 qnoc-waipio.ko
@@ -48,7 +46,6 @@ msm_geni_serial.ko
 nvmem_qcom-spmi-sdam.ko
 phy-generic.ko
 phy-qcom-ufs.ko
-phy-qcom-ufs-qmp-v4-waipio.ko
 phy-qcom-ufs-qmp-v4-cape.ko
 pinctrl-cape.ko
 pinctrl-msm.ko
@@ -68,6 +65,7 @@ spmi-pmic-arb.ko
 qcom-reboot-reason.ko
 qcom_rpmh.ko
 qcom-scm.ko
+qcom_wdt_core.ko
 qnoc-qos.ko
 qrtr.ko
 regmap-spmi.ko
@@ -81,7 +79,6 @@ ufshcd-crypto-qti.ko
 ufs_qcom.ko
 arm_smmu.ko
 msm-geni-se.ko
-mem-offline.ko
 qcom_aoss.ko
 msm_qmp.ko
 qcom_rimps.ko

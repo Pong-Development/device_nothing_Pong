@@ -92,11 +92,7 @@ BOARD_KERNEL_PAGESIZE := 4096
 BOARD_KERNEL_IMAGE_NAME := Image
 
 TARGET_KERNEL_SOURCE := kernel/nothing/sm8475
-TARGET_KERNEL_CONFIG := \
-    gki_defconfig \
-    vendor/waipio_GKI.config \
-    vendor/nothing/waipio_GKI.config \
-    vendor/debugfs.config
+TARGET_KERNEL_CONFIG := vendor/meteoric_defconfig ksu.config
 
 # Kernel modules
 BOARD_VENDOR_KERNEL_MODULES_BLOCKLIST_FILE := $(DEVICE_PATH)/modules.blocklist
