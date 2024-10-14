@@ -1,4 +1,4 @@
 runtime_resource_overlay {
     name: "Phone2Nfc",
-    device_specific: true,
+    vendor: true,
 }
