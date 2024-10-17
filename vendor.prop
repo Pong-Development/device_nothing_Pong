@@ -67,6 +67,8 @@ ro.hardware.keystore_desede=true
 # Media
 debug.stagefright.c2inputsurface=-1
 vendor.media.omx=0
+ro.media.xml_variant.codecs=_cape
+ro.media.xml_variant.codecs_performance=_cape
 
 # Netflix
 ro.netflix.bsp_rev=Q8450-34634-1
