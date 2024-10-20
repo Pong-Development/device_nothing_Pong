@@ -1,5 +1,5 @@
 ## All proprietary files from this list, unless pinned and noted otherwise,
-## are from Nothing Phone (2) (2.5.6).
+## are from Nothing Phone (2) (AP31-240426-022_A15_DP-2).
 
 # ACDB
 vendor/etc/acdbdata/nn_ns_models/fai__2.0.0_0.1__3.0.0_0.0__eai_1.36_enpu2.pmd
@@ -275,9 +275,6 @@ vendor/lib64/vendor.qti.hardware.bluetooth_sar@1.1.so
 
 # Camera
 system_ext/lib64/libofflineproc_jni.so
-system_ext/etc/permissions/advancedSample_camera_extensions.xml
-system_ext/etc/permissions/com.nothing.feature.xml
-system_ext/framework/androidx.camera.extensions.impl.advanced.jar
 system_ext/lib64/libencoderjpeg_jni.so
 vendor/bin/hw/vendor.qti.camera.provider@2.7-service_64
 vendor/etc/camera/AI_Seg_v0.2.29.1_nothing.bin
@@ -1212,12 +1209,10 @@ vendor/lib64/libQnnSystem.so
 vendor/lib64/libhta_hexagon_runtime_qnn.so
 
 # NFC
-system/framework/com.nxp.nfc.jar
 vendor/bin/hw/android.hardware.nfc_snxxx@1.2-service
 vendor/etc/init/android.hardware.nfc_snxxx@1.2-service.rc
 vendor/etc/init/init.Pong.nfc.rc
 vendor/etc/init/init.Pong.se.rc
-vendor/etc/permissions/com.nxp.nfc.xml
 vendor/etc/libnfc-nci.conf
 vendor/etc/libnfc-nxp.conf
 vendor/lib64/jcos_client.so
@@ -1795,7 +1790,6 @@ vendor/etc/wifi/wpa_supplicant.conf
 vendor/etc/wifi/wpa_supplicant_overlay.conf
 
 # WiFi Display
-system_ext/lib64/com.qualcomm.qti.wifidisplayhal@1.0.so
 vendor/bin/wfdhdcphalservice
 vendor/bin/wfdvndservice
 vendor/bin/wifidisplayhalservice
