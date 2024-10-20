@@ -84,6 +84,7 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     android.hardware.camera.provider@2.7.vendor \
     libcamera2ndk_vendor \
+    libexif.vendor \
     vendor.qti.hardware.camera.aon@1.0.vendor \
     vendor.qti.hardware.camera.postproc@1.0.vendor
 
@@ -145,7 +146,8 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/configs/gps/gps.conf:$(TARGET_COPY_OUT_VENDOR)/etc/gps.conf
 
 PRODUCT_PACKAGES += \
-    android.hardware.gnss-V1-ndk_platform.vendor
+    android.hardware.gnss-V1-ndk_platform.vendor \
+    libcurl.vendor \
 
 # Health
 $(call inherit-product, vendor/qcom/opensource/healthd-ext/health-vendor-product.mk)
@@ -218,6 +220,9 @@ DEVICE_MANIFEST_FILE += \
 PRODUCT_PACKAGES += \
     libavservices_minijail_vendor \
     libcodec2_hidl@1.2.vendor \
+    libjsoncpp.vendor \
+    libsqlite.vendor:64 \
+    libaudioroute.vendor \
     libcodec2_soft_common.vendor \
     libsfplugin_ccodec_utils.vendor
 
