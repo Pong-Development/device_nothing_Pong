@@ -1225,11 +1225,6 @@ vendor/lib64/vendor.nxp.nxpese@1.0.so
 vendor/lib64/vendor.nxp.nxpnfc@2.0.so
 vendor/libnfc-nxp_RF.conf
 
-# OMX
-vendor/lib64/libAlacSwDec.so
-vendor/lib64/libApeSwDec.so
-vendor/lib64/libFlacSwDec.so
-
 # Peripheral Manager
 vendor/bin/pm-proxy
 vendor/bin/pm-service
