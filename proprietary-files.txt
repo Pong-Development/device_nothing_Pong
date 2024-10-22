@@ -1261,7 +1261,6 @@ vendor/bin/init.qti.qcv.sh
 vendor/etc/init/init.qti.qcv.rc
 
 # QESDK
-system_ext/lib64/libqesdk_ndk_platform.qti.so
 vendor/etc/seccomp_policy/qesdk.policy
 vendor/etc/seccomp_policy/sensors-qesdk.policy
 vendor/lib64/libqesdk.so
@@ -1272,7 +1271,6 @@ vendor/lib64/vendor.qti.qesdhal@1.1.so
 vendor/lib64/vendor.qti.qesdsys-V1-ndk_platform.so
 
 # QMI
-system/etc/sysconfig/qti_whitelist.xml
 vendor/bin/irsc_util
 vendor/bin/qmipriod
 vendor/etc/init/qmipriod.rc
