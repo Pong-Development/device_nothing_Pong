@@ -24,6 +24,65 @@ if [ ! -f "${HELPER}" ]; then
 fi
 source "${HELPER}"
 
+function vendor_imports() {
+    cat <<EOF >>"$1"
+        "hardware/qcom/display",
+        "hardware/qcom/display/gralloc",
+        "hardware/qcom/display/libdebug",
+        "vendor/qcom/common/vendor/adreno-s",
+        "vendor/qcom/common/vendor/display/5.10",
+        "vendor/qcom/common/vendor/media",
+        "vendor/qcom/common/vendor/perf",
+        "vendor/qcom/common/vendor/wlan",
+EOF
+}
+
+function lib_to_package_fixup_vendor_variants() {
+    if [ "$2" != "vendor" ]; then
+        return 1
+    fi
+
+    case "$1" in
+        com.qualcomm.qti.dpm.api@1.0 | \
+            com.qualcomm.qti.imscmservice* | \
+            com.qualcomm.qti.uceservice* | \
+            vendor.qti.data.* | \
+            vendor.qti.diaghal@1.0 | \
+            vendor.qti.hardware.data.* | \
+            vendor.qti.hardware.dpmservice* |\
+            vendor.qti.hardware.embmssl* | \
+            vendor.qti.hardware.limits* | \
+            vendor.qti.hardware.ListenSoundModel@1.0 | \
+            vendor.qti.hardware.mwqemadapter@1.0 | \
+            vendor.qti.hardware.qccsyshal* | \
+            vendor.qti.hardware.qccvndhal@1.0 | \
+            vendor.qti.hardware.qxr-V1-ndk_platform | \
+            vendor.qti.hardware.radio.* | \
+            vendor.qti.hardware.slmadapter@1.0 | \
+            vendor.qti.hardware.wifidisplaysession@1.0 | \
+            vendor.qti.imsrtpservice@3.0 | \
+            vendor.qti.ims.* | \
+            vendor.qti.latency*)
+            echo "$1_vendor"
+            ;;
+        libgrpc++_unsecure)
+            echo "$1_prebuilt"
+            ;;
+        libwpa_client)
+            # Android.mk only packages
+            ;;
+        *)
+            return 1
+            ;;
+    esac
+}
+
+function lib_to_package_fixup() {
+    lib_to_package_fixup_clang_rt_ubsan_standalone "$1" ||
+        lib_to_package_fixup_proto_3_9_1 "$1" ||
+        lib_to_package_fixup_vendor_variants "$@"
+}
+
 # Initialize the helper
 setup_vendor "${DEVICE}" "${VENDOR}" "${ANDROID_ROOT}"
 
