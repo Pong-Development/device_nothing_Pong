@@ -52,6 +52,13 @@ prebuilt_etc {
     vendor: true,
 }
 
+prebuilt_etc {
+    name: "ueventd.phone2.rc",
+    filename: "ueventd.rc",
+    src: "etc/ueventd.phone2.rc",
+    device_specific: true,
+}
+
 sh_binary {
     name: "init.class_main.sh",
     src: "bin/init.class_main.sh",

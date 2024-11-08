@@ -159,6 +159,7 @@ PRODUCT_PACKAGES += \
     init.qti.write.sh \
     init.target.rc \
     ueventd.qcom.rc \
+    ueventd.phone2.rc \
     vendor_modprobe.sh
 
 # Kernel

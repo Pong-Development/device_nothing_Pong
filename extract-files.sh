@@ -75,11 +75,6 @@ function blob_fixup() {
             [ "$2" = "" ] && return 0
             sed -Ei "/media_codecs_(google_audio|google_c2|google_telephony|vendor_audio)/d" "${2}"
             ;;
-        vendor/etc/seccomp_policy/atfwd@2.0.policy|vendor/etc/seccomp_policy/wfdhdcphalservice.policy)
-            [ "$2" = "" ] && return 0
-            [ -n "$(tail -c 1 "${2}")" ] && echo >> "${2}"
-            grep -q "gettid: 1" "${2}" || echo "gettid: 1" >> "${2}"
-            ;;
         vendor/lib64/libcamximageformatutils.so)
             [ "$2" = "" ] && return 0
             "${PATCHELF}" --replace-needed "vendor.qti.hardware.display.config-V2-ndk_platform.so" "vendor.qti.hardware.display.config-V2-ndk.so" "${2}"

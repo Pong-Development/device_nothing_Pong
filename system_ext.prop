@@ -15,4 +15,4 @@ persist.vendor.data.mode=concurrent
 
 # Nothing Feature
 ro.build.nothing.feature.base=0x8124a040124b4247b97ffL
-ro.build.nothing.feature.diff.device.Pong=0x4a404803d9842000
+ro.build.nothing.feature.diff.device.Pong=0x2000aa0144a404803d1842000L
