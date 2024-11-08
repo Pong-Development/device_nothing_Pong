@@ -1,2 +1,0 @@
-libofflineproc_jni.so
-libencoderjpeg_jni.so nopreload

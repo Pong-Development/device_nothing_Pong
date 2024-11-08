@@ -272,8 +272,6 @@ vendor/lib64/vendor.qti.hardware.bluetooth_sar@1.0.so
 vendor/lib64/vendor.qti.hardware.bluetooth_sar@1.1.so
 
 # Camera
-system_ext/lib64/libofflineproc_jni.so
-system_ext/lib64/libencoderjpeg_jni.so
 vendor/bin/hw/vendor.qti.camera.provider@2.7-service_64
 vendor/etc/camera/AI_Seg_v0.2.29.1_nothing.bin
 vendor/etc/camera/CFR_para4_Nothing_M_v100-8_AI.bin
@@ -524,7 +522,6 @@ vendor/lib64/libarcsoft_hdr_detection.so
 vendor/lib64/libarcsoft_high_dynamic_range.so
 vendor/lib64/libarcsoft_high_dynamic_range_v5.so;DISABLE_CHECKELF
 vendor/lib64/libarcsoft_low_light_hdr.so
-vendor/lib64/libarcsoft_mf_superresolution.so
 vendor/lib64/libarcsoft_mcxmflpolicy.so
 vendor/lib64/libarcsoft_night_video.so
 vendor/lib64/libarcsoft_portrait_distortion_correction.so
