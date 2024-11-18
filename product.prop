@@ -6,3 +6,5 @@ debug.hwui.skia_atrace_enabled=false
 
 # Maintainer
 ro.paranoid.maintainer=GHOST | ゴースト
+
+debug.graphics.game_default_frame_rate.disabled=true
