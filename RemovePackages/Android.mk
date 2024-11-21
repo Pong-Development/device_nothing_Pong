@@ -10,7 +10,6 @@ LOCAL_OVERRIDES_PACKAGES := \
     AudioFX \
     Eleven \
     Etar \
-    Aperture \
     Jelly \
     MusicFX \
     Music \
@@ -18,6 +17,7 @@ LOCAL_OVERRIDES_PACKAGES := \
     MyVerizonServices \
     Videos \
     MusicFX \
+    SafetyHubSuwPrebuilt \
     YouTube \
     YouTubeMusicPrebuilt
 LOCAL_UNINSTALLABLE_MODULE := true
