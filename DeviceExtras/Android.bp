@@ -32,6 +32,7 @@ android_app {
     static_libs: [
         "androidx.core_core",
         "androidx.preference_preference",
+        "com.google.android.material_material",
     ],
     required: [
         "privapp_whitelist_DeviceExtras",
