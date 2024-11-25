@@ -71,7 +71,6 @@ namespace vibrator {
 #define test_bit(bit, array)    ((array)[(bit)/8] & (1<<((bit)%8)))
 
 #define LED_DEVICE "/sys/class/leds/aw_vibrator"
-int32_t mTimeoutMs = 0;
 
 InputFFDevice::InputFFDevice()
 {
@@ -203,7 +202,7 @@ int InputFFDevice::play(int effectId, uint32_t timeoutMs, long *playLengthMs) {
     if (mVibraFd == INVALID_VALUE) {
         if (playLengthMs != NULL)
             *playLengthMs = 0;
-            return 0;
+        return 0;
     }
 
     if (timeoutMs != 0) {
@@ -347,6 +346,7 @@ LedVibratorDevice::LedVibratorDevice() {
     }
 
     mDetected = true;
+    mTimeoutMs = 0;
     mLevel = 3;
 }
 
@@ -390,7 +390,23 @@ int LedVibratorDevice::write_value(const char *file, int value) {
 }
 
 int LedVibratorDevice::on(int32_t timeoutMs) {
+    char file[PATH_MAX];
+    char value[32];
+    int ret;
+
+    snprintf(file, sizeof(file), "%s/%s", LED_DEVICE, "duration");
+    snprintf(value, sizeof(value), "%u\n", timeoutMs);
+    ret = write_value(file, value);
+    if (ret < 0)
+       goto error;
+
+    mTimeoutMs = timeoutMs;
+
     return 0;
+
+error:
+    ALOGE("Failed to turn on vibrator ret: %d\n", ret);
+    return ret;
 }
 
 int LedVibratorDevice::setAmplitude(float amplitude) {
@@ -401,7 +417,6 @@ int LedVibratorDevice::setAmplitude(float amplitude) {
 
     if (mTimeoutMs < 20) {
         gain = 4 + 4.6*mTimeoutMs;
-        ret |= write_value(LED_DEVICE "/duration", mTimeoutMs);
         ret |= write_value(LED_DEVICE "/index", "1");
         ret |= write_value(LED_DEVICE "/loop", "0 0");
         ret |= write_value(LED_DEVICE "/vmax", "9408");
@@ -409,7 +424,6 @@ int LedVibratorDevice::setAmplitude(float amplitude) {
         ret |= write_value(LED_DEVICE "/brightness", "1");
     } else if (mTimeoutMs < 40) {
         gain = 4 + 3.1*mTimeoutMs;
-        ret |= write_value(LED_DEVICE "/duration", mTimeoutMs);
         ret |= write_value(LED_DEVICE "/index", "1");
         ret |= write_value(LED_DEVICE "/loop", "0 0");
         ret |= write_value(LED_DEVICE "/vmax", "9408");
@@ -419,17 +433,15 @@ int LedVibratorDevice::setAmplitude(float amplitude) {
         gain = 4 + 2.5*mTimeoutMs;
         if (gain > 128)
             gain = 128;             // 0x80 (Should never exceed this)
-        ret |= write_value(LED_DEVICE "/duration", mTimeoutMs);
         ret |= write_value(LED_DEVICE "/index", "1");
         ret |= write_value(LED_DEVICE "/loop", "0 0");
         ret |= write_value(LED_DEVICE "/vmax", "9408");
         ret |= write_value(LED_DEVICE "/gain", gain);
         ret |= write_value(LED_DEVICE "/brightness", "1");
     } else {
-        ret |= write_value(LED_DEVICE "/duration", mTimeoutMs);
         ret |= write_value(LED_DEVICE "/index", "4");
         ret |= write_value(LED_DEVICE "/vmax", "9408");
-        ret |= write_value(LED_DEVICE "/gain", "0x7f");
+        ret |= write_value(LED_DEVICE "/gain", "0x66"); // Gain higher than this for call vibrations causes noises in the back glass
         ret |= write_value(LED_DEVICE "/brightness", "1");
     }
 
@@ -451,8 +463,6 @@ ndk::ScopedAStatus Vibrator::getCapabilities(int32_t* _aidl_return) {
 
     *_aidl_return |= IVibrator::CAP_AMPLITUDE_CONTROL;
 
-    if (ff.mSupportGain)
-        *_aidl_return |= IVibrator::CAP_AMPLITUDE_CONTROL;
     if (ff.mSupportEffects)
         *_aidl_return |= IVibrator::CAP_PERFORM_CALLBACK;
     if (ff.mSupportExternalControl)
@@ -480,13 +490,11 @@ ndk::ScopedAStatus Vibrator::on(int32_t timeoutMs,
                                 const std::shared_ptr<IVibratorCallback>& callback) {
     int ret;
 
-    mTimeoutMs = timeoutMs;
-
-    ALOGD("Vibrator on for timeoutMs: %d", mTimeoutMs);
+    ALOGD("Vibrator on for timeoutMs: %d", timeoutMs);
     if (ledVib.mDetected)
-        ret = ledVib.on(mTimeoutMs);
+        ret = ledVib.on(timeoutMs);
     else
-        ret = ff.on(mTimeoutMs);
+        ret = ff.on(timeoutMs);
 
     if (ret != 0)
         return ndk::ScopedAStatus(AStatus_fromExceptionCode(EX_SERVICE_SPECIFIC));
@@ -494,7 +502,7 @@ ndk::ScopedAStatus Vibrator::on(int32_t timeoutMs,
     if (callback != nullptr) {
         std::thread([=] {
             ALOGD("Starting on on another thread");
-            usleep(mTimeoutMs * 1000);
+            usleep(timeoutMs * 1000);
             ALOGD("Notifying on complete");
             if (!callback->onComplete().isOk()) {
                 ALOGE("Failed to call onComplete");
