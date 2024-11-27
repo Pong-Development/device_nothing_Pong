@@ -440,8 +440,8 @@ int LedVibratorDevice::setAmplitude(float amplitude) {
         ret |= write_value(LED_DEVICE "/brightness", "1");
     } else {
         ret |= write_value(LED_DEVICE "/index", "4");
-        ret |= write_value(LED_DEVICE "/vmax", "9408");
-        ret |= write_value(LED_DEVICE "/gain", "0x66"); // Gain higher than this for call vibrations causes noises in the back glass
+        ret |= write_value(LED_DEVICE "/vmax", "8400");
+        ret |= write_value(LED_DEVICE "/gain", "0x80");
         ret |= write_value(LED_DEVICE "/brightness", "1");
     }
 
