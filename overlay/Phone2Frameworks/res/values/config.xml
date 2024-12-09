@@ -436,6 +436,9 @@
     <!-- Whether the device supports Smart Pixels -->
     <bool name="config_supportSmartPixels">true</bool>
 
+    <!-- Whether the device supports UDFPS -->
+    <bool name="config_udfps_sensor_support">true</bool>
+
     <!-- System Info -->
     <bool name="config_supportSystemInfo">true</bool>
     <string name="config_sysCPUTemp">/sys/class/thermal/thermal_zone0/temp</string>
