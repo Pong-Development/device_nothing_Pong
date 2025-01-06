@@ -20,11 +20,6 @@
     <string name="device_title">Device Extras</string>
     <string name="device_summary">Adjust device specific settings</string>
 
-    <!-- Power -->
-    <string name="power_title">Power</string>
-    <string name="powershare_mode_title">Wireless powershare</string>
-    <string name="powershare_mode_summary">Enable reverse wireless charging</string>
-
      <!-- USB -->
     <string name="usb_title">USB</string>
     <string name="otg_mode_title">USB-OTG</string>

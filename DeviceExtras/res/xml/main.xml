@@ -20,17 +20,6 @@
 	android.title="@string/device_title">
 
     <PreferenceCategory
-        android:key="power"
-        android:title="@string/power_title">
-        
-    <SwitchPreferenceCompat
-            android:key="powershare"
-            android:icon="@drawable/ic_powershare"
-            android:title="@string/powershare_mode_title"
-            android:summary="@string/powershare_mode_summary" />
-    </PreferenceCategory>
-
-    <PreferenceCategory
         android:key="usb"
         android:title="@string/usb_title">
         
@@ -40,4 +29,5 @@
             android:title="@string/otg_mode_title"
             android:summary="@string/otg_mode_summary" />
     </PreferenceCategory>
+
 </PreferenceScreen>

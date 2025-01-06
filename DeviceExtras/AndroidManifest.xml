@@ -73,18 +73,6 @@
                 android:resource="@string/device_summary" />
         </activity>
 
-        <!-- PowerShare tile -->
-        <service
-            android:name="org.neoteric.device.DeviceExtras.PowerShareTileService"
-            android:exported="true"
-            android:icon="@drawable/ic_powershare"
-            android:label="@string/powershare_mode_title"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
-            <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE" />
-            </intent-filter>
-        </service>
-
         <!-- OTG tile -->
         <service
             android:name="org.neoteric.device.DeviceExtras.OTGTileService"

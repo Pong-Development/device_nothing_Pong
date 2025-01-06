@@ -34,10 +34,8 @@ import org.neoteric.device.DeviceExtras.FileUtils;
 import org.neoteric.device.DeviceExtras.R;
 
 public class DeviceExtras extends PreferenceFragment {
-    public static final String KEY_POWERSHARE_SWITCH = "powershare";
     public static final String KEY_OTG_SWITCH = "otg";
 
-    private static TwoStatePreference mPowerShareModeSwitch;
     private static TwoStatePreference mOTGModeSwitch;
 
     @Override
@@ -45,13 +43,6 @@ public class DeviceExtras extends PreferenceFragment {
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getContext());
         addPreferencesFromResource(R.xml.main);
         getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
-        
-        // PowerShare
-        mPowerShareModeSwitch = (TwoStatePreference) findPreference(KEY_POWERSHARE_SWITCH);
-        if (PowerShareModeSwitch.isSupported()) {
-            mPowerShareModeSwitch.setChecked(PowerShareModeSwitch.isCurrentlyEnabled());
-            mPowerShareModeSwitch.setOnPreferenceChangeListener(new PowerShareModeSwitch());
-        }
 
         // OTG
         mOTGModeSwitch = (TwoStatePreference) findPreference(KEY_OTG_SWITCH);
