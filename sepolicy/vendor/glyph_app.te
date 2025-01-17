@@ -1,0 +1,3 @@
+allow glyph_app vendor_sysfs_battery_supply:dir search;
+allow glyph_app vendor_sysfs_battery_supply:file { read open getattr };
+allow glyph_app sysfs_powershare:file rw_file_perms;

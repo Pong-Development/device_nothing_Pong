@@ -1,4 +1,3 @@
-type glyph_app, domain;
 typeattribute glyph_app mlstrustedsubject;
 
 app_domain(glyph_app)
@@ -33,9 +32,6 @@ allow glyph_app system_app_data_file:{
 
 allow glyph_app sysfs_leds:dir r_dir_perms;
 allow glyph_app sysfs_leds:file rw_file_perms;
-
-allow glyph_app sysfs_powershare:dir r_dir_perms;
-allow glyph_app sysfs_powershare:file r_file_perms;
 
 allow glyph_app mnt_vendor_file:dir r_dir_perms;
 allow glyph_app mnt_vendor_file:file rw_file_perms;
