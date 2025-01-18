@@ -13,6 +13,7 @@
         android:icon="@mipmap/ic_launcher"
         android:allowBackup="false"
         android:label="@string/dolby_title"
+        android:enableOnBackInvokedCallback="true"
         android:persistent="true">
 
         <receiver
