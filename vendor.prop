@@ -71,7 +71,7 @@ vendor.media.omx=0
 ro.netflix.bsp_rev=Q8450-34634-1
 
 # NTF
-ro.vendor.nothing.feature.base=0x18428124a040126b4247b97ffL
+ro.vendor.nothing.feature.base=0x4458438124a040126b4247b97ffL
 ro.vendor.nothing.feature.diff.device.Pong=0x8a0044a404803d1842000L
 
 # Sensors
