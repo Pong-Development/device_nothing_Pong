@@ -5,8 +5,12 @@ persist.bluetooth.bqr.min_interval_ms=6000
 # Camera
 vendor.camera.aux.packagelist=org.lineageos.aperture,com.instagram.android,com.snapchat.android
 
+# Dex2oat
+dalvik.vm.dex2oat64.enabled=true
+
 # Display
 persist.sys.brightness.low.gamma=true
+debug.sf.enable_hwc_vds=0
 
 # Netmgr
 persist.data.df.agg.dl_pkt=10
