@@ -29,7 +29,8 @@
     <application
         android:label="@string/device_title"
         android:persistent="true"
-        android:defaultToDeviceProtectedStorage="true"
+	android:defaultToDeviceProtectedStorage="true"
+	android:enableOnBackInvokedCallback="true"
         android:directBootAware="true">
 
         <receiver
