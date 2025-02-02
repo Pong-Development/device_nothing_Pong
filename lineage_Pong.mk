@@ -24,6 +24,20 @@ PRODUCT_CHARACTERISTICS := nosdcard
 
 PRODUCT_GMS_CLIENTID_BASE := android-nothing
 
+# To include Gapps 
+WITH_GMS := true
+TARGET_USE_REMOVEPACKAGE  := true
+
+# Device has official
+MATRIXX_BUILD_TYPE := Official
+
+# Udfps icons
+TARGET_HAS_UDFPS := true
+
+#Some more GMS Flag
+TARGET_SUPPORTS_GOOGLE_RECORDER := true
+TARGET_SUPPORTS_WALLEFFECT := true
+
 PRODUCT_BUILD_PROP_OVERRIDES += \
     BuildFingerprint=Nothing/Pong/Pong:12/SKQ1.240903.001/2505061805:user/release-keys \
     DeviceName=Pong \

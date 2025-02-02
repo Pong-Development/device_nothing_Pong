@@ -156,6 +156,10 @@ PRODUCT_COPY_FILES += \
 # Dolby
 $(call inherit-product, hardware/dolby/dolby.mk)
 
+# dexopt
+ART_BUILD_TARGET_DEBUG := false
+ART_BUILD_HOST_DEBUG := false
+
 # DRM
 PRODUCT_PACKAGES += \
     android.hardware.drm-service.clearkey

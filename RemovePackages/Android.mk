@@ -17,7 +17,7 @@ LOCAL_OVERRIDES_PACKAGES := \
     OPScreenRecord \
     Ornament \
     SafetyHubPrebuilt \
-    ScribePrebuilt \
+    PrebuiltGmail \
     Showcase \
     Snap \
     SprintDM \
