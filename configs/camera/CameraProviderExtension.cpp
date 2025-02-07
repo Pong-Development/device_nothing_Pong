@@ -42,10 +42,8 @@ int32_t getTorchDefaultStrengthLevelExt() {
     return 50;
 }
 int32_t getTorchMaxStrengthLevelExt() {
-    // In our device, both LEDs has same maximum value
-    // so get from one.
-    auto node = kTorchLedPaths[0] + "/" + TORCH_MAX_BRIGHTNESS;
-    return get(node, 0);
+    // 230 (out of 500) is a sane max brightness
+    return 230;
 }
 int32_t getTorchStrengthLevelExt() {
     // We write same value in the both LEDs,
