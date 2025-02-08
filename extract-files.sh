@@ -68,8 +68,11 @@ function blob_fixup() {
             "${PATCHELF}" --replace-needed "android.hardware.security.sharedsecret-V1-ndk_platform.so" "android.hardware.security.sharedsecret-V1-ndk.so" "${2}"
             grep -q "android.hardware.security.rkp-V1-ndk.so" "${2}" || ${PATCHELF} --add-needed "android.hardware.security.rkp-V1-ndk.so" "${2}"
             ;;
-        vendor/bin/hw/dolbycodec2 | vendor/bin/hw/vendor.dolby.hardware.dms@2.0-service | vendor/bin/hw/vendor.dolby.media.c2@1.0-service)
+        vendor/bin/hw/vendor.dolby.hardware.dms@2.0-service | vendor/bin/hw/vendor.dolby.media.c2@1.0-service)
             "${PATCHELF}" --add-needed "libstagefright_foundation-v33.so" "${2}"
+            ;;
+        vendor/lib64/libcodec2_soft_ddpdec.so | vendor/lib64/libcodec2_soft_ac4dec.so)
+            "${PATCHELF}" --add-needed "libcodec2_soft_dolby.so" "${2}"
             ;;
         vendor/etc/media_codecs.xml|vendor/etc/media_codecs_cape.xml|vendor/etc/media_codecs_cape_vendor.xml)
             [ "$2" = "" ] && return 0
