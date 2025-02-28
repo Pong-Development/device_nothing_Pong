@@ -136,6 +136,7 @@ $(call soong_config_set,camera,override_format_from_reserved,true)
 
 # Display
 PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/displayconfig/display_id_4630946639017191810.xml:$(TARGET_COPY_OUT_VENDOR)/etc/displayconfig/display_id_4630946639017191809.xml \
     $(LOCAL_PATH)/configs/displayconfig/display_id_4630946639017191810.xml:$(TARGET_COPY_OUT_VENDOR)/etc/displayconfig/display_id_4630946639017191810.xml
 
 PRODUCT_PACKAGES += \
