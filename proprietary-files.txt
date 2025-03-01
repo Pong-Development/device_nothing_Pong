@@ -1704,7 +1704,6 @@ vendor/lib64/libvpphvx.so
 vendor/lib64/libvppimmotion.so
 vendor/lib64/libvpplibrary.so
 vendor/lib64/libvpptestutils.so
-vendor/lib64/vendor.qti.hardware.vpp@2.0.so
 
 # VPU (firmware)
 vendor/firmware/venus.mbn
