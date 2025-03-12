@@ -10,6 +10,7 @@ dalvik.vm.dex2oat64.enabled=true
 
 # Display
 persist.sys.brightness.low.gamma=true
+persist.sys.sf.native_mode=260
 
 # Netmgr
 persist.data.df.agg.dl_pkt=10
