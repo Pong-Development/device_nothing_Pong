@@ -3,7 +3,7 @@ ro.audio.ihaladaptervendorextension_enabled=true
 ro.qc.sdk.audio.fluencetype=none
 
 # Brightness
-persist.sys.brightness.low.gamma=true
+sys.brightness.disable_gamma_conversion=true
 
 # Bluetooth
 bluetooth.hfp.codec_aptx_voice.enabled=true
