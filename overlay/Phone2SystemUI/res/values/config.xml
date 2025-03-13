@@ -9,13 +9,16 @@
           vibrator is capable of subtle vibrations -->
      <bool name="config_vibrateOnIconAnimation">true</bool>
 
-    <!-- Color of the UDFPS Pressed view -->
-    <color name="config_udfpsColor">#ffffe6</color>
+     <!-- Color of the UDFPS Pressed view -->
+     <color name="config_udfpsColor">#ffffe6</color>
 
      <!-- Allow devices override audio panel location to the left side -->
-    <bool name="config_audioPanelOnLeftSide">true</bool>
+     <bool name="config_audioPanelOnLeftSide">true</bool>
 
-    <!-- Whether to disable Smart Pixels on UDFPS -->
-    <bool name="config_disableSmartPixelsOnUDFPS">true</bool>
+     <!-- Whether to disable Smart Pixels on UDFPS -->
+     <bool name="config_disableSmartPixelsOnUDFPS">true</bool>
+
+     <!-- The CPU temperature divider, if needed -->
+     <integer name="config_cpuTempDivider" translatable="false">1000</integer>
 
 </resources>
