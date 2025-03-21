@@ -624,6 +624,15 @@
             <instance>qccvndhal</instance>
         </interface>
     </hal>
+    <hal format="hidl">
+         <name>vendor.qti.qspmhal</name>
+         <transport>hwbinder</transport>
+         <version>1.0</version>
+         <interface>
+             <name>IQspmhal</name>
+             <instance>default</instance>
+         </interface>
+     </hal>
     <!-- eMBMS HAL Service -->
     <hal format="hidl">
         <name>vendor.qti.hardware.embmssl</name>
