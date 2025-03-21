@@ -124,8 +124,6 @@ persist.vendor.dpm.vndr.halservice.enable=1
 persist.vendor.dpm.vndr.idletimer.mode=default
 
 # Display
-persist.sys.sf.color_mode=0
-persist.sys.sf.color_saturation=1.0
 persist.sys.sf.native_mode=260
 vendor.display.comp_mask=0
 vendor.display.disable_3d_adaptive_tm=1
