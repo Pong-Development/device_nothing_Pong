@@ -9,6 +9,11 @@
 /mnt/vendor/persist/goodix(/.*)?                                                                   u:object_r:vendor_persist_goodix_file:s0
 /vendor/bin/hw/android\.hardware\.biometrics\.fingerprint-service\.nothing                         u:object_r:hal_fingerprint_default_exec:s0
 
+# Process and system statistics files
+/proc/stat                                          u:object_r:proc_stat:s0
+/sys/class/kgsl/kgsl-3d0/gpu_busy_percentage        u:object_r:vendor_sysfs_kgsl:s0
+/sys/class/kgsl/kgsl-3d0/temp                       u:object_r:vendor_sysfs_kgsl:s0
+
 # NFC
 /dev/pn553                                                                                         u:object_r:nfc_device:s0
 
