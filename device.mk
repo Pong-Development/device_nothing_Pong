@@ -135,6 +135,10 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     libcurl.vendor
 
+# Gamebar
+PRODUCT_PACKAGES += \
+    GameBar
+
 # Health
 $(call inherit-product, vendor/qcom/opensource/healthd-ext/health-vendor-product.mk)
 

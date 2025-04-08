@@ -2,6 +2,9 @@
 genfscon sysfs /class/qcom-battery/charging_en																			u:object_r:vendor_sysfs_usb_supply:s0
 genfscon sysfs /class/qcom-battery/scenario_fcc																			u:object_r:vendor_sysfs_battery_supply:s0
 
+# FPS Info
+genfscon sysfs /sys/devices/platform/soc/ae00000.qcom,mdss_mdp/drm/card0/sde-crtc-0/measured_fps        u:object_r:vendor_sysfs_graphics:s0
+
 # Camera Torch
 genfscon sysfs /devices/platform/soc/c42d000.qcom,spmi/spmi-0/0-02/c42d000.qcom,spmi:qcom,pm8350c@2:qcom,flash_led@ee00/leds/led:torch_0/brightness          u:object_r:sysfs_torch:s0
 genfscon sysfs /devices/platform/soc/c42d000.qcom,spmi/spmi-0/0-02/c42d000.qcom,spmi:qcom,pm8350c@2:qcom,flash_led@ee00/leds/led:torch_0/max_brightness      u:object_r:sysfs_torch:s0
