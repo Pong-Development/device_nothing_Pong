@@ -59,10 +59,10 @@ on property:vendor.post_boot.parsed=1
     setprop dalvik.vm.dex2oat-threads 6
     
     # IRQ Tuning
-    # IRQ 243: msm_drm -> CPU 7
-    # IRQ 240: kgsl_3d0_irq -> CPU 6
-    write /proc/irq/243/smp_affinity_list 7
-    write /proc/irq/240/smp_affinity_list 6
+    # IRQ 243: msm_drm
+    # IRQ 240: kgsl_3d0_irq
+    write /proc/irq/243/smp_affinity_list 2
+    write /proc/irq/240/smp_affinity_list 1
 
     # CPUFreq
     write /sys/devices/system/cpu/cpufreq/policy0/walt/up_rate_limit_us 500
