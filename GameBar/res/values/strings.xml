@@ -30,7 +30,7 @@
 
      <!-- GameBar Overlay -->
      <string name="game_overlay_title">GameBar</string>
-     <string name="game_overlay_summary">Enable the system overlay (FPS, Temp, etc.)</string>
+     <string name="game_overlay_summary">Enable the system overlay</string>
      <string name="overlay_permission_required">Overlay permission is required</string>
      <string name="overlay_permission_granted">Overlay permission granted</string>
      <string name="overlay_permission_denied">Overlay permission denied</string>
