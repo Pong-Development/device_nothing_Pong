@@ -53,11 +53,17 @@
                 <action android:name="com.android.settings.action.IA_SETTINGS" />
             </intent-filter>
             <meta-data
+                android:name="com.android.settings.icon"
+                android:resource="@drawable/ic_game" />
+            <meta-data
                 android:name="com.android.settings.category"
-                android:value="com.android.settings.category.ia.apps" />
+                android:value="com.android.settings.category.ia.system" />
             <meta-data
                 android:name="com.android.settings.summary"
                 android:resource="@string/game_overlay_summary" />
+            <meta-data
+                android:name="com.android.settings.order"
+                android:value="-252" />
         </activity>
 
         <!-- GameBar Overlay Tile Service -->
