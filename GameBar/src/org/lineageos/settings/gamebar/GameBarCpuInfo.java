@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.lineageos.settings.gameoverlay;
+package org.lineageos.settings.gamebar;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -24,7 +24,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class GameOverlayCpuInfo {
+public class GameBarCpuInfo {
 
     private static long sPrevIdle = -1;
     private static long sPrevTotal = -1;
@@ -78,7 +78,7 @@ public class GameOverlayCpuInfo {
 
         List<java.io.File> cpuFolders = new ArrayList<>();
         Collections.addAll(cpuFolders, files);
-        cpuFolders.sort(Comparator.comparingInt(GameOverlayCpuInfo::extractCpuNumber));
+        cpuFolders.sort(Comparator.comparingInt(GameBarCpuInfo::extractCpuNumber));
 
         for (java.io.File cpu : cpuFolders) {
             String freqPath = cpu.getAbsolutePath() + "/cpufreq/scaling_cur_freq";

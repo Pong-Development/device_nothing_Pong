@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.lineageos.settings.gameoverlay;
+package org.lineageos.settings.gamebar;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -26,14 +26,14 @@ import com.android.settingslib.collapsingtoolbar.CollapsingToolbarBaseActivity;
 
 import org.lineageos.settings.R;
 
-public class GameOverlaySettingsActivity extends CollapsingToolbarBaseActivity {
+public class GameBarSettingsActivity extends CollapsingToolbarBaseActivity {
     private static final int OVERLAY_PERMISSION_REQUEST_CODE = 1234;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game_overlay);
-        setTitle(getString(R.string.game_overlay_title));
+        setContentView(R.layout.activity_game_bar);
+        setTitle(getString(R.string.game_bar_title));
 
         if (!Settings.canDrawOverlays(this)) {
             Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,

@@ -45,8 +45,8 @@
 
         <!-- GameBar Overlay -->
         <activity
-            android:name=".gameoverlay.GameOverlaySettingsActivity"
-            android:label="@string/game_overlay_title"
+            android:name=".gamebar.GameBarSettingsActivity"
+            android:label="@string/game_bar_title"
             android:theme="@style/Theme.SubSettingsBase"
             android:exported="true">
             <intent-filter>
@@ -60,17 +60,21 @@
                 android:value="com.android.settings.category.ia.system" />
             <meta-data
                 android:name="com.android.settings.summary"
-                android:resource="@string/game_overlay_summary" />
+                android:resource="@string/game_bar_summary" />
             <meta-data
                 android:name="com.android.settings.order"
                 android:value="-252" />
         </activity>
 
+        <!-- GameBar AppSelector -->
+        <activity android:name=".gamebar.GameBarAppSelectorActivity" />
+        <activity android:name=".gamebar.GameBarAppRemoverActivity" />
+
         <!-- GameBar Overlay Tile Service -->
         <service
-            android:name=".gameoverlay.GameOverlayTileService"
-            android:label="@string/game_overlay_tile_label"
-            android:icon="@drawable/ic_gamebar_overlay_tile"
+            android:name=".gamebar.GameBarTileService"
+            android:label="@string/game_bar_tile_label"
+            android:icon="@drawable/ic_gamebar"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
             android:exported="true">
             <intent-filter>
@@ -81,9 +85,14 @@
                 android:value="true" />
         </service>
 
+        <!-- GameBar Overlay Monitor Service -->
+        <service
+            android:name=".gamebar.GameBarMonitorService"
+            android:exported="false" />
+
         <!-- GameBar BootReceiver -->
         <receiver
-            android:name="org.lineageos.settings.gameoverlay.GameOverlayBootReceiver"
+            android:name=".gamebar.GameBarBootReceiver"
             android:exported="true"
             android:enabled="true"
             android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
@@ -91,7 +100,7 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
                 <category android:name="android.intent.category.DEFAULT" />
-             </intent-filter>
+            </intent-filter>
         </receiver>
     </application>
 </manifest>

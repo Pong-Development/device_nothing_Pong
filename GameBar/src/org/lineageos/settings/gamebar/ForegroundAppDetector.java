@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.lineageos.settings.gameoverlay;
+package org.lineageos.settings.gamebar;
 
 import android.app.ActivityManager;
 import android.content.Context;
@@ -69,7 +69,7 @@ public class ForegroundAppDetector {
             Class<?> atmClass = Class.forName("android.app.ActivityTaskManager");
             Method getServiceMethod = atmClass.getDeclaredMethod("getService");
             getServiceMethod.setAccessible(true);
-            Object atmService = getServiceMethod.invoke(null); 
+            Object atmService = getServiceMethod.invoke(null);
             Method getTasksMethod = atmService.getClass().getMethod("getTasks", int.class);
             @SuppressWarnings("unchecked")
             List<?> taskList = (List<?>) getTasksMethod.invoke(atmService, 1);
@@ -77,7 +77,7 @@ public class ForegroundAppDetector {
 
                 Object firstTask = taskList.get(0);
 
-                Class<?> rtiClass = firstTask.getClass(); 
+                Class<?> rtiClass = firstTask.getClass();
                 Method getTopActivityMethod = rtiClass.getDeclaredMethod("getTopActivity");
                 Object compName = getTopActivityMethod.invoke(firstTask);
                 if (compName != null) {

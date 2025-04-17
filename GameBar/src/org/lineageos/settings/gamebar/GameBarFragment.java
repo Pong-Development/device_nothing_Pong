@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.lineageos.settings.gameoverlay;
+package org.lineageos.settings.gamebar;
 
 import android.content.Context;
 import android.content.Intent;
@@ -26,42 +26,39 @@ import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SeekBarPreference;
+import androidx.preference.SwitchPreference;
 import androidx.preference.SwitchPreferenceCompat;
+
+import com.android.settingslib.widget.MainSwitchPreference;
 
 import org.lineageos.settings.R;
 
-public class GameOverlayFragment extends PreferenceFragmentCompat {
+public class GameBarFragment extends PreferenceFragmentCompat {
 
-    private GameOverlay mOverlay;
-
-    private SwitchPreferenceCompat mMasterSwitch;
-
+    private GameBar mGameBar;
+    private MainSwitchPreference mMasterSwitch;
+    private SwitchPreferenceCompat mAutoEnableSwitch;
     private SwitchPreferenceCompat mFpsSwitch;
     private SwitchPreferenceCompat mBatteryTempSwitch;
     private SwitchPreferenceCompat mCpuUsageSwitch;
     private SwitchPreferenceCompat mCpuClockSwitch;
     private SwitchPreferenceCompat mCpuTempSwitch;
     private SwitchPreferenceCompat mRamSwitch;
-
     private SwitchPreferenceCompat mGpuUsageSwitch;
     private SwitchPreferenceCompat mGpuClockSwitch;
     private SwitchPreferenceCompat mGpuTempSwitch;
-
     private Preference mCaptureStartPref;
     private Preference mCaptureStopPref;
     private Preference mCaptureExportPref;
-
     private SwitchPreferenceCompat mDoubleTapCapturePref;
     private SwitchPreferenceCompat mSingleTapTogglePref;
     private SwitchPreferenceCompat mLongPressEnablePref;
     private ListPreference  mLongPressTimeoutPref;
-
     private SeekBarPreference mTextSizePref;
     private SeekBarPreference mBgAlphaPref;
     private SeekBarPreference mCornerRadiusPref;
     private SeekBarPreference mPaddingPref;
     private SeekBarPreference mItemSpacingPref;
-
     private ListPreference mUpdateIntervalPref;
     private ListPreference mTextColorPref;
     private ListPreference mTitleColorPref;
@@ -72,59 +69,94 @@ public class GameOverlayFragment extends PreferenceFragmentCompat {
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-        setPreferencesFromResource(R.xml.game_overlay_preferences, rootKey);
+        setPreferencesFromResource(R.xml.game_bar_preferences, rootKey);
 
-        mOverlay = GameOverlay.getInstance(getContext());
+        mGameBar = GameBar.getInstance(getContext());
 
-        mMasterSwitch       = findPreference("game_overlay_enable");
+        // Initialize all preferences.
+        mMasterSwitch       = findPreference("game_bar_enable");
+        mAutoEnableSwitch   = findPreference("game_bar_auto_enable");
+        mFpsSwitch          = findPreference("game_bar_fps_enable");
+        mBatteryTempSwitch  = findPreference("game_bar_temp_enable");
+        mCpuUsageSwitch     = findPreference("game_bar_cpu_usage_enable");
+        mCpuClockSwitch     = findPreference("game_bar_cpu_clock_enable");
+        mCpuTempSwitch      = findPreference("game_bar_cpu_temp_enable");
+        mRamSwitch          = findPreference("game_bar_ram_enable");
+        mGpuUsageSwitch     = findPreference("game_bar_gpu_usage_enable");
+        mGpuClockSwitch     = findPreference("game_bar_gpu_clock_enable");
+        mGpuTempSwitch      = findPreference("game_bar_gpu_temp_enable");
 
-        mFpsSwitch          = findPreference("game_overlay_fps_enable");
-        mBatteryTempSwitch  = findPreference("game_overlay_temp_enable");
-        mCpuUsageSwitch     = findPreference("game_overlay_cpu_usage_enable");
-        mCpuClockSwitch     = findPreference("game_overlay_cpu_clock_enable");
-        mCpuTempSwitch      = findPreference("game_overlay_cpu_temp_enable");
-        mRamSwitch          = findPreference("game_overlay_ram_enable");
+        mCaptureStartPref   = findPreference("game_bar_capture_start");
+        mCaptureStopPref    = findPreference("game_bar_capture_stop");
+        mCaptureExportPref  = findPreference("game_bar_capture_export");
 
-        mGpuUsageSwitch     = findPreference("game_overlay_gpu_usage_enable");
-        mGpuClockSwitch     = findPreference("game_overlay_gpu_clock_enable");
-        mGpuTempSwitch      = findPreference("game_overlay_gpu_temp_enable");
+        mDoubleTapCapturePref = findPreference("game_bar_doubletap_capture");
+        mSingleTapTogglePref  = findPreference("game_bar_single_tap_toggle");
+        mLongPressEnablePref  = findPreference("game_bar_longpress_enable");
+        mLongPressTimeoutPref = findPreference("game_bar_longpress_timeout");
 
-        mCaptureStartPref   = findPreference("game_overlay_capture_start");
-        mCaptureStopPref    = findPreference("game_overlay_capture_stop");
-        mCaptureExportPref  = findPreference("game_overlay_capture_export");
+        mTextSizePref       = findPreference("game_bar_text_size");
+        mBgAlphaPref        = findPreference("game_bar_background_alpha");
+        mCornerRadiusPref   = findPreference("game_bar_corner_radius");
+        mPaddingPref        = findPreference("game_bar_padding");
+        mItemSpacingPref    = findPreference("game_bar_item_spacing");
 
-        mDoubleTapCapturePref = findPreference("game_overlay_doubletap_capture");
-        mSingleTapTogglePref  = findPreference("game_overlay_single_tap_toggle");
-        mLongPressEnablePref  = findPreference("game_overlay_longpress_enable");
-        mLongPressTimeoutPref = findPreference("game_overlay_longpress_timeout");
+        mUpdateIntervalPref = findPreference("game_bar_update_interval");
+        mTextColorPref      = findPreference("game_bar_text_color");
+        mTitleColorPref     = findPreference("game_bar_title_color");
+        mValueColorPref     = findPreference("game_bar_value_color");
+        mPositionPref       = findPreference("game_bar_position");
+        mSplitModePref      = findPreference("game_bar_split_mode");
+        mOverlayFormatPref  = findPreference("game_bar_format");
 
-        mTextSizePref       = findPreference("game_overlay_text_size");
-        mBgAlphaPref        = findPreference("game_overlay_background_alpha");
-        mCornerRadiusPref   = findPreference("game_overlay_corner_radius");
-        mPaddingPref        = findPreference("game_overlay_padding");
-        mItemSpacingPref    = findPreference("game_overlay_item_spacing");
-
-        mUpdateIntervalPref = findPreference("game_overlay_update_interval");
-        mTextColorPref      = findPreference("game_overlay_text_color");
-        mTitleColorPref     = findPreference("game_overlay_title_color");
-        mValueColorPref     = findPreference("game_overlay_value_color");
-        mPositionPref       = findPreference("game_overlay_position");
-        mSplitModePref      = findPreference("game_overlay_split_mode");
-        mOverlayFormatPref  = findPreference("game_overlay_format");
+        Preference appSelectorPref = findPreference("game_bar_app_selector");
+        if (appSelectorPref != null) {
+            appSelectorPref.setOnPreferenceClickListener(pref -> {
+                Intent intent = new Intent(getContext(), GameBarAppSelectorActivity.class);
+                startActivity(intent);
+                return true;
+            });
+        }
+        Preference appRemoverPref = findPreference("game_bar_app_remover");
+        if (appRemoverPref != null) {
+            appRemoverPref.setOnPreferenceClickListener(pref -> {
+                Intent intent = new Intent(getContext(), GameBarAppRemoverActivity.class);
+                startActivity(intent);
+                return true;
+            });
+        }
 
         if (mMasterSwitch != null) {
             mMasterSwitch.setOnPreferenceChangeListener((pref, newValue) -> {
                 boolean enabled = (boolean) newValue;
                 if (enabled) {
                     if (Settings.canDrawOverlays(getContext())) {
-                        mOverlay.applyPreferences();
-                        mOverlay.show();
+                        mGameBar.applyPreferences();
+                        mGameBar.show();
+                        getContext().startService(new Intent(getContext(), GameBarMonitorService.class));
                     } else {
                         Toast.makeText(getContext(), R.string.overlay_permission_required, Toast.LENGTH_SHORT).show();
                         return false;
                     }
                 } else {
-                    mOverlay.hide();
+                    mGameBar.hide();
+                    if (mAutoEnableSwitch == null || !mAutoEnableSwitch.isChecked()) {
+                        getContext().stopService(new Intent(getContext(), GameBarMonitorService.class));
+                    }
+                }
+                return true;
+            });
+        }
+
+        if (mAutoEnableSwitch != null) {
+            mAutoEnableSwitch.setOnPreferenceChangeListener((pref, newValue) -> {
+                boolean autoEnabled = (boolean) newValue;
+                if (autoEnabled) {
+                    getContext().startService(new Intent(getContext(), GameBarMonitorService.class));
+                } else {
+                    if (mMasterSwitch == null || !mMasterSwitch.isChecked()) {
+                        getContext().stopService(new Intent(getContext(), GameBarMonitorService.class));
+                    }
                 }
                 return true;
             });
@@ -132,60 +164,58 @@ public class GameOverlayFragment extends PreferenceFragmentCompat {
 
         if (mFpsSwitch != null) {
             mFpsSwitch.setOnPreferenceChangeListener((pref, newValue) -> {
-                mOverlay.setShowFps((boolean) newValue);
+                mGameBar.setShowFps((boolean) newValue);
                 return true;
             });
         }
         if (mBatteryTempSwitch != null) {
             mBatteryTempSwitch.setOnPreferenceChangeListener((pref, newValue) -> {
-                mOverlay.setShowBatteryTemp((boolean) newValue);
+                mGameBar.setShowBatteryTemp((boolean) newValue);
                 return true;
             });
         }
         if (mCpuUsageSwitch != null) {
             mCpuUsageSwitch.setOnPreferenceChangeListener((pref, newValue) -> {
-                mOverlay.setShowCpuUsage((boolean) newValue);
+                mGameBar.setShowCpuUsage((boolean) newValue);
                 return true;
             });
         }
         if (mCpuClockSwitch != null) {
             mCpuClockSwitch.setOnPreferenceChangeListener((pref, newValue) -> {
-                mOverlay.setShowCpuClock((boolean) newValue);
+                mGameBar.setShowCpuClock((boolean) newValue);
                 return true;
             });
         }
         if (mCpuTempSwitch != null) {
             mCpuTempSwitch.setOnPreferenceChangeListener((pref, newValue) -> {
-                mOverlay.setShowCpuTemp((boolean) newValue);
+                mGameBar.setShowCpuTemp((boolean) newValue);
                 return true;
             });
         }
         if (mRamSwitch != null) {
             mRamSwitch.setOnPreferenceChangeListener((pref, newValue) -> {
-                mOverlay.setShowRam((boolean) newValue);
+                mGameBar.setShowRam((boolean) newValue);
                 return true;
             });
         }
-
         if (mGpuUsageSwitch != null) {
             mGpuUsageSwitch.setOnPreferenceChangeListener((pref, newValue) -> {
-                mOverlay.setShowGpuUsage((boolean) newValue);
+                mGameBar.setShowGpuUsage((boolean) newValue);
                 return true;
             });
         }
         if (mGpuClockSwitch != null) {
             mGpuClockSwitch.setOnPreferenceChangeListener((pref, newValue) -> {
-                mOverlay.setShowGpuClock((boolean) newValue);
+                mGameBar.setShowGpuClock((boolean) newValue);
                 return true;
             });
         }
         if (mGpuTempSwitch != null) {
             mGpuTempSwitch.setOnPreferenceChangeListener((pref, newValue) -> {
-                mOverlay.setShowGpuTemp((boolean) newValue);
+                mGameBar.setShowGpuTemp((boolean) newValue);
                 return true;
             });
         }
-
         if (mCaptureStartPref != null) {
             mCaptureStartPref.setOnPreferenceClickListener(pref -> {
                 GameDataExport.getInstance().startCapture();
@@ -207,22 +237,21 @@ public class GameOverlayFragment extends PreferenceFragmentCompat {
                 return true;
             });
         }
-
         if (mDoubleTapCapturePref != null) {
             mDoubleTapCapturePref.setOnPreferenceChangeListener((pref, newValue) -> {
-                mOverlay.setDoubleTapCaptureEnabled((boolean) newValue);
+                mGameBar.setDoubleTapCaptureEnabled((boolean) newValue);
                 return true;
             });
         }
         if (mSingleTapTogglePref != null) {
             mSingleTapTogglePref.setOnPreferenceChangeListener((pref, newValue) -> {
-                mOverlay.setSingleTapToggleEnabled((boolean) newValue);
+                mGameBar.setSingleTapToggleEnabled((boolean) newValue);
                 return true;
             });
         }
         if (mLongPressEnablePref != null) {
             mLongPressEnablePref.setOnPreferenceChangeListener((pref, newValue) -> {
-                mOverlay.setLongPressEnabled((boolean) newValue);
+                mGameBar.setLongPressEnabled((boolean) newValue);
                 return true;
             });
         }
@@ -230,16 +259,15 @@ public class GameOverlayFragment extends PreferenceFragmentCompat {
             mLongPressTimeoutPref.setOnPreferenceChangeListener((pref, newValue) -> {
                 if (newValue instanceof String) {
                     long ms = Long.parseLong((String) newValue);
-                    mOverlay.setLongPressThresholdMs(ms);
+                    mGameBar.setLongPressThresholdMs(ms);
                 }
                 return true;
             });
         }
-
         if (mTextSizePref != null) {
             mTextSizePref.setOnPreferenceChangeListener((pref, newValue) -> {
                 if (newValue instanceof Integer) {
-                    mOverlay.updateTextSize((Integer) newValue);
+                    mGameBar.updateTextSize((Integer) newValue);
                 }
                 return true;
             });
@@ -247,7 +275,7 @@ public class GameOverlayFragment extends PreferenceFragmentCompat {
         if (mBgAlphaPref != null) {
             mBgAlphaPref.setOnPreferenceChangeListener((pref, newValue) -> {
                 if (newValue instanceof Integer) {
-                    mOverlay.updateBackgroundAlpha((Integer) newValue);
+                    mGameBar.updateBackgroundAlpha((Integer) newValue);
                 }
                 return true;
             });
@@ -255,7 +283,7 @@ public class GameOverlayFragment extends PreferenceFragmentCompat {
         if (mCornerRadiusPref != null) {
             mCornerRadiusPref.setOnPreferenceChangeListener((pref, newValue) -> {
                 if (newValue instanceof Integer) {
-                    mOverlay.updateCornerRadius((Integer) newValue);
+                    mGameBar.updateCornerRadius((Integer) newValue);
                 }
                 return true;
             });
@@ -263,25 +291,23 @@ public class GameOverlayFragment extends PreferenceFragmentCompat {
         if (mPaddingPref != null) {
             mPaddingPref.setOnPreferenceChangeListener((pref, newValue) -> {
                 if (newValue instanceof Integer) {
-                    mOverlay.updatePadding((Integer) newValue);
+                    mGameBar.updatePadding((Integer) newValue);
                 }
                 return true;
             });
         }
-
         if (mItemSpacingPref != null) {
             mItemSpacingPref.setOnPreferenceChangeListener((pref, newValue) -> {
                 if (newValue instanceof Integer) {
-                    mOverlay.updateItemSpacing((Integer) newValue);
+                    mGameBar.updateItemSpacing((Integer) newValue);
                 }
                 return true;
             });
         }
-
         if (mUpdateIntervalPref != null) {
             mUpdateIntervalPref.setOnPreferenceChangeListener((pref, newValue) -> {
                 if (newValue instanceof String) {
-                    mOverlay.updateUpdateInterval((String) newValue);
+                    mGameBar.updateUpdateInterval((String) newValue);
                 }
                 return true;
             });
@@ -292,7 +318,7 @@ public class GameOverlayFragment extends PreferenceFragmentCompat {
         if (mTitleColorPref != null) {
             mTitleColorPref.setOnPreferenceChangeListener((pref, newValue) -> {
                 if (newValue instanceof String) {
-                    mOverlay.updateTitleColor((String) newValue);
+                    mGameBar.updateTitleColor((String) newValue);
                 }
                 return true;
             });
@@ -300,7 +326,7 @@ public class GameOverlayFragment extends PreferenceFragmentCompat {
         if (mValueColorPref != null) {
             mValueColorPref.setOnPreferenceChangeListener((pref, newValue) -> {
                 if (newValue instanceof String) {
-                    mOverlay.updateValueColor((String) newValue);
+                    mGameBar.updateValueColor((String) newValue);
                 }
                 return true;
             });
@@ -308,7 +334,7 @@ public class GameOverlayFragment extends PreferenceFragmentCompat {
         if (mPositionPref != null) {
             mPositionPref.setOnPreferenceChangeListener((pref, newValue) -> {
                 if (newValue instanceof String) {
-                    mOverlay.updatePosition((String) newValue);
+                    mGameBar.updatePosition((String) newValue);
                 }
                 return true;
             });
@@ -316,7 +342,7 @@ public class GameOverlayFragment extends PreferenceFragmentCompat {
         if (mSplitModePref != null) {
             mSplitModePref.setOnPreferenceChangeListener((pref, newValue) -> {
                 if (newValue instanceof String) {
-                    mOverlay.updateSplitMode((String) newValue);
+                    mGameBar.updateSplitMode((String) newValue);
                 }
                 return true;
             });
@@ -324,7 +350,7 @@ public class GameOverlayFragment extends PreferenceFragmentCompat {
         if (mOverlayFormatPref != null) {
             mOverlayFormatPref.setOnPreferenceChangeListener((pref, newValue) -> {
                 if (newValue instanceof String) {
-                    mOverlay.updateOverlayFormat((String) newValue);
+                    mGameBar.updateOverlayFormat((String) newValue);
                 }
                 return true;
             });
@@ -336,6 +362,15 @@ public class GameOverlayFragment extends PreferenceFragmentCompat {
         super.onResume();
         if (!hasUsageStatsPermission(requireContext())) {
             requestUsageStatsPermission();
+        }
+        Context context = getContext();
+        if (context != null) {
+            if ((mMasterSwitch != null && mMasterSwitch.isChecked()) ||
+                (mAutoEnableSwitch != null && mAutoEnableSwitch.isChecked())) {
+                context.startService(new Intent(context, GameBarMonitorService.class));
+            } else {
+                context.stopService(new Intent(context, GameBarMonitorService.class));
+            }
         }
     }
 
@@ -356,3 +391,4 @@ public class GameOverlayFragment extends PreferenceFragmentCompat {
         startActivity(intent);
     }
 }
+

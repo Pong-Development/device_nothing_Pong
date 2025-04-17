@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.lineageos.settings.gameoverlay;
+package org.lineageos.settings.gamebar;
 
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
@@ -49,21 +49,21 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class GameOverlay {
+public class GameBar {
 
-    private static GameOverlay sInstance;
-    public static synchronized GameOverlay getInstance(Context context) {
+    private static GameBar sInstance;
+    public static synchronized GameBar getInstance(Context context) {
         if (sInstance == null) {
-            sInstance = new GameOverlay(context.getApplicationContext());
+            sInstance = new GameBar(context.getApplicationContext());
         }
         return sInstance;
     }
 
-    private static final String FPS_PATH         = "/sys/class/drm/sde-crtc-0/measured_fps";
-    private static final String BATTERY_TEMP_PATH= "/sys/class/power_supply/battery/temp";
+    private static final String FPS_PATH          = "/sys/class/drm/card0/sde-crtc-0/measured_fps";
+    private static final String BATTERY_TEMP_PATH = "/sys/class/power_supply/battery/temp";
 
-    private static final String PREF_KEY_X = "game_overlay_x";
-    private static final String PREF_KEY_Y = "game_overlay_y";
+    private static final String PREF_KEY_X = "game_bar_x";
+    private static final String PREF_KEY_Y = "game_bar_y";
 
     private final Context mContext;
     private final WindowManager mWindowManager;
@@ -80,26 +80,26 @@ public class GameOverlay {
     private int mPaddingDp        = 12;
     private String mTitleColorHex = "#FFFFFF";
     private String mValueColorHex = "#FFFFFF";
+    private String mOverlayFormat = "full";
     private String mPosition      = "top_left";
     private String mSplitMode     = "stacked";
-    private String mOverlayFormat = "full";
     private int mUpdateIntervalMs = 1000;
     private boolean mDraggable    = false;
 
-    private boolean mShowBatteryTemp= false;
-    private boolean mShowCpuUsage   = false;
-    private boolean mShowCpuClock   = false;
-    private boolean mShowCpuTemp    = false;
-    private boolean mShowRam        = false;
-    private boolean mShowFps        = false;
+    private boolean mShowBatteryTemp = false;
+    private boolean mShowCpuUsage    = false;
+    private boolean mShowCpuClock    = false;
+    private boolean mShowCpuTemp     = false;
+    private boolean mShowRam         = false;
+    private boolean mShowFps         = false;
 
-    private boolean mShowGpuUsage   = false;
-    private boolean mShowGpuClock   = false;
-    private boolean mShowGpuTemp    = false;
+    private boolean mShowGpuUsage    = false;
+    private boolean mShowGpuClock    = false;
+    private boolean mShowGpuTemp     = false;
 
-    private boolean mLongPressEnabled  = false;
+    private boolean mLongPressEnabled      = false;
     private long mLongPressThresholdMs = 1000;
-    private boolean mPressActive       = false;
+    private boolean mPressActive           = false;
     private float mDownX, mDownY;
     private static final float TOUCH_SLOP = 20f;
 
@@ -130,48 +130,80 @@ public class GameOverlay {
         }
     };
 
-    private GameOverlay(Context context) {
+    private GameBar(Context context) {
         mContext = context;
         mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         mHandler = new Handler(Looper.getMainLooper());
 
         mBgDrawable = new GradientDrawable();
         applyBackgroundStyle();
+
+        mGestureDetector = new GestureDetector(mContext, new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onDoubleTap(MotionEvent e) {
+                if (mDoubleTapCaptureEnabled) {
+                    if (GameDataExport.getInstance().isCapturing()) {
+                        GameDataExport.getInstance().stopCapture();
+                        Toast.makeText(mContext, "Capture Stopped", Toast.LENGTH_SHORT).show();
+                    } else {
+                        GameDataExport.getInstance().startCapture();
+                        Toast.makeText(mContext, "Capture Started", Toast.LENGTH_SHORT).show();
+                    }
+                    return true;
+                }
+                return super.onDoubleTap(e);
+            }
+
+            @Override
+            public boolean onSingleTapConfirmed(MotionEvent e) {
+                if (mSingleTapToggleEnabled) {
+                    mOverlayFormat = "full".equals(mOverlayFormat) ? "minimal" : "full";
+                    PreferenceManager.getDefaultSharedPreferences(mContext)
+                        .edit()
+                        .putString("game_bar_format", mOverlayFormat)
+                        .apply();
+                    Toast.makeText(mContext, "Overlay Format: " + mOverlayFormat, Toast.LENGTH_SHORT).show();
+                    updateStats();
+                    return true;
+                }
+                return super.onSingleTapConfirmed(e);
+            }
+        });
     }
 
     public void applyPreferences() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 
-        mShowFps         = prefs.getBoolean("game_overlay_fps_enable", false);
-        mShowBatteryTemp = prefs.getBoolean("game_overlay_temp_enable", false);
-        mShowCpuUsage    = prefs.getBoolean("game_overlay_cpu_usage_enable", false);
-        mShowCpuClock    = prefs.getBoolean("game_overlay_cpu_clock_enable", false);
-        mShowCpuTemp     = prefs.getBoolean("game_overlay_cpu_temp_enable", false);
-        mShowRam         = prefs.getBoolean("game_overlay_ram_enable", false);
+        mShowFps         = prefs.getBoolean("game_bar_fps_enable", false);
+        mShowBatteryTemp = prefs.getBoolean("game_bar_temp_enable", false);
+        mShowCpuUsage    = prefs.getBoolean("game_bar_cpu_usage_enable", false);
+        mShowCpuClock    = prefs.getBoolean("game_bar_cpu_clock_enable", false);
+        mShowCpuTemp     = prefs.getBoolean("game_bar_cpu_temp_enable", false);
+        mShowRam         = prefs.getBoolean("game_bar_ram_enable", false);
 
-        mShowGpuUsage    = prefs.getBoolean("game_overlay_gpu_usage_enable", false);
-        mShowGpuClock    = prefs.getBoolean("game_overlay_gpu_clock_enable", false);
-        mShowGpuTemp     = prefs.getBoolean("game_overlay_gpu_temp_enable", false);
+        mShowGpuUsage    = prefs.getBoolean("game_bar_gpu_usage_enable", false);
+        mShowGpuClock    = prefs.getBoolean("game_bar_gpu_clock_enable", false);
+        mShowGpuTemp     = prefs.getBoolean("game_bar_gpu_temp_enable", false);
 
-        mDoubleTapCaptureEnabled = prefs.getBoolean("game_overlay_doubletap_capture", false);
-        mSingleTapToggleEnabled  = prefs.getBoolean("game_overlay_single_tap_toggle", false);
+        mDoubleTapCaptureEnabled = prefs.getBoolean("game_bar_doubletap_capture", false);
+        mSingleTapToggleEnabled  = prefs.getBoolean("game_bar_single_tap_toggle", false);
 
-        updateSplitMode(prefs.getString("game_overlay_split_mode", "stacked"));
-        updateTextSize(prefs.getInt("game_overlay_text_size", 16));
-        updateBackgroundAlpha(prefs.getInt("game_overlay_background_alpha", 128));
-        updateCornerRadius(prefs.getInt("game_overlay_corner_radius", 16));
-        updatePadding(prefs.getInt("game_overlay_padding", 12));
-        updateTitleColor(prefs.getString("game_overlay_title_color", "#FFFFFF"));
-        updateValueColor(prefs.getString("game_overlay_value_color", "#4CAF50"));
-        updateOverlayFormat(prefs.getString("game_overlay_format", "full"));
-        updateUpdateInterval(prefs.getString("game_overlay_update_interval", "1000"));
-        updatePosition(prefs.getString("game_overlay_position", "top_left"));
+        updateSplitMode(prefs.getString("game_bar_split_mode", "stacked"));
+        updateTextSize(prefs.getInt("game_bar_text_size", 16));
+        updateBackgroundAlpha(prefs.getInt("game_bar_background_alpha", 128));
+        updateCornerRadius(prefs.getInt("game_bar_corner_radius", 16));
+        updatePadding(prefs.getInt("game_bar_padding", 12));
+        updateTitleColor(prefs.getString("game_bar_title_color", "#FFFFFF"));
+        updateValueColor(prefs.getString("game_bar_value_color", "#4CAF50"));
+        updateOverlayFormat(prefs.getString("game_bar_format", "full"));
+        updateUpdateInterval(prefs.getString("game_bar_update_interval", "1000"));
+        updatePosition(prefs.getString("game_bar_position", "top_left"));
 
-        int spacing = prefs.getInt("game_overlay_item_spacing", 8);
+        int spacing = prefs.getInt("game_bar_item_spacing", 8);
         updateItemSpacing(spacing);
 
-        mLongPressEnabled = prefs.getBoolean("game_overlay_longpress_enable", false);
-        String lpTimeoutStr = prefs.getString("game_overlay_longpress_timeout", "1000");
+        mLongPressEnabled = prefs.getBoolean("game_bar_longpress_enable", false);
+        String lpTimeoutStr = prefs.getString("game_bar_longpress_timeout", "1000");
         try {
             long lpt = Long.parseLong(lpTimeoutStr);
             setLongPressThresholdMs(lpt);
@@ -214,34 +246,6 @@ public class GameOverlay {
         applyBackgroundStyle();
         applyPadding();
 
-        mGestureDetector = new GestureDetector(mContext, new GestureDetector.SimpleOnGestureListener() {
-            @Override
-            public boolean onDoubleTap(MotionEvent e) {
-                if (mDoubleTapCaptureEnabled) {
-                    if (GameDataExport.getInstance().isCapturing()) {
-                        GameDataExport.getInstance().stopCapture();
-                        Toast.makeText(mContext, "Capture Stopped", Toast.LENGTH_SHORT).show();
-                    } else {
-                        GameDataExport.getInstance().startCapture();
-                        Toast.makeText(mContext, "Capture Started", Toast.LENGTH_SHORT).show();
-                    }
-                    return true;
-                }
-                return super.onDoubleTap(e);
-            }
-
-            @Override
-            public boolean onSingleTapConfirmed(MotionEvent e) {
-                if (mSingleTapToggleEnabled) {
-                    mOverlayFormat = "full".equals(mOverlayFormat) ? "minimal" : "full";
-                    Toast.makeText(mContext, "Overlay Format: " + mOverlayFormat, Toast.LENGTH_SHORT).show();
-                    updateStats();
-                    return true;
-                }
-                return super.onSingleTapConfirmed(e);
-            }
-        });
-
         mOverlayView.setOnTouchListener((v, event) -> {
             if (mGestureDetector != null && mGestureDetector.onTouchEvent(event)) {
                 return true;
@@ -261,7 +265,6 @@ public class GameOverlay {
                         mHandler.postDelayed(mLongPressRunnable, mLongPressThresholdMs);
                     }
                     return true;
-
                 case MotionEvent.ACTION_MOVE:
                     if (mLongPressEnabled && mPressActive) {
                         float dx = Math.abs(event.getRawX() - mDownX);
@@ -279,7 +282,6 @@ public class GameOverlay {
                         mWindowManager.updateViewLayout(mOverlayView, mLayoutParams);
                     }
                     return true;
-
                 case MotionEvent.ACTION_UP:
                 case MotionEvent.ACTION_CANCEL:
                     if (mLongPressEnabled && mPressActive) {
@@ -301,6 +303,11 @@ public class GameOverlay {
         mWindowManager.addView(mOverlayView, mLayoutParams);
         mIsShowing = true;
         startUpdates();
+
+        // Start the FPS meter if using the new API method.
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            GameBarFpsMeter.getInstance(mContext).start();
+        }
     }
 
     private int initialX, initialY;
@@ -314,6 +321,9 @@ public class GameOverlay {
             mOverlayView = null;
         }
         mIsShowing = false;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            GameBarFpsMeter.getInstance(mContext).stop();
+        }
     }
 
     private void updateStats() {
@@ -324,8 +334,8 @@ public class GameOverlay {
         List<View> statViews = new ArrayList<>();
 
         // 1) FPS
-        float fpsVal = parseFps();
-        String fpsStr = fpsVal >= 0 ? String.format(Locale.getDefault(), "%.1f", fpsVal) : "N/A";
+        float fpsVal = GameBarFpsMeter.getInstance(mContext).getFps();
+        String fpsStr = fpsVal >= 0 ? String.format(Locale.getDefault(), "%.0f", fpsVal) : "N/A";
         if (mShowFps) {
             statViews.add(createStatLine("FPS", fpsStr));
         }
@@ -347,14 +357,14 @@ public class GameOverlay {
         // 3) CPU usage
         String cpuUsageStr = "N/A";
         if (mShowCpuUsage) {
-            cpuUsageStr = GameOverlayCpuInfo.getCpuUsage();
+            cpuUsageStr = GameBarCpuInfo.getCpuUsage();
             String display = "N/A".equals(cpuUsageStr) ? "N/A" : cpuUsageStr + "%";
             statViews.add(createStatLine("CPU", display));
         }
 
         // 4) CPU freq
         if (mShowCpuClock) {
-            List<String> freqs = GameOverlayCpuInfo.getCpuFrequencies();
+            List<String> freqs = GameBarCpuInfo.getCpuFrequencies();
             if (!freqs.isEmpty()) {
                 statViews.add(buildCpuFreqView(freqs));
             }
@@ -363,35 +373,35 @@ public class GameOverlay {
         // 5) CPU temp
         String cpuTempStr = "N/A";
         if (mShowCpuTemp) {
-            cpuTempStr = GameOverlayCpuInfo.getCpuTemp();
+            cpuTempStr = GameBarCpuInfo.getCpuTemp();
             statViews.add(createStatLine("CPU Temp", "N/A".equals(cpuTempStr) ? "N/A" : cpuTempStr + "°C"));
         }
 
         // 6) RAM usage
         String ramStr = "N/A";
         if (mShowRam) {
-            ramStr = GameOverlayMemInfo.getRamUsage();
+            ramStr = GameBarMemInfo.getRamUsage();
             statViews.add(createStatLine("RAM", "N/A".equals(ramStr) ? "N/A" : ramStr + " MB"));
         }
 
         // 7) GPU usage
         String gpuUsageStr = "N/A";
         if (mShowGpuUsage) {
-            gpuUsageStr = GameOverlayGpuInfo.getGpuUsage();
+            gpuUsageStr = GameBarGpuInfo.getGpuUsage();
             statViews.add(createStatLine("GPU", "N/A".equals(gpuUsageStr) ? "N/A" : gpuUsageStr + "%"));
         }
 
         // 8) GPU clock
         String gpuClockStr = "N/A";
         if (mShowGpuClock) {
-            gpuClockStr = GameOverlayGpuInfo.getGpuClock();
+            gpuClockStr = GameBarGpuInfo.getGpuClock();
             statViews.add(createStatLine("GPU Freq", "N/A".equals(gpuClockStr) ? "N/A" : gpuClockStr + "MHz"));
         }
 
         // 9) GPU temp
         String gpuTempStr = "N/A";
         if (mShowGpuTemp) {
-            gpuTempStr = GameOverlayGpuInfo.getGpuTemp();
+            gpuTempStr = GameBarGpuInfo.getGpuTemp();
             statViews.add(createStatLine("GPU Temp", "N/A".equals(gpuTempStr) ? "N/A" : gpuTempStr + "°C"));
         }
 
@@ -422,14 +432,14 @@ public class GameOverlay {
 
             GameDataExport.getInstance().addOverlayData(
                     dateTime,
-                    pkgName,        // PackageName
-                    fpsStr,         // FPS
-                    batteryTempStr, // Battery_Temp
-                    cpuUsageStr,    // CPU_Usage
-                    cpuTempStr,     // CPU_Temp
-                    gpuUsageStr,    // GPU_Usage
-                    gpuClockStr,    // GPU_Clock
-                    gpuTempStr      // GPU_Temp
+                    pkgName,
+                    fpsStr,
+                    batteryTempStr,
+                    cpuUsageStr,
+                    cpuTempStr,
+                    gpuUsageStr,
+                    gpuClockStr,
+                    gpuTempStr
             );
         }
 
@@ -447,7 +457,7 @@ public class GameOverlay {
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
         );
-        outerLp.setMargins(spacingPx, spacingPx/2, spacingPx, spacingPx/2);
+        outerLp.setMargins(spacingPx, spacingPx / 2, spacingPx, spacingPx / 2);
         freqContainer.setLayoutParams(outerLp);
 
         if ("full".equals(mOverlayFormat)) {
@@ -484,7 +494,7 @@ public class GameOverlay {
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
             );
-            lineLp.setMargins(spacingPx, spacingPx/4, spacingPx, spacingPx/4);
+            lineLp.setMargins(spacingPx, spacingPx / 4, spacingPx, spacingPx / 4);
             lineLayout.setLayoutParams(lineLp);
 
             verticalFreqs.addView(lineLayout);
@@ -536,7 +546,7 @@ public class GameOverlay {
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
         );
-        lp.setMargins(spacingPx, spacingPx/2, spacingPx, spacingPx/2);
+        lp.setMargins(spacingPx, spacingPx / 2, spacingPx, spacingPx / 2);
         lineLayout.setLayoutParams(lp);
 
         return lineLayout;
@@ -552,19 +562,6 @@ public class GameOverlay {
         }
         dotView.setText(" . ");
         return dotView;
-    }
-
-    private float parseFps() {
-        String line = readLine(FPS_PATH);
-        if (line != null && line.startsWith("fps:")) {
-            String[] parts = line.split("\\s+");
-            if (parts.length >= 2) {
-                try {
-                    return Float.parseFloat(parts[1].trim());
-                } catch (NumberFormatException ignored) {}
-            }
-        }
-        return -1f;
     }
 
     public void setShowBatteryTemp(boolean show) { mShowBatteryTemp = show; }
@@ -762,10 +759,11 @@ public class GameOverlay {
 
     private void openOverlaySettings() {
         try {
-            Intent intent = new Intent(mContext, GameOverlaySettingsActivity.class);
+            Intent intent = new Intent(mContext, GameBarSettingsActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             mContext.startActivity(intent);
         } catch (Exception e) {
+            // Exception ignored
         }
     }
 

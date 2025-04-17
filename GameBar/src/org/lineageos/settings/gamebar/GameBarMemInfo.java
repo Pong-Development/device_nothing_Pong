@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package org.lineageos.settings.gameoverlay;
+package org.lineageos.settings.gamebar;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class GameOverlayMemInfo {
+public class GameBarMemInfo {
 
     public static String getRamUsage() {
         long memTotal = 0;
