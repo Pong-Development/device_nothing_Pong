@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package org.lineageos.settings.gameoverlay;
+package org.lineageos.settings.gamebar;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import androidx.preference.PreferenceManager;
 
-public class GameOverlayBootReceiver extends BroadcastReceiver {
+public class GameBarBootReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
@@ -33,14 +33,15 @@ public class GameOverlayBootReceiver extends BroadcastReceiver {
 
     private void restoreOverlayState(Context context) {
         var prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean enabled = prefs.getBoolean("game_overlay_enable", false);
-        GameOverlay overlay = GameOverlay.getInstance(context);
-        if (!enabled) {
-            overlay.hide();
-            return;
+        boolean mainEnabled = prefs.getBoolean("game_bar_enable", false);
+        boolean autoEnabled = prefs.getBoolean("game_bar_auto_enable", false);
+        if (mainEnabled) {
+            GameBar.getInstance(context).applyPreferences();
+            GameBar.getInstance(context).show();
         }
-        
-        overlay.applyPreferences();
-        overlay.show();
+        if (autoEnabled) {
+            Intent monitorIntent = new Intent(context, GameBarMonitorService.class);
+            context.startService(monitorIntent);
+        }
     }
 }

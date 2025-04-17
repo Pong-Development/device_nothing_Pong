@@ -16,7 +16,7 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-     <string name="app_title">Xtras</string>
+     <string name="app_title">GameBar</string>
      <string name="tile_add">Add tile</string>
      <string name="tile_added">Tile added</string>
      <string name="tile_not_added">Tile not added</string>
@@ -29,97 +29,87 @@
      <string name="custom_seekbar_default_value_is_set">Default value is set</string>
 
      <!-- GameBar Overlay -->
-     <string name="game_overlay_title">GameBar</string>
-     <string name="game_overlay_summary">Enable the system overlay</string>
+     <string name="game_bar_title">GameBar</string>
+     <string name="game_bar_summary">Enable the system overlay</string>
      <string name="overlay_permission_required">Overlay permission is required</string>
      <string name="overlay_permission_granted">Overlay permission granted</string>
      <string name="overlay_permission_denied">Overlay permission denied</string>
-     <string name="game_overlay_tile_label">GameBar</string>
-     <string name="game_overlay_tile_description">Toggle the game overlay</string>
-
-     <!-- Gamebar Enable -->
-     <string name="game_overlay_enable_title">Enable GameBar Overlay</string>
+     <string name="game_bar_tile_label">GameBar</string>
+     <string name="game_bar_tile_description">Toggle the game overlay</string>
 
      <!-- Overlay Features -->
-     <string name="game_overlay_fps_enable_title">FPS Overlay</string>
-     <string name="game_overlay_fps_enable_summary">Show current FPS on screen</string>
-
-     <string name="game_overlay_temp_enable_title">Device Temperature</string>
-     <string name="game_overlay_temp_enable_summary">Show device (battery) temperature</string>
-
-     <string name="game_overlay_cpu_usage_enable_title">CPU Usage</string>
-     <string name="game_overlay_cpu_usage_enable_summary">Show current CPU usage percentage</string>
-
-     <string name="game_overlay_cpu_clock_enable_title">CPU Clock Speeds</string>
-     <string name="game_overlay_cpu_clock_enable_summary">Show current CPU clock speeds for each core</string>
-
-     <string name="game_overlay_cpu_temp_enable_title">CPU Temperature</string>
-     <string name="game_overlay_cpu_temp_enable_summary">Show CPU temperature (thermal_zone0)</string>
-
-     <string name="game_overlay_ram_enable_title">RAM Usage</string>
-     <string name="game_overlay_ram_enable_summary">Show current RAM usage in MB</string>
-
-     <string name="game_overlay_gpu_usage_enable_title">GPU Usage</string>
-     <string name="game_overlay_gpu_usage_enable_summary">Show GPU usage percentage</string>
-
-     <string name="game_overlay_gpu_clock_enable_title">GPU Clock Speed</string>
-     <string name="game_overlay_gpu_clock_enable_summary">Show current GPU clock frequency</string>
-
-     <string name="game_overlay_gpu_temp_enable_title">GPU Temperature</string>
-     <string name="game_overlay_gpu_temp_enable_summary">Show current GPU temperature</string>
+     <string name="overlay_features">Overlay Features</string>
+     <string name="fps_overlay">FPS Overlay</string>
+     <string name="fps_overlay_summary">Show current FPS on screen</string>
+     <string name="device_temp">Device Temperature</string>
+     <string name="device_temp_summary">Show device (battery) temperature</string>
+     <string name="cpu_usage">CPU Usage</string>
+     <string name="cpu_usage_summary">Show current CPU usage percentage</string>
+     <string name="cpu_clock">CPU Clock Speeds</string>
+     <string name="cpu_clock_summary">Show current CPU clock speeds for each core</string>
+     <string name="cpu_temp">CPU Temperature</string>
+     <string name="cpu_temp_summary">Show CPU temperature (thermal_zone0)</string>
+     <string name="ram_usage">RAM Usage</string>
+     <string name="ram_usage_summary">Show current RAM usage in MB</string>
+     <string name="gpu_usage">GPU Usage</string>
+     <string name="gpu_usage_summary">Show GPU usage percentage</string>
+     <string name="gpu_clock">GPU Clock Speed</string>
+     <string name="gpu_clock_summary">Show current GPU clock frequency</string>
+     <string name="gpu_temp">GPU Temperature</string>
+     <string name="gpu_temp_summary">Show current GPU temperature</string>
 
      <!-- Customization -->
-     <string name="game_overlay_text_size_title">Text Size</string>
-     <string name="game_overlay_text_size_summary">Adjust the size of overlay text</string>
-
-     <string name="game_overlay_background_alpha_title">Background Transparency</string>
-     <string name="game_overlay_background_alpha_summary">Adjust the transparency of the background</string>
-
-     <string name="game_overlay_corner_radius_title">Overlay Corner Radius</string>
-     <string name="game_overlay_corner_radius_summary">Adjust how rounded the overlay corners should be</string>
-
-     <string name="game_overlay_padding_title">Overlay Padding</string>
-     <string name="game_overlay_padding_summary">Adjust the space around the stats</string>
-
-     <string name="game_overlay_item_spacing_title">Item Spacing</string>
-     <string name="game_overlay_item_spacing_summary">Adjust spacing between overlay lines</string>
-
-     <string name="game_overlay_update_interval_title">Update Interval</string>
-     <string name="game_overlay_update_interval_summary">Set how often the overlay values update</string>
-
-     <string name="game_overlay_title_color_title">Stat Title Color</string>
-     <string name="game_overlay_value_color_title">Stat Value Color</string>
-     
-     <string name="game_overlay_position_title">Overlay Position</string>
-     <string name="game_overlay_position_summary">Select the position of the overlay on screen</string>
-
-     <string name="game_overlay_format_title">Overlay Format</string>
-     <string name="game_overlay_format_summary">Choose between Full or Minimal display</string>
+     <string name="customization">Customization</string>
+     <string name="text_size">Text Size</string>
+     <string name="text_size_summary">Adjust the size of overlay text</string>
+     <string name="background_transparency">Background Transparency</string>
+     <string name="background_transparency_summary">Adjust the transparency of the background</string>
+     <string name="overlay_corner_radius">Overlay Corner Radius</string>
+     <string name="overlay_corner_radius_summary">Adjust how rounded the overlay corners should be</string>
+     <string name="overlay_padding">Overlay Padding</string>
+     <string name="overlay_padding_summary">Adjust the space around the stats</string>
+     <string name="item_spacing">Item Spacing</string>
+     <string name="item_spacing_summary">Adjust spacing between overlay lines</string>
+     <string name="update_interval">Update Interval</string>
+     <string name="update_interval_summary">Set how often the overlay values update</string>
+     <string name="stat_title_color">Stat Title Color</string>
+     <string name="stat_value_color">Stat Value Color</string>
+     <string name="overlay_position">Overlay Position</string>
+     <string name="overlay_position_summary">Select the position of the overlay on screen</string>
+     <string name="overlay_format">Overlay Format</string>
+     <string name="overlay_format_summary">Choose between Full or Minimal display</string>
 
      <!-- Split Config -->
-     <string name="game_overlay_split_mode_title">Split Mode</string>
-     <string name="game_overlay_split_mode_summary">Choose Side-by-Side or Stacked arrangement</string>
+     <string name="split_config">Split Config</string>
+     <string name="split_mode">Split Mode</string>
+     <string name="split_mode_summary">Choose Side-by-Side or Stacked arrangement</string>
 
-     <!-- Overlay Gesture Controls -->
-     <string name="game_overlay_single_tap_toggle_title">Enable Single Tap to Toggle</string>
-     <string name="game_overlay_single_tap_toggle_summary">Tap once to switch between full and minimal overlay formats</string>
-
-     <string name="game_overlay_doubletap_capture_title">Enable Double Tap to Capture</string>
-     <string name="game_overlay_doubletap_capture_summary">Double-tap overlay to start/stop capture logs</string>
-
-     <string name="game_overlay_longpress_enable_title">Enable Long Press</string>
-     <string name="game_overlay_longpress_enable_summary">Long-press overlay to access Gamebar settings</string>
-
-     <string name="game_overlay_longpress_timeout_title">Long Press Duration</string>
-     <string name="game_overlay_longpress_timeout_summary">Set the duration required to long-press the overlay</string>
+     <!-- Gesture Controls -->
+     <string name="overlay_gesture_controls">Overlay Gesture Controls</string>
+     <string name="single_tap_toggle">Enable Single Tap to Toggle</string>
+     <string name="single_tap_toggle_summary">Tap once to switch between full and minimal overlay formats</string>
+     <string name="double_tap_capture">Enable Double Tap to Capture</string>
+     <string name="double_tap_capture_summary">Double-tap overlay to start/stop capture logs</string>
+     <string name="long_press_enable">Enable Long Press</string>
+     <string name="long_press_enable_summary">Long-press overlay to access GameBar settings</string>
+     <string name="long_press_duration">Long Press Duration</string>
+     <string name="long_press_duration_summary">Set the duration required to long-press the overlay</string>
 
      <!-- Capture Logs -->
-     <string name="game_overlay_capture_start_title">Start Logging</string>
-     <string name="game_overlay_capture_start_summary">Begin capturing FPS and performance data in real-time</string>
+     <string name="capture_logs">Capture Logs</string>
+     <string name="start_logging">Start Logging</string>
+     <string name="start_logging_summary">Begin capturing FPS and performance data in real-time</string>
+     <string name="stop_logging">Stop Logging</string>
+     <string name="stop_logging_summary">Stop capturing FPS and performance data in real-time</string>
+     <string name="export_log_data">Export GameBar Log Data</string>
+     <string name="export_log_data_summary">Save the captured FPS and performance data as a CSV file</string>
 
-     <string name="game_overlay_capture_stop_title">Stop Logging</string>
-     <string name="game_overlay_capture_stop_summary">Stop capturing FPS and performance data in real-time</string>
-
-     <string name="game_overlay_capture_export_title">Export GameBar Log Data</string>
-     <string name="game_overlay_capture_export_summary">Save the captured FPS and performance data as a CSV file</string>
+     <!-- Auto Enable -->
+     <string name="auto_enable_game_bar">Auto Enable GameBar</string>
+     <string name="auto_enable_title">Auto-Enable GameBar for Selected Apps</string>
+     <string name="auto_enable_summary">If turned on, selected apps will auto-enable GameBar even if the main switch is off</string>
+     <string name="select_apps">Select Apps</string>
+     <string name="select_apps_summary">Add apps that should auto-enable GameBar</string>
+     <string name="remove_selected_apps">Remove Selected Apps</string>
+     <string name="remove_selected_apps_summary">Remove apps from the auto-enable list</string>
 </resources>
