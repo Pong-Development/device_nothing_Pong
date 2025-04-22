@@ -10,8 +10,7 @@
         android:defaultValue="false" />
 
     <PreferenceCategory
-        android:title="@string/overlay_features"
-        android:dependency="game_bar_enable">
+        android:title="@string/overlay_features">
 
         <SwitchPreferenceCompat
             android:key="game_bar_fps_enable"
@@ -69,8 +68,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/customization"
-        android:dependency="game_bar_enable">
+	    android:title="@string/customization">
 
         <SeekBarPreference
             android:key="game_bar_text_size"
@@ -167,8 +165,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/overlay_gesture_controls"
-        android:dependency="game_bar_enable">
+	android:title="@string/overlay_gesture_controls">
 
         <SwitchPreferenceCompat
             android:key="game_bar_single_tap_toggle"
@@ -199,8 +196,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/capture_logs"
-        android:dependency="game_bar_enable">
+        android:title="@string/capture_logs">
 
         <Preference
             android:key="game_bar_capture_start"
