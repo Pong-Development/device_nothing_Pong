@@ -170,9 +170,6 @@ ifneq ($(WITH_GMS),true)
 
 endif
 
-# PowerShare
-TARGET_POWERSHARE_PATH := /sys/class/qcom-battery/wireless_boost_en
-
 # Properties
 TARGET_ODM_PROP += $(DEVICE_PATH)/odm.prop
 TARGET_PRODUCT_PROP += $(DEVICE_PATH)/product.prop
