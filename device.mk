@@ -193,6 +193,8 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
 PRODUCT_PACKAGES += \
     GameBar
 
+$(call soong_config_set,surfaceflinger,udfps_lib,//$(LOCAL_PATH):libudfps_extension.nothing)
+
 # Health
 PRODUCT_PACKAGES += \
     android.hardware.health-service.qti \
