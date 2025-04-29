@@ -171,7 +171,10 @@ PRODUCT_PACKAGES += \
     vendor.lineage.health-service.default
 
 # Manifests
-DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE += $(DEVICE_PATH)/configs/vintf/phone2_vendor_framework_compatibility_matrix.xml
+DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE += \
+    $(DEVICE_PATH)/configs/vintf/phone2_vendor_framework_compatibility_matrix.xml \
+    $(DEVICE_PATH)/configs/vintf/dolby_framework_matrix.xml
+    
 DEVICE_MANIFEST_FILE += \
     $(DEVICE_PATH)/configs/vintf/manifest_cape.xml \
     $(DEVICE_PATH)/configs/vintf/manifest_phone2.xml
