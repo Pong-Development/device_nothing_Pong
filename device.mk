@@ -287,7 +287,8 @@ PRODUCT_PACKAGES += \
 
 # Skia
 PRODUCT_SYSTEM_PROPERTIES += \
-    debug.hwui.skia_atrace_enabled=false
+    debug.hwui.skia_atrace_enabled=false \
+    debug.hwui.skia_use_perfetto_track_events=false
 
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
