@@ -29,11 +29,6 @@ PRODUCT_PACKAGES += \
     otapreopt_script \
     update_engine_sideload
 
-# Dolby Props
-PRODUCT_VENDOR_PROPERTIES += \
-    ro.vendor.audio.dolby.surround.enable=true \
-    persist.vendor.audio.delta.refresh=true
-
 # AAPT
 PRODUCT_AAPT_CONFIG := normal
 PRODUCT_AAPT_PREF_CONFIG := xxhdpi
