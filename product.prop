@@ -1,9 +1,6 @@
 # Camera
 ro.camerax.extensions.enabled=true
 
-# Disable Skia tracing by default
-debug.hwui.skia_atrace_enabled=false
-
 # Maintainer
 ro.paranoid.maintainer=GHOST | ゴースト
 

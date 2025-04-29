@@ -285,6 +285,10 @@ PRODUCT_PACKAGES += \
     android.hardware.sensors@2.1-service.phone2-multihal \
     sensors.nothing
 
+# Skia
+PRODUCT_SYSTEM_PROPERTIES += \
+    debug.hwui.skia_atrace_enabled=false
+
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
     $(DEVICE_PATH)
