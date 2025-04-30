@@ -16,9 +16,6 @@ ro.audio.monitorRotation=true
 # Camera
 ro.camerax.extensions.enabled=true
 
-# Blur
-ro.launcher.blur.appLaunch=0
-
 # GMS
 ro.opa.eligible_device=true
 
