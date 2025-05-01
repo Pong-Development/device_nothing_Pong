@@ -117,7 +117,7 @@ public class GameBarFpsMeter {
     }
 
     private float readLegacyFps() {
-        try (BufferedReader br = new BufferedReader(new FileReader("/sys/class/drm/card0/sde-crtc-0/measured_fps"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("/sys/class/drm/sde-crtc-0/measured_fps"))) {
             String line = br.readLine();
             if (line != null && line.startsWith("fps:")) {
                 String[] parts = line.split("\\s+");
