@@ -112,4 +112,6 @@
      <string name="select_apps_summary">Add apps that should auto-enable GameBar</string>
      <string name="remove_selected_apps">Remove Selected Apps</string>
      <string name="remove_selected_apps_summary">Remove apps from the auto-enable list</string>
+     <string name="select_fps_method_title">Select FPS Method</string>
+<string name="select_fps_method_summary">Choose how FPS data should be collected or displayed</string>
 </resources>

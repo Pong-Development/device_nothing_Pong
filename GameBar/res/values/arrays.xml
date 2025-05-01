@@ -95,4 +95,15 @@
         <item>10000</item>
     </string-array>
 
+    <!-- FPS Overlay -->
+     <string-array name="game_bar_fps_method_entries">
+         <item>New API (Default)</item>
+         <item>Legacy Sysfs</item>
+     </string-array>
+     
+     <string-array name="game_bar_fps_method_values">
+         <item>new</item>
+         <item>legacy</item>
+     </string-array>
+
 </resources>

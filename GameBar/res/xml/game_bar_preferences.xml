@@ -68,6 +68,18 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:title="FPS Measurement Method" >
+
+        <ListPreference
+            android:key="game_bar_fps_method"
+            android:title="@string/select_fps_method_title"
+            android:summary="@string/select_fps_method_summary"
+            android:defaultValue="new"
+            android:entries="@array/game_bar_fps_method_entries"
+            android:entryValues="@array/game_bar_fps_method_values" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
 	    android:title="@string/customization">
 
         <SeekBarPreference
