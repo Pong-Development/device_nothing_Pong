@@ -19,9 +19,6 @@ persist.vendor.bluetooth.modem_nv_support=true
 persist.vendor.bt.a2dp_offload_cap=sbc-aptx-aptxtws-aptxhd-aac-ldac
 ro.bluetooth.leaudio_offload.supported=true
 
-# Dex2oat
-dalvik.vm.dex2oat64.enabled=true
-
 # Display
 debug.sf.enable_hwc_vds=0
 
