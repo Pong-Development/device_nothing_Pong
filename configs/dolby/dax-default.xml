@@ -309,7 +309,7 @@
         <mi-virtualizer-binaural-steering-enable value="false"/>
         <peak-value value="256"/>
         <surround-decoder-enable value="true"/>
-        <surround-boost value="48"/>
+        <surround-boost value="0"/>
         <volmax-boost value="98"/>
         <volume-leveler-enable value="true"/>
         <volume-leveler-amount value="1"/>
@@ -508,7 +508,7 @@
         <peak-value value="256"/>
         <surround-decoder-enable value="true"/>
         <surround-boost value="0"/>
-        <volmax-boost value="98"/>
+        <volmax-boost value="64"/>
         <volume-leveler-enable value="true"/>
         <volume-leveler-amount value="0"/>
         <volume-leveler-in-target value="-256"/>
