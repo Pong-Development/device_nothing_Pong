@@ -64,6 +64,11 @@ on property:vendor.post_boot.parsed=1
     write /proc/irq/243/smp_affinity_list 2
     write /proc/irq/240/smp_affinity_list 1
 
+    # Configure uclamp
+    write /dev/cpuctl/background/cpu.uclamp.max 60
+    write /dev/cpuctl/system-background/cpu.uclamp.max 70
+    write /dev/cpuctl/dex2oat/cpu.uclamp.max 60
+
     chown system graphics /sys/class/drm/card0/sde-crtc-0/measured_fps
     chmod 0660 /sys/class/drm/card0/sde-crtc-0/measured_fps
 
