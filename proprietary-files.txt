@@ -699,7 +699,6 @@ vendor/bin/ssgtzd
 vendor/etc/init/ssgtzd.rc
 
 # Data
-vendor/bin/ATFWD-daemon
 vendor/bin/adpl
 vendor/bin/netmgrd
 vendor/bin/port-bridge
@@ -713,7 +712,6 @@ vendor/etc/init/ipa_fws.rc
 vendor/etc/init/netmgrd.rc
 vendor/etc/init/port-bridge.rc
 vendor/etc/init/shsusrd.rc
-vendor/etc/seccomp_policy/atfwd@2.0.policy
 vendor/lib64/libconfigdb.so
 vendor/lib64/libdsi_netctrl.so
 vendor/lib64/libdsutils.so
@@ -1557,7 +1555,6 @@ vendor/lib64/vendor.qti.hardware.data.iwlan@1.0.so
 vendor/lib64/vendor.qti.hardware.data.iwlan@1.1.so
 vendor/lib64/vendor.qti.hardware.data.ka-V1-ndk_platform.so
 vendor/lib64/vendor.qti.hardware.radio.am@1.0.so
-vendor/lib64/vendor.qti.hardware.radio.atcmdfwd@1.0.so
 vendor/lib64/vendor.qti.hardware.radio.ims-V12-ndk_platform.so
 vendor/lib64/vendor.qti.hardware.radio.internal.deviceinfo@1.0.so
 vendor/lib64/vendor.qti.hardware.radio.lpa@1.0.so
