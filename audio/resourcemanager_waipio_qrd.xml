@@ -71,7 +71,6 @@
         <param key="lpi_logging_enable" value ="false" />
         <param key="upd_dedicated_be" value ="true" />
 	<param key="signal_handler" value ="true" />
-	<param key="record_use_ap_lvacfs" value="enable"/>
     </config_params>
     <config_volume>
         <use_volume_set_param>0</use_volume_set_param>
