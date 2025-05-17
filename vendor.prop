@@ -42,6 +42,8 @@ vendor.display.disable_noise_layer=1
 vendor.display.disable_spec_fence=1
 vendor.display.disable_system_load_check=1
 vendor.display.enable_async_powermode=0
+vendor.display.vds_allow_hwc=1
+vendor.display.use_layer_ext=1
 
 # DPM
 persist.vendor.dpm.vndr.feature=11
@@ -72,7 +74,7 @@ vendor.media.omx=0
 ro.netflix.bsp_rev=Q8450-34634-1
 
 # NTF
-ro.vendor.nothing.feature.base=0x4458438124a040126b4247b97ffL
+ro.vendor.nothing.feature.base=0x1004458438124a040126b4247b97ffL
 ro.vendor.nothing.feature.diff.device.Pong=0x8a0044a404803d1842000L
 
 # Sensors

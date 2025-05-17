@@ -8,4 +8,3 @@ persist.vendor.bluetooth.modem_nv_support=true
 
 # Display
 vendor.display.enable_rounded_corner=0
-vendor.display.vds_allow_hwc=1
