@@ -1,3 +1,4 @@
 # Camera
+log.tag.CHIUSECASE=ERROR
 vendor.camera.aux.packagelist=com.android.camera,org.lineageos.aperture,com.snapchat.android
 
