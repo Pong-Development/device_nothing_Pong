@@ -178,7 +178,9 @@ DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE += \
     
 DEVICE_MANIFEST_FILE += \
     $(DEVICE_PATH)/configs/vintf/manifest_cape.xml \
-    $(DEVICE_PATH)/configs/vintf/manifest_phone2.xml
+    $(DEVICE_PATH)/configs/vintf/manifest_phone2.xml \
+    $(DEVICE_PATH)/configs/vintf/vendor.dolby.media.c2@1.0-service.xml \
+    $(DEVICE_PATH)/configs/vintf/vendor.dolby.hardware.dms@2.0-service.xml
 
 # Media
 PRODUCT_PACKAGES += \

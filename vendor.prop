@@ -69,6 +69,7 @@ ro.hardware.keystore_desede=true
 # Media
 debug.stagefright.c2inputsurface=-1
 vendor.media.omx=0
+vendor.mm.enable.qcom_parser=958543
 
 # Netflix
 ro.netflix.bsp_rev=Q8450-34634-1
