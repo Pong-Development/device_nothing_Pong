@@ -31,7 +31,7 @@ function vendor_imports() {
         "hardware/qcom/display/libdebug",
         "vendor/qcom/common/vendor/adreno-s",
         "vendor/qcom/common/vendor/display/5.10",
-        "vendor/qcom/common/vendor/media",
+        "vendor/qcom/common/vendor/media/5.10",
         "vendor/qcom/common/vendor/perf",
         "vendor/qcom/common/vendor/wlan",
 EOF
