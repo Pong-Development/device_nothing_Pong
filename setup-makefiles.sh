@@ -56,7 +56,6 @@ function lib_to_package_fixup_vendor_variants() {
             vendor.qti.hardware.mwqemadapter@1.0 | \
             vendor.qti.hardware.qccsyshal* | \
             vendor.qti.hardware.qccvndhal@1.0 | \
-            vendor.qti.hardware.qxr-V1-ndk_platform | \
             vendor.qti.hardware.radio.* | \
             vendor.qti.hardware.slmadapter@1.0 | \
             vendor.qti.hardware.wifidisplaysession@1.0 | \
