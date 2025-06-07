@@ -83,8 +83,6 @@ blob_fixups: blob_fixups_user_type = {
         .add_needed('libutils.so'),
     'vendor/lib64/libqcodec2_core.so': blob_fixup()
         .add_needed('libcodec2_shim.so'),
-    'vendor/lib64/vendor.qti.hardware.qxr-V1-ndk_platform.so': blob_fixup()
-        .replace_needed('android.hardware.common-V2-ndk_platform.so', 'android.hardware.common-V2-ndk.so'),
     ('vendor/lib64/libqcrilNr.so', 'vendor/lib64/libril-db.so'): blob_fixup()
         .binary_regex_replace(rb'persist\.vendor\.radio\.poweron_opt', b'persist.vendor.radio.poweron_ign'),
 }  # fmt: skip
