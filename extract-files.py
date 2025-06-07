@@ -73,7 +73,7 @@ blob_fixups: blob_fixups_user_type = {
         .replace_needed('android.hardware.security.secureclock-V1-ndk_platform.so', 'android.hardware.security.secureclock-V1-ndk.so')
         .replace_needed('android.hardware.security.sharedsecret-V1-ndk_platform.so', 'android.hardware.security.sharedsecret-V1-ndk.so')
         .add_needed('android.hardware.security.rkp-V1-ndk.so'),
-    ('vendor/etc/media_codecs_cape.xml', 'vendor/etc/media_codecs_cape_vendor.xml'): blob_fixup()
+    'vendor/etc/media_codecs_cape.xml': blob_fixup()
         .regex_replace('.*media_codecs_(google_audio|google_c2|google_telephony|google_video|vendor_audio).*\n', ''),
     ('vendor/lib64/libarcsoft_dark_vision_raw.so', 'vendor/lib64/libarcsoft_high_dynamic_range_v5.so'): blob_fixup()
         .clear_symbol_version('remote_handle_close')
