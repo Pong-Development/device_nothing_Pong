@@ -8,12 +8,16 @@ import java.util.BitSet;
 
 public class NtFeaturesUtils {
 
-    private static final BitSet sFeatures = new BitSet(79);
+    private static final BitSet sFeatures;
 
     static {
         final String fullProp = SystemProperties.get("ro.build.nothing.feature.base", "0");
         final String productDiffProp = SystemProperties.get("ro.build.nothing.feature.diff.product." + Build.PRODUCT, "0");
         final String deviceDiffProp = SystemProperties.get("ro.build.nothing.feature.diff.device." + Build.DEVICE, "0");
+
+        int bitsetSize = maxLength(replace(fullProp),replace(productDiffProp),replace(deviceDiffProp)) * 4;
+
+        sFeatures = new BitSet(bitsetSize);
 
         base(new BigInteger(replace(fullProp), 16));
         change(new BigInteger(replace(productDiffProp), 16));
@@ -22,7 +26,7 @@ public class NtFeaturesUtils {
 
     public static boolean isSupport(int... features) {
         for (int feature : features) {
-            if (feature < 0 || feature > 78) {
+            if (feature < 0 || feature >= sFeatures.length()) {
                 return false;
             }
             if (!sFeatures.get(feature)) {
@@ -59,5 +63,15 @@ public class NtFeaturesUtils {
             return "";
         }
         return str.replace("0x", "").replace("L", "");
+    }
+
+    private static int maxLength(String... strs) {
+        int max = 0;
+        for (String s : strs) {
+            if (s.length() > max) {
+                max = s.length();
+            }
+        }
+        return max;
     }
 }
