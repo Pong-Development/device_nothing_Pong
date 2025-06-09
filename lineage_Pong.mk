@@ -16,7 +16,7 @@ $(call inherit-product, vendor/lineage/config/common_full_phone.mk)
 
 PRODUCT_NAME := lineage_Pong
 PRODUCT_DEVICE := Pong
-PRODUCT_MANUFACTURER := nothing
+PRODUCT_MANUFACTURER := Nothing
 PRODUCT_BRAND := Nothing
 PRODUCT_MODEL := A065
 
@@ -27,6 +27,6 @@ PRODUCT_GMS_CLIENTID_BASE := android-nothing
 PRODUCT_BUILD_PROP_OVERRIDES += \
     BuildFingerprint=Nothing/Pong/Pong:12/SKQ1.240903.001/2501131723:user/release-keys \
     DeviceName=Pong \
-    DeviceProduct=A065 \
+    DeviceProduct=Pong \
     SystemDevice=Pong \
     SystemName=Pong
