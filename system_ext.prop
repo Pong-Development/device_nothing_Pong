@@ -66,8 +66,8 @@ persist.vendor.data.mode=concurrent
 ro.vendor.use_data_netmgrd=true
 
 # Nothing feature
-ro.build.nothing.feature.base=0x4458438124a040126b4247b97ffL
-ro.build.nothing.feature.diff.device.Pong=0x2001aa4144ac04803d1842000L
+ro.build.nothing.feature.base=0x1004458438124a040126b4247b97ffL
+ro.build.nothing.feature.diff.device.Pong=0x40002001aa4144ac04803d1842000L
 
 # Radio
 ril.subscription.types=NV,RUIM
