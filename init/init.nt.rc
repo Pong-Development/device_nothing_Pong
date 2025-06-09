@@ -32,6 +32,15 @@ on boot
     chown system system /sys/class/leds/vibrator/state
 
 on post-fs-data
+    # Camera
+    mkdir /data/vendor/camera 0775 camera camera
+    copy /mnt/vendor/persist/camera/bokeh_caldata_uw_persist.bin /data/vendor/camera/bokeh_caldata_uw_persist.bin
+    chmod 0444 /data/vendor/camera/bokeh_caldata_uw_persist.bin
+    chown cameraserver audio /data/vendor/camera/bokeh_caldata_uw_persist.bin
+    copy /mnt/vendor/persist/camera/ois_caldata_wide_persist.bin /data/vendor/camera/ois_caldata_wide_persist.bin
+    chmod 0444 /data/vendor/camera/ois_caldata_wide_persist.bin
+    chown cameraserver audio /data/vendor/camera/ois_caldata_wide_persist.bin
+
     # Enable WLAN SSR
     write /sys/kernel/cnss/recovery 1
 
