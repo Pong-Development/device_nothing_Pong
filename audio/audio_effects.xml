@@ -118,10 +118,14 @@
     </effects>
     <postprocess>
 	<stream type="music">
-            <apply effect="dlb_music_listener"/> <!--DOLBY ADD-->
+        </stream>
+        <stream type="ring">
+        </stream>
+        <stream type="alarm">
         </stream>
         <stream type="voice_call">
-            <apply effect="voice_helper"/>
+        </stream>
+        <stream type="notification">
         </stream>
     </postprocess>
     <preprocess>
