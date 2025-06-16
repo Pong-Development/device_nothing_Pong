@@ -32,10 +32,6 @@ PRODUCT_VIRTUAL_AB_COMPRESSION_METHOD := gz
 PRODUCT_AAPT_CONFIG := normal
 PRODUCT_AAPT_PREF_CONFIG := xxhdpi
 
-# ANT+
-PRODUCT_PACKAGES += \
-    AntHalService-Soong
-
 # Audio
 PRODUCT_PACKAGES += \
     android.hardware.audio@7.0-impl \
