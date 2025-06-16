@@ -514,7 +514,7 @@ PRODUCT_BOOT_JARS += \
 $(call inherit-product, vendor/nothing/Pong/Pong-vendor.mk)
 
 # Remove unwanted packages
-ifneq ($(TARGET_USE_REMOVEPACKAGE),true)
+ifeq ($(TARGET_USE_REMOVEPACKAGE),true)
 PRODUCT_PACKAGES += \
     RemovePackages
 endif
