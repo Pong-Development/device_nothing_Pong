@@ -1,14 +1,15 @@
 # Camera
 /(vendor|system/vendor)/lib64/libmfec\.so                          u:object_r:same_process_hal_file:s0
 /(vendor|system/vendor)/lib64/libipebpsstriping\.so                u:object_r:same_process_hal_file:s0
-/(vendor|system/vendor)/lib64/libmpbase\.so                        u:object_r:same_process_hal_file:s0
+/vendor/lib64/libofflinepostprocclient\.so                         u:object_r:same_process_hal_file:s0
+/vendor/lib64/libcamxextension_night\.so                           u:object_r:same_process_hal_file:s0
+/vendor/lib64/libmpbase\.so                                        u:object_r:same_process_hal_file:s0
 /vendor/lib64/libarcsoft_super_night_raw\.so                       u:object_r:same_process_hal_file:s0
 /vendor/lib64/libarcsoft_portrait_super_night_raw\.so              u:object_r:same_process_hal_file:s0
 /vendor/lib64/libarcsoft_dark_vision_raw\.so                       u:object_r:same_process_hal_file:s0
 /vendor/lib64/libarcsoft_beautyshot\.so                            u:object_r:same_process_hal_file:s0
 /vendor/lib64/libarcsoft_singlecam_bokeh\.so                       u:object_r:same_process_hal_file:s0
 /vendor/lib64/libarcsoft_hdr_detection\.so                         u:object_r:same_process_hal_file:s0
-/vendor/lib64/libsuperresolution_raw.arcsoft\.so                   u:object_r:same_process_hal_file:s0
 /vendor/lib64/libarcsoft_aiscenedetection\.so                      u:object_r:same_process_hal_file:s0
 /vendor/lib64/libmouth_mask_detection.arcsoft\.so                  u:object_r:same_process_hal_file:s0
 /vendor/lib64/libarcsoft_watermark\.so                             u:object_r:same_process_hal_file:s0
@@ -17,13 +18,17 @@
 /vendor/lib64/libarcsoft_low_light_hdr\.so                         u:object_r:same_process_hal_file:s0
 /vendor/lib64/libarcsoft_superportrait\.so                         u:object_r:same_process_hal_file:s0
 /vendor/lib64/libarcsoft_dualcam_refocus_image\.so                 u:object_r:same_process_hal_file:s0
-/vendor/lib64/libofflinepostprocclient\.so                         u:object_r:same_process_hal_file:s0
 /vendor/lib64/libarcsoft_dualcam_refocus_video\.so                 u:object_r:same_process_hal_file:s0
+/vendor/lib64/libsuperresolution_raw.arcsoft\.so                   u:object_r:same_process_hal_file:s0
 /vendor/lib64/libarcsoft_qnnhtp\.so                                u:object_r:same_process_hal_file:s0
-/vendor/lib64/libcamxextension_night\.so                           u:object_r:same_process_hal_file:s0
 /vendor/lib64/libmorpho_RawDeepDenoise\.so                         u:object_r:same_process_hal_file:s0
+/vendor/lib64/libarcsoft_high_dynamic_range_v5\.so                 u:object_r:same_process_hal_file:s0
+/vendor/lib64/libportrait_repair_ppl3_ocl\.so                      u:object_r:same_process_hal_file:s0
 /vendor/lib64/libarcsoft_t_hdr_raw\.so                             u:object_r:same_process_hal_file:s0
 /vendor/lib64/libarcsoft_t_hdr_raw_front\.so                       u:object_r:same_process_hal_file:s0
+/vendor/lib64/libarcsoft_turbo_fusion_raw_super_night\.so          u:object_r:same_process_hal_file:s0
+/vendor/lib64/libarcsoft_turbo_fusion_raw_portrait_super_night\.so u:object_r:same_process_hal_file:s0
+/vendor/lib64/libarcsoft_facialrestoration\.so                     u:object_r:same_process_hal_file:s0
 
 # Charging control
 /vendor/bin/nt-charging-control	                u:object_r:nt_chg_exec:s0
