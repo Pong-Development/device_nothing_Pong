@@ -1,14 +1,6 @@
 # Audio
 persist.vendor.audio_hal.dsp_bit_width_enforce_mode=24
 ro.vendor.audio.downmix.attenuation=1
-ro.vendor.dolby.dax.version=DAX3_3.8.5.20_r1
-ro.vendor.audio.dolby.dax.version=DAX3_3.8.5.20_r1
-ro.audio.spatializer_enabled=true
-ro.audio.spatializer_transaural_enabled_default=false
-ro.vendor.audio.dolby.dax.support=true
-ro.vendor.audio.dolby.surround.enable=false
-vendor.audio.dolby.ds2.enabled=false
-vendor.audio.dolby.ds2.hardbypass=false
 ro.audio.ignore_effects=false
 
 # Biometrics

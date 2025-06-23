@@ -106,14 +106,10 @@ PRODUCT_PACKAGES += \
     vendor.qti.hardware.memtrack-service
 
 # Dolby
-PRODUCT_PACKAGES += \
-    PartsDolby
+$(call inherit-product, hardware/dolby/dolby.mk)
 
 PRODUCT_COPY_FILES += \
     prebuilts/vndk/v33/arm64/arch-arm64-armv8-a/shared/vndk-core/libstagefright_foundation.so:$(TARGET_COPY_OUT_VENDOR)/lib64/libstagefright_foundation-v33.so
-
-PRODUCT_COPY_FILES += \
-    $(DEVICE_PATH)/configs/dolby/dax-default.xml:$(TARGET_COPY_OUT_VENDOR)/etc/dolby/dax-default.xml
 
 # DRM
 PRODUCT_PACKAGES += \
@@ -170,14 +166,11 @@ PRODUCT_PACKAGES += \
 
 # Manifests
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE += \
-    $(DEVICE_PATH)/configs/vintf/phone2_vendor_framework_compatibility_matrix.xml \
-    $(DEVICE_PATH)/configs/vintf/dolby_framework_matrix.xml
+    $(DEVICE_PATH)/configs/vintf/phone2_vendor_framework_compatibility_matrix.xml
     
 DEVICE_MANIFEST_FILE += \
     $(DEVICE_PATH)/configs/vintf/manifest_cape.xml \
-    $(DEVICE_PATH)/configs/vintf/manifest_phone2.xml \
-    $(DEVICE_PATH)/configs/vintf/vendor.dolby.media.c2@1.0-service.xml \
-    $(DEVICE_PATH)/configs/vintf/vendor.dolby.hardware.dms@2.0-service.xml
+    $(DEVICE_PATH)/configs/vintf/manifest_phone2.xml
 
 # Media
 PRODUCT_PACKAGES += \
@@ -189,8 +182,7 @@ PRODUCT_PACKAGES += \
     libaudioroute.vendor
 
 PRODUCT_COPY_FILES += \
-    $(DEVICE_PATH)/configs/audio/media_codecs_cape_vendor.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_cape_vendor.xml \
-    $(DEVICE_PATH)/configs/audio/media_codecs_dolby_audio.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_dolby_audio.xml
+    $(DEVICE_PATH)/configs/audio/media_codecs_cape_vendor.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_cape_vendor.xml
 
 # NFC
 PRODUCT_PACKAGES += \
