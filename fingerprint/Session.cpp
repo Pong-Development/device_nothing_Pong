@@ -36,7 +36,7 @@ void onClientDeath(void* cookie) {
 
 Session::Session(fingerprint_device_t* device, int32_t userId,
             std::shared_ptr<ISessionCallback> cb, LockoutTracker lockoutTracker)
-            : mDevice(device), mUserId(userId), mCb(cb), mLockoutTracker(lockoutTracker) {
+            : mDevice(device), mUserId(userId), mLockoutTracker(lockoutTracker), mCb(cb) {
     mDeathRecipient = AIBinder_DeathRecipient_new(onClientDeath);
 
     std::string path = ::android::base::StringPrintf("/data/vendor_de/%d/fpdata/", mUserId);
@@ -155,7 +155,7 @@ ndk::ScopedAStatus Session::resetLockout(const HardwareAuthToken& /*hat*/) {
 
 ndk::ScopedAStatus Session::onPointerDown(int32_t /*pointerId*/, int32_t x, int32_t y, float minor,
                                           float major) {
-    ALOGI("onPointerDown");
+    ALOGI("onPointerDown: x=%d, y=%d, minor=%f, major=%f", x, y, minor, major);
 
     mDevice->goodixExtCmd(mDevice, 1, 0);
 
