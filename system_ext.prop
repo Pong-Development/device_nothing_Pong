@@ -1,7 +1,3 @@
-# Audio
-ro.audio.ihaladaptervendorextension_enabled=true
-ro.qc.sdk.audio.fluencetype=none
-
 # Brightness
 sys.brightness.disable_gamma_conversion=true
 
