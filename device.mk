@@ -47,7 +47,6 @@ PRODUCT_PACKAGES += \
     audioadsprpcd \
     libagm_compress_plugin \
     libagm_mixer_plugin \
-    libagmmixer \
     libagm_pcm_plugin \
     libbatterylistener \
     libfmpal \
@@ -275,9 +274,6 @@ PRODUCT_COPY_FILES += \
     $(AUDIO_HAL_DIR)/configs/common/media_codecs_vendor_audio.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_vendor_audio.xml
 
 TARGET_SUPPORTS_OMX_SERVICE := false
-
-PRODUCT_PACKAGES += \
-    libpalclient
 
 # msm_irqbalance
 PRODUCT_COPY_FILES += \
