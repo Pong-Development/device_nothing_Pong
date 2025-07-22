@@ -65,7 +65,7 @@ blob_fixups: blob_fixups_user_type = {
         .add_needed('libgui_shim.so'),
     'system_ext/lib64/libofflineproc_jni.so': blob_fixup()
         .add_needed('lib_shim_ntcamera.so'),
-    ('vendor/bin/qcc-trd', 'vendor/lib64/libqtr_sdk.so'): blob_fixup()
+    'vendor/bin/qcc-trd': blob_fixup()
         .replace_needed('libgrpc++_unsecure.so', 'libgrpc++_unsecure_prebuilt.so'),
     ('vendor/bin/hw/android.hardware.gnss-aidl-service-qti', 'vendor/lib64/hw/android.hardware.gnss-aidl-impl-qti.so', 'vendor/lib64/libgarden.so', 'vendor/lib64/libgarden_haltests_e2e.so'): blob_fixup()
         .replace_needed('android.hardware.gnss-V1-ndk_platform.so', 'android.hardware.gnss-V1-ndk.so'),
