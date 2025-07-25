@@ -157,10 +157,6 @@ ndk::ScopedAStatus Session::onPointerDown(int32_t /*pointerId*/, int32_t x, int3
                                           float major) {
     ALOGI("onPointerDown: x=%d, y=%d, minor=%f, major=%f", x, y, minor, major);
 
-    mDevice->goodixExtCmd(mDevice, 1, 0);
-
-    checkSensorLockout();
-
     return ndk::ScopedAStatus::ok();
 }
 
@@ -176,6 +172,8 @@ ndk::ScopedAStatus Session::onUiReady() {
     ALOGI("onUiReady");
 
     // TODO: stub
+
+    mDevice->goodixExtCmd(mDevice, 1, 0);
 
     return ndk::ScopedAStatus::ok();
 }
