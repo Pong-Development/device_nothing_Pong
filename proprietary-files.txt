@@ -950,24 +950,24 @@ vendor/etc/init/android.hardware.gatekeeper@1.0-service-qti.rc
 vendor/lib64/hw/android.hardware.gatekeeper@1.0-impl-qti.so
 
 # Graphics (Adreno)
-vendor/lib64/egl/eglSubDriverAndroid.so
-vendor/lib64/egl/libEGL_adreno.so;SYMLINK=vendor/lib64/libEGL_adreno.so
-vendor/lib64/egl/libGLESv1_CM_adreno.so
-vendor/lib64/egl/libGLESv2_adreno.so;SYMLINK=vendor/lib64/libGLESv2_adreno.so
-vendor/lib64/egl/libVkLayer_ADRENO_qprofiler.so
-vendor/lib64/egl/libq3dtools_adreno.so;SYMLINK=vendor/lib64/libq3dtools_adreno.so
-vendor/lib64/egl/libq3dtools_esx.so
-vendor/lib64/libCB.so
-vendor/lib64/libOpenCL.so
-vendor/lib64/libadreno_app_profiles.so
-vendor/lib64/libadreno_utils.so
-vendor/lib64/libgpudataproducer.so
-vendor/lib64/libgsl.so
-vendor/lib64/libkcl.so
-vendor/lib64/libkernelmanager.so
-vendor/lib64/libllvm-glnext.so
-vendor/lib64/libllvm-qcom.so
-vendor/lib64/libllvm-qgl.so
+vendor/lib64/egl/eglSubDriverAndroid.so|6a69e79e3fbaff0218f081deade0814efcccbe23
+vendor/lib64/egl/libEGL_adreno.so;SYMLINK=vendor/lib64/libEGL_adreno.so|f4e098bd570e20a8707ff1a3ab791275c93605f5
+vendor/lib64/egl/libGLESv1_CM_adreno.so|4519b649bb76124faf03fe853533b301aeee4b91
+vendor/lib64/egl/libGLESv2_adreno.so;SYMLINK=vendor/lib64/libGLESv2_adreno.so|4519b649bb76124faf03fe853533b301aeee4b91
+vendor/lib64/egl/libVkLayer_ADRENO_qprofiler.so|d4e16251642787e0915679376ea3980de2934bcd
+vendor/lib64/egl/libq3dtools_adreno.so;SYMLINK=vendor/lib64/libq3dtools_adreno.so|2a15f0e18e769d67e7f320d7b70c672ba6b06a40
+vendor/lib64/egl/libq3dtools_esx.so|88cd0efbfd35f02f2c0833641c528810486e4c8d
+vendor/lib64/libCB.so|096c1b3c333f7ed3369153d94f3d2f92e1ac20e4
+vendor/lib64/libOpenCL.so|3a75415c2b091c55632d03ec993e29910f982ae4
+vendor/lib64/libadreno_app_profiles.so|0f0c7477d8589ecf65fa57b8df46b226db30e516
+vendor/lib64/libadreno_utils.so|e4172b6dc380b6801a1273b2183d499e14f55379
+vendor/lib64/libgpudataproducer.so|11d0e28b86775c4f3e8e6c3d8337b0db79b07aa0
+vendor/lib64/libgsl.so|74a0abda0c35f258b485053ff12d84b4015dc23a
+vendor/lib64/libkcl.so|5c6c9238fa3a1ad5cc1bf5f7f4311040525bde91
+vendor/lib64/libkernelmanager.so|64d1d789f6deaf3b0b8ccce27e6ecf8f05f1ea01
+vendor/lib64/libllvm-glnext.so|b0a983a57319c52e8e577e92197832cef4e085b4
+vendor/lib64/libllvm-qcom.so|55c4abef2bb27aa6c5e64e1fbe7c5a320abebba5
+vendor/lib64/libllvm-qgl.so|e764aadd5eaa06ae044ef1ccfbabe7c8f533fb73
 
 # Graphics (Adreno firmware)
 vendor/firmware/a610_zap.b00
