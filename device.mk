@@ -251,6 +251,8 @@ $(call soong_config_set,lineage_health,charging_control_charging_path,/sys/class
 # Logging
  SPAMMY_LOG_TAGS := \
     Diag_Lib \
+    KernelSU \
+    SDM \
     AGM \
     AHAL \
     CamX \
