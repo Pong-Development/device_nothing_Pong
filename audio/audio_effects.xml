@@ -117,15 +117,8 @@
         <!--DOLBY END-->
     </effects>
     <postprocess>
-	<stream type="music">
-        </stream>
-        <stream type="ring">
-        </stream>
-        <stream type="alarm">
-        </stream>
         <stream type="voice_call">
-        </stream>
-        <stream type="notification">
+            <apply effect="voice_helper"/>
         </stream>
     </postprocess>
     <preprocess>
