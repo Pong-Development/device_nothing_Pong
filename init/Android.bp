@@ -15,6 +15,14 @@ prebuilt_etc {                                                         name: "fs
 }
 
 prebuilt_etc {
+    name: "init.nt.hw.rc",
+    src: "init.nt.hw.rc",
+    sub_dir: "init",
+    device_specific: true,
+    recovery_available: true,
+}
+
+prebuilt_etc {
     name: "init.nt.rc",
     src: "init.nt.rc",
     sub_dir: "init",

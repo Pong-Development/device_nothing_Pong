@@ -222,6 +222,8 @@ PRODUCT_PACKAGES += \
     fstab.qcom \
     fstab.zram \
     init.class_main.sh \
+    init.nt.hw.rc \
+    init.nt.hw.rc.recovery \
     init.nt.rc \
     init.qcom.early_boot.sh \
     init.kernel.post_boot.sh \

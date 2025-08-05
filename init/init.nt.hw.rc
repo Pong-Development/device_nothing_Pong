@@ -1,0 +1,8 @@
+#
+# SPDX-FileCopyrightText: 2025 The LineageOS Project
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+on property:ro.boot.hardware.sku=*
+    setprop ro.boot.hardware.revision ${ro.boot.hardware.sku}
