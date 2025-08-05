@@ -1,0 +1,2 @@
+# Simulated temp
+genfscon proc /shell-temp      u:object_r:proc_simulated_temp:s0

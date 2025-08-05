@@ -1,0 +1,14 @@
+type sltntc_exec, exec_type, system_file_type, file_type;
+init_daemon_domain(sltntc)
+
+type sltntc_service, system_api_service, service_manager_type;
+add_service(sltntc, sltntc_service)
+
+allow sltntc sltntc_service:service_manager find;
+binder_call(sltntc, servicemanager)
+
+allow sltntc sltntc_exec:file { rx_file_perms entrypoint };
+
+allow init sltntc:process transition;
+
+rw_dir_file(sltntc, proc_simulated_temp)

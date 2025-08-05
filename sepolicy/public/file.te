@@ -3,6 +3,7 @@ type sysfs_powershare, sysfs_type, fs_type;
 
 # Charger
 type proc_charger, fs_type, proc_type;
+type proc_simulated_temp, fs_type, proc_type;
 
 # Charging control
 type nt_chg_recovery, domain, mlstrustedobject, coredomain;

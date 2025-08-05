@@ -131,7 +131,7 @@ on property:init.svc.vendor.charger=running
     wait /sys/class/udc/${sys.usb.controller}
     setprop sys.usb.configfs 1
     write /sys/kernel/cnss/charger_mode 1
-#only use cpu0 in power off charge
+    # Only use cpu0 in power off charge
     write /sys/devices/system/cpu/cpu0/online 1
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor   powersave
     write /sys/devices/system/cpu/cpu1/online 0
@@ -196,6 +196,33 @@ on early-boot && property:persist.vendor.pcie.boot_option=*
     write /sys/bus/platform/devices/1c08000.qcom,pcie/debug/boot_option ${persist.vendor.pcie.boot_option}
 
 on property:sys.boot_completed=1
+    # Charge
+    chown system system /sys/class/qcom-battery/wls_en
+    chmod 0666 /sys/class/qcom-battery/wls_en
+    chown system system /sys/class/qcom-battery/nt_chg_data
+    chown system system /sys/class/qcom-battery/usb_charger_en
+    chmod 0666 /sys/class/qcom-battery/usb_charger_en
+    chown system system /sys/class/qcom-battery/slowcharge_en
+    chmod 0666 /sys/class/qcom-battery/slowcharge_en
+    chown system system /sys/class/qcom-battery/charge_pump_enable
+    chmod 0666 /sys/class/qcom-battery/charge_pump_enable
+    chown system system /sys/class/qcom-battery/charge_power
+    chmod 0666 /sys/class/qcom-battery/charge_power
+    chown system system /sys/class/qcom-battery/typec_cc_orientation
+    chmod 0666 /sys/class/qcom-battery/typec_cc_orientation
+    chown system system /sys/class/qcom-battery/wireless_boost_en
+    chmod 0666 /sys/class/qcom-battery/wireless_boost_en
+    chown system system /sys/class/qcom-battery/wls_st38_reg
+    chmod 0666 /sys/class/qcom-battery/wls_st38_reg
+    chown system system /sys/class/qcom-battery/wls_st38_data
+    chmod 0666 /sys/class/qcom-battery/wls_st38_data
+    chown system system /sys/class/qcom-battery/scenario_fcc
+    chmod 0666 /sys/class/qcom-battery/scenario_fcc
+    chown system system /sys/class/qcom-battery/charge_exist_pump
+    chmod 0666 /sys/class/qcom-battery/charge_exist_pump
+    chown system system /sys/class/qcom-battery/wls_cp_reg
+    chmod 0666 /sys/class/qcom-battery/wls_cp_reg
+    chmod 0666 /sys/class/power_supply/usb/input_current_limit
     enable vendor.qvirtmgr
     start  vendor.qvirtmgr
 
