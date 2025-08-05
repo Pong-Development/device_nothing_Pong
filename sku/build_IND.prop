@@ -1,0 +1,5 @@
+ro.product.odm.model=AIN065
+ro.odm.build.fingerprint=Nothing/PongIND/Pong:12/SKQ1.240903.001/2507082227:user/release-keys
+ro.vendor.build.fingerprint=Nothing/PongIND/Pong:12/SKQ1.240903.001/2507082227:user/release-keys
+ro.product.odm.name=PongIND
+ro.product.vendor.name=PongIND

@@ -3,3 +3,6 @@ ro.config.media_vol_steps=15
 ro.config.vc_call_vol_steps=9
 ro.vendor.qti.va_odm.support=1
 
+# Sku properties
+ro.product.property_source_order=odm,vendor,product,system_ext,system
+import /odm/etc/build_${ro.boot.hardware.sku}.prop
