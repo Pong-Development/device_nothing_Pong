@@ -1,4 +1,5 @@
 # Camera
+ro.camerax.extensions.enabled=true
 log.tag.CHIUSECASE=ERROR
 vendor.camera.aux.packagelist=org.lineageos.aperture,com.instagram.android,com.snapchat.android,com.nothing.camera
 persist.vendor.camera.privapp.list=com.nothing.camera

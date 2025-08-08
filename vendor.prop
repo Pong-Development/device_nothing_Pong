@@ -95,9 +95,7 @@ persist.vendor.bt.aac_vbr_frm_ctl.enabled=true
 persist.vendor.qcom.bluetooth.a2dp_offload_cap=sbc-aptx-aptxtws-aptxhd-aac-ldac-aptxadaptiver2
 persist.vendor.qcom.bluetooth.aac_frm_ctl.enabled=true
 persist.vendor.qcom.bluetooth.aac_vbr_ctl.enabled=true
-persist.vendor.qcom.bluetooth.aac_vbr_ctl.enabled=true
 persist.vendor.qcom.bluetooth.aptxadaptiver2_1_support=true
-ro.vendor.bluetooth.csip_qti=true
 ro.bluetooth.a2dp_offload.supported=true
 ro.vendor.bluetooth.csip_qti=true
 
@@ -140,12 +138,14 @@ vendor.display.enable_dpps_dynamic_fps=1
 vendor.display.enable_display_extensions=1
 vendor.display.enable_early_wakeup=1
 vendor.display.enable_hdr10_gpu_target=1
+vendor.display.enable_ic_hw_roundedcorner=1
 vendor.display.enable_optimize_refresh=0
 vendor.display.enable_rc_support=1
 vendor.display.enable_rounded_corner=0
 vendor.display.use_layer_ext=1
 vendor.display.use_smooth_motion=1
 vendor.display.vds_allow_hwc=1
+dor.gralloc.disable_ubwc=0
 
 # DRM
 drm.service.enabled=true
@@ -172,6 +172,7 @@ debug.sf.high_fps_late_app_phase_offset_ns=1000000
 debug.sf.high_fps_late_sf_phase_offset_ns=-2000000
 debug.sf.enable_adpf_cpu_hint=true
 debug.sf.treat_170m_as_sRGB=1
+graphics.gpu.profiler.support=true
 ro.hardware.egl=adreno
 ro.hardware.vulkan=adreno
 ro.opengles.version=196610
