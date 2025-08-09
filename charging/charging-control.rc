@@ -5,11 +5,6 @@ service vendor.nt-charging-control /vendor/bin/nt-charging-control
     disabled
 
 on property:sys.boot_completed=1
-    chown system system /sys/class/power_supply/usb/online
-    chown system system /sys/class/power_supply/wireless/online
-    chown system system /sys/class/power_supply/usb/usb_type
-    chown system system /sys/class/thermal/thermal_zone96/temp
-    chown system system /sys/class/thermal/thermal_zone76/temp
     chown system system /sys/class/qcom-battery/scenario_fcc
 
     start vendor.nt-charging-control
