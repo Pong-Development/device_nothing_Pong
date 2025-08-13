@@ -8,4 +8,6 @@
     glyph_app
     nt_chg_recovery
     proc_charger
+    proc_simulated_temp
+    sltntc
     sysfs_powershare))
