@@ -124,7 +124,7 @@ int ChargeStatusListener::get_charge_temp() {
             temp = stoi(read_line(path));
             if (temp > 0) return temp;
         }
-        tzn = get_tzn("usb");
+        tzn = get_tzn("battery");
         snprintf(path, sizeof(path), "%sthermal_zone%d/temp", THERMAL_SYSFS, tzn);
         temp = stoi(read_line(path));
         return temp;
