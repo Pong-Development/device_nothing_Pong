@@ -32,4 +32,6 @@
     <dimen name="config_rounded_mask_size_top">105.5181px</dimen>
     <dimen name="config_rounded_mask_size_bottom">105.5181px</dimen>
 
+    <dimen name="udfps_animation_offset">-6dp</dimen>
+
 </resources>

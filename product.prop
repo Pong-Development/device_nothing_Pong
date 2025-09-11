@@ -29,3 +29,6 @@ persist.vendor.vonr_setting_support=1
 
 # Game FrameRate
 debug.graphics.game_default_frame_rate.disabled=true
+
+# Maintainer
+ro.paranoid.maintainer=GHOST | ゴースト
