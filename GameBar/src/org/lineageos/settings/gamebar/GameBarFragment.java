@@ -24,16 +24,16 @@ import android.widget.Toast;
 
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
-import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SeekBarPreference;
 import androidx.preference.SwitchPreference;
 import androidx.preference.SwitchPreferenceCompat;
 
 import com.android.settingslib.widget.MainSwitchPreference;
+import com.android.settingslib.widget.SettingsBasePreferenceFragment;
 
 import org.lineageos.settings.R;
 
-public class GameBarFragment extends PreferenceFragmentCompat {
+public class GameBarFragment extends SettingsBasePreferenceFragment {
 
     private GameBar mGameBar;
     private MainSwitchPreference mMasterSwitch;

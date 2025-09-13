@@ -46,14 +46,14 @@
         <activity
             android:name="org.neoteric.device.DeviceExtras"
             android:exported="true" 
-            android:theme="@style/Theme.SubSettingsBase"/>
+            android:theme="@style/Theme.SubSettingsBase.Expressive"/>
 
         <!-- DeviceExtras -->
         <activity
             android:name="org.neoteric.device.DeviceExtras.DeviceExtrasActivity"
             android:exported="true"
             android:label="@string/device_title"
-            android:theme="@style/Theme.SubSettingsBase">
+            android:theme="@style/Theme.SubSettingsBase.Expressive">
             <intent-filter>
                 <action android:name="com.android.settings.action.EXTRA_SETTINGS" />
             </intent-filter>
