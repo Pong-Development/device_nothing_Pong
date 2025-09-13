@@ -41,13 +41,13 @@
         android:persistent="true"
         android:defaultToDeviceProtectedStorage="true"
         android:directBootAware="true"
-        android:theme="@style/Theme.SubSettingsBase">
+        android:theme="@style/Theme.SubSettingsBase.Expressive">
 
         <!-- GameBar Overlay -->
         <activity
             android:name=".gamebar.GameBarSettingsActivity"
             android:label="@string/game_bar_title"
-            android:theme="@style/Theme.SubSettingsBase"
+            android:theme="@style/Theme.SubSettingsBase.Expressive"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.android.settings.action.IA_SETTINGS" />

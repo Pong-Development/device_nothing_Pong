@@ -25,7 +25,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import androidx.preference.Preference;
-import androidx.preference.PreferenceFragment;
 import androidx.preference.PreferenceManager;
 import androidx.preference.SwitchPreferenceCompat;
 import androidx.preference.TwoStatePreference;
@@ -33,7 +32,9 @@ import androidx.preference.TwoStatePreference;
 import org.neoteric.device.DeviceExtras.FileUtils;
 import org.neoteric.device.DeviceExtras.R;
 
-public class DeviceExtras extends PreferenceFragment {
+import com.android.settingslib.widget.SettingsBasePreferenceFragment;
+
+public class DeviceExtras extends SettingsBasePreferenceFragment {
     public static final String KEY_OTG_SWITCH = "otg";
 
     private static TwoStatePreference mOTGModeSwitch;
