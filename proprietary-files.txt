@@ -1,5 +1,5 @@
 ## All proprietary files from this list, unless pinned and noted otherwise,
-## are from Nothing Phone (2) (V3.2-250828-1921).
+## are from Nothing Phone (2) (V3.2-250917-1451).
 
 # Current blobs with ELF checks disabled:
 # libmcs, libqtigefar depends on libagm, libar-pal, libar-acdb, libats and liblx-osal, which is a gnu makefile target
