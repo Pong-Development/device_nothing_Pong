@@ -6,11 +6,6 @@
 /mnt/vendor/persist/goodix(/.*)?									u:object_r:vendor_persist_goodix_file:s0
 /vendor/bin/hw/android\.hardware\.biometrics\.fingerprint-service\.nothing				u:object_r:hal_fingerprint_default_exec:s0
 
-# Process and system statistics files
-/proc/stat                                          u:object_r:proc_stat:s0
-/sys/class/kgsl/kgsl-3d0/gpu_busy_percentage        u:object_r:vendor_sysfs_kgsl:s0
-/sys/class/kgsl/kgsl-3d0/temp                       u:object_r:vendor_sysfs_kgsl:s0
-
 # LEDs
 /sys/devices/platform/soc/994000.i2c/i2c-0/0-003a/leds/led_strips(/.*)?					u:object_r:sysfs_leds:s0
 
