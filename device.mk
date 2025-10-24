@@ -186,10 +186,6 @@ PRODUCT_COPY_FILES += \
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     ro.surface_flinger.clear_slots_with_set_layer_buffer=true
 
-# Gamebar
-PRODUCT_PACKAGES += \
-    GameBar
-
 $(call soong_config_set,surfaceflinger,udfps_lib,//$(LOCAL_PATH):libudfps_extension.nothing)
 
 # Health

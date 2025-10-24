@@ -10,4 +10,5 @@
     proc_charger
     proc_simulated_temp
     sltntc
-    sysfs_powershare))
+    sysfs_powershare
+    gamebar_app))
