@@ -85,6 +85,9 @@ function blob_fixup() {
             [ "$2" = "" ] && return 0
             "${PATCHELF}" --replace-needed "vendor.qti.hardware.display.config-V2-ndk_platform.so" "vendor.qti.hardware.display.config-V2-ndk.so" "${2}"
             ;;
+        vendor/lib64/libhyperzoom.arcsoft.so)
+            split --bytes=99M -d "$2" "$2".part
+            ;;
         vendor/lib64/libgarden.so|vendor/lib64/libgarden_haltests_e2e.so)
             [ "$2" = "" ] && return 0
             "${PATCHELF}" --replace-needed "android.hardware.gnss-V1-ndk_platform.so" "android.hardware.gnss-V1-ndk.so" "${2}"
