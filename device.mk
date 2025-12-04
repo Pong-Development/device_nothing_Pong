@@ -100,8 +100,7 @@ PRODUCT_COPY_FILES += \
 
 # Display
 PRODUCT_COPY_FILES += \
-    $(DEVICE_PATH)/configs/displayconfig/display_id_4630946639017191810.xml:$(TARGET_COPY_OUT_VENDOR)/etc/displayconfig/display_id_4630946639017191809.xml \
-    $(DEVICE_PATH)/configs/displayconfig/display_id_4630946639017191810.xml:$(TARGET_COPY_OUT_VENDOR)/etc/displayconfig/display_id_4630946639017191810.xml
+    $(DEVICE_PATH)/configs/displayconfig/display_id_4630946639017191809.xml:$(TARGET_COPY_OUT_VENDOR)/etc/displayconfig/display_id_4630946639017191809.xml
 
 PRODUCT_PACKAGES += \
     vendor.qti.hardware.memtrack-service
