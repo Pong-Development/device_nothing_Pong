@@ -7,7 +7,7 @@ vendor.camera.aux.packagelist=org.lineageos.aperture,com.instagram.android,com.s
 
 # Display
 debug.sf.enable_hwc_vds=0
-persist.sys.brightness.low.gamma=true
+sys.brightness.disable_gamma_conversion=true
 persist.sys.sf.native_mode=260
 
 # Netmgr
