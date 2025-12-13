@@ -265,6 +265,9 @@
          available on some devices. -->
     <bool name="config_enableHapticTextHandle">true</bool>
 
+    <!-- Bytes that the PinnerService will pin for WebView -->
+    <integer name="config_pinnerWebviewPinBytes">20971520</integer>
+
     <!-- Doze: should the TYPE_PICK_UP_GESTURE sensor be used as a pulse signal. -->
     <bool name="config_dozePulsePickup">true</bool>
 
