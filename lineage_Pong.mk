@@ -30,3 +30,18 @@ PRODUCT_BUILD_PROP_OVERRIDES += \
     DeviceProduct=Pong \
     SystemDevice=Pong \
     SystemName=Pong
+
+#Evolution X Flags
+TARGET_INCLUDE_ACCORD := true
+TARGET_SUPPORT_BOOT_ANIMATIONS := true
+BUILD_BCR := true
+WITH_GMS := true
+
+# Enforce Product Packages Existance.
+TARGET_DISABLE_EPPE := true
+
+#Blur
+TARGET_ENABLE_BLUR := true
+
+#Fingerprint
+TARGET_HAS_UDFPS := true
