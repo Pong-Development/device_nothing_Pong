@@ -319,6 +319,10 @@ PRODUCT_PACKAGES += \
     FrameworksResTarget \
     WifiResTarget
 
+# Permissions
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/permissions/privapp-permissions-pong.xml:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/permissions/privapp-permissions-pong.xml
+
 # PONG overlays
 PRODUCT_PACKAGES += \
     NTCarrierConfigResTarget \
