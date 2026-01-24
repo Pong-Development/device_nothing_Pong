@@ -40,4 +40,17 @@
             android:title="@string/otg_mode_title"
             android:summary="@string/otg_mode_summary" />
     </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="thermal"
+        android:title="@string/thermal_title">
+        
+        <SwitchPreferenceCompat
+            android:key="thermal_limiter"
+            android:icon="@drawable/ic_thermal"
+            android:title="@string/thermal_limiter_title"
+            android:summary="@string/thermal_limiter_summary"
+            android:defaultValue="false" />
+    </PreferenceCategory>
+
 </PreferenceScreen>

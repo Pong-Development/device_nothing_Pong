@@ -27,6 +27,11 @@ genfscon sysfs /devices/platform/soc/soc:qcom,pmic_glink/soc:qcom,pmic_glink:qco
 genfscon sysfs /devices/platform/goodix_ts.0/fp_state																		u:object_r:vendor_sysfs_sensors:s0
 genfscon sysfs /devices/platform/goodix_ts.0/single_tap																		u:object_r:vendor_sysfs_sensors:s0
 
+# GPU Thermal Control
+genfscon sysfs /devices/platform/soc/3d00000.qcom,kgsl-3d0/kgsl/kgsl-3d0/max_gpuclk    u:object_r:sysfs_kgsl_gpuclk:s0
+genfscon sysfs /class/kgsl/kgsl-3d0/max_gpuclk                                          u:object_r:sysfs_kgsl_gpuclk:s0
+genfscon sysfs /class/kgsl/kgsl-3d0/devfreq/cur_freq                                    u:object_r:sysfs_kgsl_gpuclk:s0
+
 # OTG Switch
 genfscon proc /charger/nt_otg_enable																				u:object_r:proc_charger:s0
 

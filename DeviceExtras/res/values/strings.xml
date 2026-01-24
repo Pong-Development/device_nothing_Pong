@@ -33,4 +33,9 @@
     <!-- QS tile -->
     <string name="accessibility_quick_settings_off">Off</string>
     <string name="accessibility_quick_settings_on">On</string>
+
+    <!-- Thermal -->
+    <string name="thermal_title">Thermal Management</string>
+    <string name="thermal_limiter_title">Thermal Limiter</string>
+    <string name="thermal_limiter_summary">3-tier intelligent throttling: Light at 40°C, Medium at 43°C, Aggressive at 45°C to prevent overheating during gaming</string>
 </resources>

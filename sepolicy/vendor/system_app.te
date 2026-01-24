@@ -7,3 +7,5 @@ allow system_app vendor_sysfs_kgsl_gpuclk:file { read open getattr };
 allow system_app vendor_sysfs_kgsl:file { read open getattr };
 
 allow system_app vendor_sysfs_graphics:file { getattr open read };
+allow system_app sysfs_kgsl_gpuclk:dir r_dir_perms;
+allow system_app sysfs_kgsl_gpuclk:{ file lnk_file } rw_file_perms;

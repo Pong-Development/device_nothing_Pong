@@ -1,0 +1,6 @@
+allow device_extras vendor_sysfs_battery_supply:dir search;
+allow device_extras vendor_sysfs_battery_supply:file r_file_perms;
+
+# GPU frequency control
+allow device_extras sysfs_kgsl_gpuclk:dir r_dir_perms;
+allow device_extras sysfs_kgsl_gpuclk:{ file lnk_file } rw_file_perms;

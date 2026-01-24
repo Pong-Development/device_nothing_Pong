@@ -40,6 +40,11 @@ on property:sys.boot_completed=1
     chown system system /sys/class/qcom-battery/wls_reverse_status
     chmod 0666 /sys/class/qcom-battery/wls_reverse_status
 
+    chown system system /sys/class/kgsl/kgsl-3d0/max_gpuclk
+    chmod 0660 /sys/class/kgsl/kgsl-3d0/max_gpuclk
+    chown system system /sys/class/kgsl/kgsl-3d0/devfreq/cur_freq
+    chmod 0440 /sys/class/kgsl/kgsl-3d0/devfreq/cur_freq
+
     # OTG
     chown system system /proc/charger/nt_otg_enable
     write /proc/charger/nt_otg_enable 4

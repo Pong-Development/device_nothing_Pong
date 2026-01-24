@@ -37,9 +37,11 @@ import com.android.settingslib.widget.SettingsBasePreferenceFragment;
 public class DeviceExtras extends SettingsBasePreferenceFragment {
     public static final String KEY_POWERSHARE_SWITCH = "powershare";
     public static final String KEY_OTG_SWITCH = "otg";
+    public static final String KEY_THERMAL_LIMITER = "thermal_limiter";
 
     private static TwoStatePreference mPowerShareModeSwitch;
     private static TwoStatePreference mOTGModeSwitch;
+    private static TwoStatePreference mThermalLimiter;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -59,6 +61,17 @@ public class DeviceExtras extends SettingsBasePreferenceFragment {
         if (OTGModeSwitch.isSupported()) {
             mOTGModeSwitch.setChecked(OTGModeSwitch.isCurrentlyEnabled());
             mOTGModeSwitch.setOnPreferenceChangeListener(new OTGModeSwitch());
+        } else {
+            getPreferenceScreen().removePreference(mOTGModeSwitch);
+        }
+
+        // Thermal Limiter
+        mThermalLimiter = (TwoStatePreference) findPreference(KEY_THERMAL_LIMITER);
+        if (ThermalLimiter.isSupported()) {
+            mThermalLimiter.setChecked(prefs.getBoolean(KEY_THERMAL_LIMITER, false));
+            mThermalLimiter.setOnPreferenceChangeListener(new ThermalLimiter());
+        } else {
+            getPreferenceScreen().removePreference(mThermalLimiter);
         }
     }
 
@@ -66,6 +79,13 @@ public class DeviceExtras extends SettingsBasePreferenceFragment {
     public void onResume() {
         super.onResume();
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getContext());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getContext());
+        prefs.edit().putBoolean(KEY_THERMAL_LIMITER, mThermalLimiter != null && mThermalLimiter.isChecked()).apply();
     }
 
     @Override

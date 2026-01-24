@@ -38,6 +38,11 @@ public class Startup extends BroadcastReceiver {
         if (OTGModeSwitch.isSupported() && enabled) {
         restore(OTGModeSwitch.FILE, enabled);
         }
+
+        boolean thermalEnabled = sharedPrefs.getBoolean(DeviceExtras.KEY_THERMAL_LIMITER, false);
+        if (ThermalLimiter.isSupported() && thermalEnabled) {
+            ThermalLimiter.startMonitoring(context);
+        }
     }
 
     private void restore(String file, boolean enabled) {
