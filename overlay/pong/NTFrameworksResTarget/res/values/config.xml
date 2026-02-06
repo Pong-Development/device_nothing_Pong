@@ -531,6 +531,9 @@
          May be less than the minimum allowed brightness setting
          that can be set by the user. -->
      <integer name="config_screenBrightnessDoze">12</integer>
+
+    <!-- System Info -->
+    <integer name="config_sysCPUTempMultiplier">1000</integer>
  
      <!-- the number of the max cached processes in the system. -->
      <integer name="config_customizedMaxCachedProcesses">256</integer>

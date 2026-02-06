@@ -116,30 +116,7 @@ PRODUCT_PACKAGES += \
     vendor.qti.hardware.capabilityconfigstore@1.0.vendor
 
 # Dalvik
-PRODUCT_PRODUCT_PROPERTIES += \
-    dalvik.vm.heapstartsize?=24m \
-    dalvik.vm.heapgrowthlimit?=512m \
-    dalvik.vm.heapsize?=512m \
-    dalvik.vm.heaptargetutilization?=0.75 \
-    dalvik.vm.heapminfree?=8m \
-    dalvik.vm.heapmaxfree?=96m \
-    dalvik.vm.foreground-heap-growth-multiplier?=1.0 \
-    dalvik.vm.enable_time_based_gc_trigger?=true \
-    dalvik.vm.usejit?=true \
-    dalvik.vm.jitmaxsize?=512m \
-    dalvik.vm.jitinitialsize?=64m \
-    dalvik.vm.jitthreshold?=5000 \
-    dalvik.vm.jitwarmupthreshold?=2500 \
-    dalvik.vm.jitpthreadpriority?=8 \
-    dalvik.vm.parallel-image-loading?=true \
-    dalvik.vm.madvise.vdexfile.size?=104857600 \
-    dalvik.vm.madvise.odexfile.size?=104857600 \
-    dalvik.vm.madvise.artfile.size?=0 \
-    dalvik.vm.usap_pool_enabled?=true \
-    dalvik.vm.usap_pool_size_min?=1 \
-    dalvik.vm.usap_pool_size_max?=5 \
-    dalvik.vm.usap_refill_threshold?=1 \
-    dalvik.vm.usap_pool_refill_delay_ms?=3000
+$(call inherit-product, frameworks/native/build/phone-xhdpi-12288-dalvik-heap.mk)
 
 # DebugFS
 PRODUCT_SET_DEBUGFS_RESTRICTIONS := true
@@ -155,6 +132,8 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/displayconfig/display_id_4630946639017191810.xml:$(TARGET_COPY_OUT_VENDOR)/etc/displayconfig/display_id_4630946639017191809.xml \
     $(LOCAL_PATH)/configs/displayconfig/display_id_4630946639017191810.xml:$(TARGET_COPY_OUT_VENDOR)/etc/displayconfig/display_id_4630946639017191810.xml
 
+$(call soong_config_set_bool,use_jemalloc_for_display_stack,true)
+
 PRODUCT_PACKAGES += \
     android.hardware.graphics.mapper@4.0-impl-qti-display \
     init.qti.display_boot.rc \
@@ -165,6 +144,9 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml
+
+$(call soong_config_set,surfaceflinger,frame_rate_category_high,120)
+$(call soong_config_set,surfaceflinger,frame_rate_category_min,60)
 
 # Dolby
 $(call inherit-product, hardware/dolby/dolby.mk)
