@@ -19,10 +19,10 @@
 /vendor/bin/hw/android\.hardware\.nfc_snxxx@1\.2-service						u:object_r:hal_nfc_default_exec:s0
 
 # Sensors
-/(vendor|system/vendor)/bin/hw/android.hardware.sensors@[0-9].[0-9]-service.phone2-multihal       u:object_r:hal_sensors_default_exec:s0
+/vendor/bin/hw/android.hardware.sensors@[0-9].[0-9]-service.phone2-multihal                        u:object_r:hal_sensors_default_exec:s0
 
 # Vibrator
 /(vendor|system/vendor)/bin/hw/vendor\.qti\.hardware\.vibrator\.service\.nt				u:object_r:hal_vibrator_default_exec:s0
 
 # Powerstats
-/(vendor|system/vendor)/bin/hw/android\.hardware\.power\.stats-service                             u:object_r:hal_power_stats_default_exec:s0
+/vendor/bin/hw/android\.hardware\.power\.stats-service                                             u:object_r:hal_power_stats_default_exec:s0
