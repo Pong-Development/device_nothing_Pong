@@ -160,6 +160,8 @@ PRODUCT_PACKAGES += \
     android.hardware.hardware_keystore.xml
 
 # Lineage Health
+$(call soong_config_set,lineage_health,charging_control_charging_path,/sys/class/qcom-battery/scenario_fcc)
+
 PRODUCT_PACKAGES += \
     vendor.lineage.health-service.default
 
