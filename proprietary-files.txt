@@ -708,7 +708,7 @@ vendor/lib64/libdualcam_video_optical_zoom.so
 vendor/lib64/libeepromcutter.so
 vendor/lib64/libface3d_dev.so
 vendor/lib64/libhme.so
-vendor/lib64/libhyperzoom.arcsoft.so
+vendor/lib64/libhyperzoom.arcsoft.so;SPLIT_FILE=99M
 vendor/lib64/libipebpsstriping.so
 vendor/lib64/libipebpsstriping170.so
 vendor/lib64/libipebpsstriping480.so
