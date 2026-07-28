@@ -8,6 +8,14 @@
             <instance>default</instance>
         </interface>
     </hal>
+    <hal format="aidl" optional="true">
+        <name>android.hardware.biometrics.fingerprint</name>
+        <version>1</version>
+        <interface>
+            <name>IFingerprint</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
     <hal format="aidl">
         <name>vendor.noth.hardware.camera</name>
         <interface>
