@@ -1130,23 +1130,23 @@ vendor/etc/init/android.hardware.gatekeeper@1.0-service-qti.rc
 vendor/lib64/hw/android.hardware.gatekeeper@1.0-impl-qti.so
 
 # Graphics (Adreno)
-vendor/lib64/egl/eglSubDriverAndroid.so|6a69e79e3fbaff0218f081deade0814efcccbe23
-vendor/lib64/egl/libEGL_adreno.so;SYMLINK=vendor/lib64/libEGL_adreno.so|f4e098bd570e20a8707ff1a3ab791275c93605f5
-vendor/lib64/egl/libGLESv1_CM_adreno.so|4519b649bb76124faf03fe853533b301aeee4b91
-vendor/lib64/egl/libGLESv2_adreno.so;SYMLINK=vendor/lib64/libGLESv2_adreno.so|4519b649bb76124faf03fe853533b301aeee4b91
-vendor/lib64/egl/libVkLayer_ADRENO_qprofiler.so|d4e16251642787e0915679376ea3980de2934bcd
+vendor/lib64/egl/eglSubDriverAndroid.so|8a48c1876664f4ae4140135ceb230f8f71d9b52f
+vendor/lib64/egl/libEGL_adreno.so;SYMLINK=vendor/lib64/libEGL_adreno.so|ce33bcc13fc569de45b624cea75d25142710834a
+vendor/lib64/egl/libGLESv1_CM_adreno.so|f3b231b22c5a7f66e16937b873fbf260f730f1f7
+vendor/lib64/egl/libGLESv2_adreno.so;SYMLINK=vendor/lib64/libGLESv2_adreno.so|0e27d0268ba1dd8e5b1f678e1a20da5a559dc1f4
+vendor/lib64/egl/libVkLayer_ADRENO_qprofiler.so|a118517d8c9fc4d12444f80c56dc929416301538
 vendor/lib64/egl/libq3dtools_adreno.so;SYMLINK=vendor/lib64/libq3dtools_adreno.so|2a15f0e18e769d67e7f320d7b70c672ba6b06a40
-vendor/lib64/egl/libq3dtools_esx.so|88cd0efbfd35f02f2c0833641c528810486e4c8d
-vendor/lib64/libCB.so|096c1b3c333f7ed3369153d94f3d2f92e1ac20e4
+vendor/lib64/egl/libq3dtools_esx.so|b57adbf8b4cb36ea980af951c1784ac281f1de76
+vendor/lib64/libCB.so|180abb677615269c4bcdc9acb00d756be87ec847
 vendor/lib64/libOpenCL.so|3a75415c2b091c55632d03ec993e29910f982ae4
-vendor/lib64/libadreno_utils.so|e4172b6dc380b6801a1273b2183d499e14f55379
-vendor/lib64/libgpudataproducer.so|11d0e28b86775c4f3e8e6c3d8337b0db79b07aa0
-vendor/lib64/libgsl.so|74a0abda0c35f258b485053ff12d84b4015dc23a
-vendor/lib64/libkcl.so|5c6c9238fa3a1ad5cc1bf5f7f4311040525bde91
-vendor/lib64/libkernelmanager.so|64d1d789f6deaf3b0b8ccce27e6ecf8f05f1ea01
-vendor/lib64/libllvm-glnext.so|b0a983a57319c52e8e577e92197832cef4e085b4
-vendor/lib64/libllvm-qcom.so|55c4abef2bb27aa6c5e64e1fbe7c5a320abebba5
-vendor/lib64/libllvm-qgl.so|e764aadd5eaa06ae044ef1ccfbabe7c8f533fb73
+vendor/lib64/libadreno_utils.so|8da11279f90da07d6612064d5c429a5bb2dadb3e
+vendor/lib64/libgpudataproducer.so|627ff3489fd92aa6323e736e2333baa93fcfda5b
+vendor/lib64/libgsl.so|61004eb125bf0190a8c4548fff0a2809967a63f9
+vendor/lib64/libkcl.so|8d13c5ce933eb2ac02afc22c9b2f3c2ebd62c435
+vendor/lib64/libkernelmanager.so|2e9c54282c0bd046307a1cc7ae966b59d36e88a4
+vendor/lib64/libllvm-glnext.so|410cf4f318335cace9610b3f413c3ec49918010e
+vendor/lib64/libllvm-qcom.so|a4adc3f8073e374e5aa0f644a23ab8a06a1a015e
+vendor/lib64/libllvm-qgl.so|a7ae3013a0a6f2a650db8e08e45fd7b165063bab
 
 # Graphics (Adreno firmware)
 vendor/firmware/a610_zap.b00
@@ -1178,12 +1178,12 @@ vendor/firmware/a730_zap.elf
 vendor/firmware/a730_zap.mbn
 vendor/firmware/a730_zap.mdt
 vendor/firmware/gmu_gen70000.bin
-vendor/gpu/kbc/sequence_manifest.bin
-vendor/gpu/kbc/unified_kbcs_64.bin
-vendor/gpu/kbc/unified_ksqs.bin
+vendor/gpu/kbc/sequence_manifest.bin|d0569fdb8a2e659181a7c4369d8278cb99c92fca
+vendor/gpu/kbc/unified_kbcs_64.bin|372f922b834a358f633c1012881a142532f48bb4
+vendor/gpu/kbc/unified_ksqs.bin|e1174f1692be432f5ceca8f85ea669dbe667a2e7
 
 # Graphics (Vulkan)
-vendor/lib64/hw/vulkan.adreno.so
+vendor/lib64/hw/vulkan.adreno.so|34440115d90fc95014714c43d470b70f87c55054
 
 # GNSS
 vendor/bin/edgnss-daemon
