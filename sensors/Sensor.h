@@ -125,9 +125,12 @@ class SingleTapSensor : public OneShotSensor {
   protected:
     virtual void run() override;
     virtual std::vector<Event> readEvents();
+    virtual void fillEventData(Event& event);
 
   private:
     void interruptPoll();
+    void readCoordinates(float* x, float* y);
+    std::string mCoordinatePath;
 
     struct pollfd mPolls[2];
     int mWaitPipeFd[2];

@@ -21,6 +21,7 @@
 #include <utils/SystemClock.h>
 
 #include <cmath>
+#include <fstream>
 
 namespace {
 
@@ -363,6 +364,8 @@ SingleTapSensor::SingleTapSensor(int32_t sensorHandle, ISensorsEventCallback* ca
     mSensorInfo.power = 0;
     mSensorInfo.flags |= SensorFlagBits::WAKE_UP;
 
+    mCoordinatePath = "/sys/devices/platform/goodix_ts.0/gesture/touch_data";
+
     int rc;
 
     rc = pipe(mWaitPipeFd);
@@ -450,8 +453,40 @@ std::vector<Event> SingleTapSensor::readEvents() {
     event.sensorHandle = mSensorInfo.sensorHandle;
     event.sensorType = mSensorInfo.type;
     event.timestamp = ::android::elapsedRealtimeNano();
+    fillEventData(event);
     events.push_back(event);
     return events;
+}
+
+void SingleTapSensor::readCoordinates(float* x, float* y) {
+    std::ifstream file(mCoordinatePath);
+    if (!file) {
+        ALOGW("Unable to read coordinates at path: %s", mCoordinatePath.c_str());
+        *x = 0;
+        *y = 0;
+        return;
+    }
+
+    std::string line;
+    unsigned int rawX = 0, rawY = 0;
+
+    while (std::getline(file, line)) {
+        if (line.rfind("x:", 0) == 0) {
+            rawX = std::stoul(line.substr(2), nullptr, 16);
+        } else if (line.rfind("y:", 0) == 0) {
+            rawY = std::stoul(line.substr(2), nullptr, 16);
+        }
+    }
+
+    *x = static_cast<float>(rawX);
+    *y = static_cast<float>(rawY);
+}
+
+void SingleTapSensor::fillEventData(Event& event) {
+    float x = 0, y = 0;
+    readCoordinates(&x, &y);
+    event.u.data[0] = x;
+    event.u.data[1] = y;
 }
 
 void SingleTapSensor::interruptPoll() {
