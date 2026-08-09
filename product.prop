@@ -1,21 +1,13 @@
 # Audio
-aaudio.hw_burst_min_usec=2000
-aaudio.mmap_exclusive_policy=2
-aaudio.mmap_policy=2
-af.fast_track_multiplier=1
-audio.deep_buffer.media=true
 audio.offload.min.duration.secs=30
-audio.offload.video=true
 audio.sys.mute.latency.factor=2
 audio.sys.noisy.broadcast.delay=500
 audio.sys.offload.pstimeout.secs=3
 audio.sys.routing.latency=0
 audio.timecheck.timeout_duration_ms=8000
-ro.af.client_heap_size_kbyte=7168
 ro.audio.monitorRotation=true
 
 # Camera
-ro.camerax.extensions.enabled=true
 
 # GMS
 ro.opa.eligible_device=true
