@@ -147,7 +147,7 @@ vendor.display.enable_rounded_corner=1
 vendor.display.use_layer_ext=1
 vendor.display.use_smooth_motion=1
 vendor.display.vds_allow_hwc=1
-dor.gralloc.disable_ubwc=0
+vendor.gralloc.disable_ubwc=0
 
 # DRM
 drm.service.enabled=true
