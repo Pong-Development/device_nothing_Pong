@@ -236,6 +236,16 @@
       "ResetOnInit": true
     },
     {
+      "Name": "L3MinFreq",
+      "Path": "/sys/devices/system/cpu/bus_dcvs/L3/boost_freq",
+      "Values": [
+        "1708800",
+        "1171200",
+        "300000"
+      ],
+      "ResetOnInit": true
+    },
+    {
       "Name": "PowerHALMainState",
       "Path": "vendor.powerhal.state",
       "Values": [
@@ -575,9 +585,9 @@
     },
     {
       "PowerHint": "EXPENSIVE_RENDERING",
-      "Node": "GPUMaxFreq",
+      "Node": "CPUBigPlusClusterMinFreq",
       "Duration": 0,
-      "Value": "900000000"
+      "Value": "1283400"
     },
     {
       "PowerHint": "EXPENSIVE_RENDERING",
@@ -587,21 +597,27 @@
     },
     {
       "PowerHint": "EXPENSIVE_RENDERING",
-      "Node": "GPUIdleTimer",
+      "Node": "LLCCBWMinFreq",
       "Duration": 0,
-      "Value": "5000"
+      "Value": "600000"
+    },
+    {
+      "PowerHint": "EXPENSIVE_RENDERING",
+      "Node": "UclampFGMin",
+      "Duration": 0,
+      "Value": "30"
     },
     {
       "PowerHint": "EXPENSIVE_RENDERING",
       "Node": "UclampTAMin",
       "Duration": 0,
-      "Value": "20"
+      "Value": "40"
     },
     {
       "PowerHint": "EXPENSIVE_RENDERING",
-      "Node": "UclampTALatency",
+      "Node": "L3MinFreq",
       "Duration": 0,
-      "Value": "1"
+      "Value": "1171200"
     },
     {
       "PowerHint": "Flipendo",
