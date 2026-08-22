@@ -1139,6 +1139,7 @@ vendor/lib64/egl/libq3dtools_adreno.so;SYMLINK=vendor/lib64/libq3dtools_adreno.s
 vendor/lib64/egl/libq3dtools_esx.so|b57adbf8b4cb36ea980af951c1784ac281f1de76
 vendor/lib64/libCB.so|180abb677615269c4bcdc9acb00d756be87ec847
 vendor/lib64/libOpenCL.so|3a75415c2b091c55632d03ec993e29910f982ae4
+vendor/lib64/libadreno_app_profiles.so|1fdbef55ba5c6f03c3eecf324038dc02759e7c5b
 vendor/lib64/libadreno_utils.so|8da11279f90da07d6612064d5c429a5bb2dadb3e
 vendor/lib64/libgpudataproducer.so|627ff3489fd92aa6323e736e2333baa93fcfda5b
 vendor/lib64/libgsl.so|61004eb125bf0190a8c4548fff0a2809967a63f9
@@ -1147,6 +1148,7 @@ vendor/lib64/libkernelmanager.so|2e9c54282c0bd046307a1cc7ae966b59d36e88a4
 vendor/lib64/libllvm-glnext.so|410cf4f318335cace9610b3f413c3ec49918010e
 vendor/lib64/libllvm-qcom.so|a4adc3f8073e374e5aa0f644a23ab8a06a1a015e
 vendor/lib64/libllvm-qgl.so|a7ae3013a0a6f2a650db8e08e45fd7b165063bab
+vendor/lib64/vendor.qti.qspmhal@1.0.so;MODULE_SUFFIX=_vendor|b24925548b969a7745955bbd48069207aa5889fc
 
 # Graphics (Adreno firmware)
 vendor/firmware/a610_zap.b00
