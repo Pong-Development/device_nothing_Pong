@@ -5,11 +5,10 @@
 (typeattribute new_objects)
 (typeattributeset new_objects
   ( new_objects
+    device_extras
     glyph_app
     nt_chg_recovery
     proc_charger
     proc_simulated_temp
     sltntc
-    sysfs_powershare
-    gamebar_app
-    device_extras))
+    sysfs_powershare))
