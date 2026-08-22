@@ -1,6 +1,9 @@
 # PowerShare
 type sysfs_powershare, sysfs_type, fs_type;
 
+# LEDs
+type sysfs_led_strips, sysfs_type, fs_type;
+
 # Charger
 type proc_charger, fs_type, proc_type;
 type proc_simulated_temp, fs_type, proc_type;

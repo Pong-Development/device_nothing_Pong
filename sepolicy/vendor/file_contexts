@@ -45,7 +45,7 @@
 /(vendor|system/vendor)/bin/hw/android.hardware.sensors@[0-9].[0-9]-service.nt-multihal       u:object_r:hal_sensors_default_exec:s0
 
 # LEDs
-/sys/devices/platform/soc/994000.i2c/i2c-0/0-003a/leds/led_strips(/.*)?                            u:object_r:sysfs_leds:s0
+/sys/devices/platform/soc/994000\.i2c/i2c-0/0-003a/leds/led_strips(/.*)?                            u:object_r:sysfs_led_strips:s0
 
 # UFS Devices
 /dev/block/platform/soc/1d84000.ufshc/by-name/vbmeta_vendor_[ab]                    u:object_r:vendor_custom_ab_block_device:s0

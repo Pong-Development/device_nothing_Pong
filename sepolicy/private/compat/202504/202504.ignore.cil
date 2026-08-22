@@ -11,4 +11,5 @@
     proc_charger
     proc_simulated_temp
     sltntc
+    sysfs_led_strips
     sysfs_powershare))
