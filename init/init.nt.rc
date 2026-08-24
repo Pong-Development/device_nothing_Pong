@@ -70,10 +70,6 @@ on property:sys.boot_completed=1
     setprop vendor.powerhal.init 1
 
 on property:vendor.post_boot.parsed=1
-    # Kill WALT CPU input boost
-    write /proc/sys/walt/input_boost/input_boost_freq "0 0 0 0 0 0 0"
-    write /proc/sys/walt/input_boost/input_boost_ms 0
-
     # dex2oat
     setprop dalvik.vm.dex2oat-cpu-set 0,1,2,3,4,5,6
     setprop dalvik.vm.dex2oat-threads 6
