@@ -25,21 +25,21 @@ import androidx.preference.PreferenceManager;
 import org.neoteric.device.DeviceExtras.DeviceExtras;
 
 public class ThermalLimiterTileService extends TileService {
-    
+
     private static ThermalLimiterTileService sInstance;
-    
+
     @Override
     public void onCreate() {
         super.onCreate();
         sInstance = this;
     }
-    
+
     @Override
     public void onDestroy() {
         super.onDestroy();
         sInstance = null;
     }
-    
+
     @Override
     public void onStartListening() {
         super.onStartListening();
@@ -52,20 +52,23 @@ public class ThermalLimiterTileService extends TileService {
         }
     }
 
+    public static void refreshTile() {
+        if (sInstance != null) {
+            sInstance.updateState();
+        }
+    }
+
     private void updateStateWithInfo(String state, float temperature) {
         Tile mTile = getQsTile();
         if (mTile != null) {
-            boolean enabled = getEnabled();
-            
-            if (enabled) {
-                String subtitle = String.format("%s (%.1f°C)", state, temperature);
-                mTile.setSubtitle(subtitle);
+            if (getEnabled()) {
+                mTile.setSubtitle(String.format("%s (%.1f°C)", state, temperature));
                 mTile.setState(Tile.STATE_ACTIVE);
             } else {
                 mTile.setSubtitle(getString(R.string.accessibility_quick_settings_off));
                 mTile.setState(Tile.STATE_INACTIVE);
             }
-            
+
             mTile.updateTile();
         }
     }
@@ -74,15 +77,10 @@ public class ThermalLimiterTileService extends TileService {
         Tile mTile = getQsTile();
         if (mTile != null) {
             boolean enabled = getEnabled();
-            
-            if (enabled) {
-                mTile.setSubtitle(getString(R.string.accessibility_quick_settings_on));
-                mTile.setState(Tile.STATE_ACTIVE);
-            } else {
-                mTile.setSubtitle(getString(R.string.accessibility_quick_settings_off));
-                mTile.setState(Tile.STATE_INACTIVE);
-            }
-            
+
+            mTile.setSubtitle(ThermalLimiter.getStatusSummary(this));
+            mTile.setState(enabled ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
+
             mTile.updateTile();
         }
     }
@@ -92,13 +90,13 @@ public class ThermalLimiterTileService extends TileService {
         super.onClick();
         boolean newState = !getEnabled();
         setEnabled(newState);
-        
+
         if (newState) {
             ThermalLimiter.startMonitoring(this);
         } else {
             ThermalLimiter.stopMonitoring();
         }
-        
+
         updateState();
     }
 
