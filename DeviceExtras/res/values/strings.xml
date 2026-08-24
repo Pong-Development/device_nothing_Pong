@@ -32,5 +32,25 @@
     <!-- Thermal -->
     <string name="thermal_title">Thermal Management</string>
     <string name="thermal_limiter_title">Thermal Limiter</string>
-    <string name="thermal_limiter_summary">3-tier intelligent throttling: Light at 40°C, Medium at 43°C, Aggressive at 45°C to prevent overheating during gaming</string>
+    <string name="thermal_limiter_summary">Throttle CPU and GPU frequencies while a selected app is in the foreground to prevent overheating</string>
+
+    <string name="thermal_limiter_status_no_apps">No apps selected</string>
+    <string name="thermal_limiter_status_idle">Idle — waiting for a selected app</string>
+    <string name="thermal_limiter_status_throttling">Throttling</string>
+
+    <string name="thermal_limiter_temp_warm_title">Warm threshold</string>
+    <string name="thermal_limiter_temp_high_title">High threshold</string>
+    <string name="thermal_limiter_temp_critical_title">Critical threshold</string>
+    <string name="thermal_limiter_temp_summary">Light throttling starts at %1$d°C</string>
+    <string name="thermal_limiter_temp_high_summary">Medium throttling starts at %1$d°C</string>
+    <string name="thermal_limiter_temp_critical_summary">Aggressive throttling starts at %1$d°C</string>
+
+    <string name="thermal_limiter_apps_title">Selected apps</string>
+    <string name="thermal_limiter_apps_summary">Choose which apps trigger the thermal limiter</string>
+    <string name="thermal_limiter_apps_loading">Loading apps…</string>
+    <string name="thermal_limiter_apps_none">No apps selected</string>
+    <plurals name="thermal_limiter_apps_selected">
+        <item quantity="one">%1$d app selected</item>
+        <item quantity="other">%1$d apps selected</item>
+    </plurals>
 </resources>

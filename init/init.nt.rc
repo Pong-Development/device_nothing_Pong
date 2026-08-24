@@ -49,6 +49,15 @@ on post-fs-data
     chown system system /sys/class/kgsl/kgsl-3d0/devfreq/cur_freq
     chmod 0440 /sys/class/kgsl/kgsl-3d0/devfreq/cur_freq
 
+    # Thermal limiter: let DeviceExtras cap the CPU clusters. cpuX/cpufreq is a
+    # symlink to cpufreq/policyN, so the per-policy node covers every core.
+    chown system system /sys/devices/system/cpu/cpufreq/policy0/scaling_max_freq
+    chmod 0660 /sys/devices/system/cpu/cpufreq/policy0/scaling_max_freq
+    chown system system /sys/devices/system/cpu/cpufreq/policy4/scaling_max_freq
+    chmod 0660 /sys/devices/system/cpu/cpufreq/policy4/scaling_max_freq
+    chown system system /sys/devices/system/cpu/cpufreq/policy7/scaling_max_freq
+    chmod 0660 /sys/devices/system/cpu/cpufreq/policy7/scaling_max_freq
+
 on property:sys.boot_completed=1
     chown system system /sys/class/qcom-battery/wireless_boost_en
     chown system system /sys/class/qcom-battery/wls_reverse_status

@@ -16,6 +16,7 @@
      limitations under the License.
 -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:settings="http://schemas.android.com/apk/res/org.neoteric.device.DeviceExtras"
 	android.title="@string/device_title">
 
@@ -33,13 +34,50 @@
     <PreferenceCategory
         android:key="thermal"
         android:title="@string/thermal_title">
-        
+
         <SwitchPreferenceCompat
             android:key="thermal_limiter"
             android:icon="@drawable/ic_thermal"
             android:title="@string/thermal_limiter_title"
             android:summary="@string/thermal_limiter_summary"
             android:defaultValue="false" />
+
+        <Preference
+            android:key="thermal_limiter_apps_picker"
+            android:icon="@drawable/ic_thermal_apps"
+            android:title="@string/thermal_limiter_apps_title"
+            android:summary="@string/thermal_limiter_apps_summary"
+            android:dependency="thermal_limiter" />
+
+        <SeekBarPreference
+            android:key="thermal_limiter_temp_warm"
+            android:icon="@drawable/ic_thermal_temp"
+            android:title="@string/thermal_limiter_temp_warm_title"
+            android:max="60"
+            app:defaultValue="40"
+            android:dependency="thermal_limiter"
+            app:min="35"
+            app:showSeekBarValue="true" />
+
+        <SeekBarPreference
+            android:key="thermal_limiter_temp_high"
+            android:icon="@drawable/ic_thermal_temp"
+            android:title="@string/thermal_limiter_temp_high_title"
+            android:max="61"
+            app:defaultValue="43"
+            android:dependency="thermal_limiter"
+            app:min="35"
+            app:showSeekBarValue="true" />
+
+        <SeekBarPreference
+            android:key="thermal_limiter_temp_critical"
+            android:icon="@drawable/ic_thermal_temp"
+            android:title="@string/thermal_limiter_temp_critical_title"
+            android:max="62"
+            app:defaultValue="45"
+            android:dependency="thermal_limiter"
+            app:min="35"
+            app:showSeekBarValue="true" />
     </PreferenceCategory>
 
 </PreferenceScreen>

@@ -25,6 +25,8 @@
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.REAL_GET_TASKS" />
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
 
     <application
         android:label="@string/device_title"
@@ -72,6 +74,13 @@
                 android:name="com.android.settings.summary"
                 android:resource="@string/device_summary" />
         </activity>
+
+        <!-- Thermal Limiter app picker -->
+        <activity
+            android:name="org.neoteric.device.DeviceExtras.ThermalAppsActivity"
+            android:exported="false"
+            android:label="@string/thermal_limiter_apps_title"
+            android:theme="@style/Theme.SubSettingsBase.Expressive" />
 
         <!-- OTG tile -->
         <service

@@ -16,6 +16,7 @@ allow device_extras {
   hint_service
   media_session_service
   netstats_service
+  package_service
   sensorservice_service
   surfaceflinger_service
   vendor_perf_service
@@ -38,3 +39,5 @@ allow device_extras sysfs_thermal:dir r_dir_perms;
 allow device_extras sysfs_thermal:{ file lnk_file } r_file_perms;
 allow device_extras sysfs_devices_system_cpu:dir r_dir_perms;
 allow device_extras sysfs_devices_system_cpu:{ file lnk_file } rw_file_perms;
+allow device_extras sysfs_batteryinfo:dir r_dir_perms;
+allow device_extras sysfs_batteryinfo:{ file lnk_file } r_file_perms;
