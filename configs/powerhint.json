@@ -98,6 +98,7 @@
       "Path": "/dev/cpuctl/foreground/cpu.uclamp.min",
       "Values": [
         "0",
+        "20",
         "30",
         "50"
       ],
@@ -347,13 +348,13 @@
       "PowerHint": "INTERACTION",
       "Node": "CPUBigClusterMinFreq",
       "Duration": 0,
-      "Value": "1324800"
+      "Value": "1113600"
     },
     {
       "PowerHint": "INTERACTION",
       "Node": "GPUMinFreq",
       "Duration": 0,
-      "Value": "285000000"
+      "Value": "220000000"
     },
     {
       "PowerHint": "INTERACTION",
@@ -371,13 +372,7 @@
       "PowerHint": "INTERACTION",
       "Node": "UclampFGMin",
       "Duration": 0,
-      "Value": "30"
-    },
-    {
-      "PowerHint": "INTERACTION",
-      "Node": "UclampTALatency",
-      "Duration": 0,
-      "Value": "1"
+      "Value": "20"
     },
     {
       "PowerHint": "INTERACTION",
@@ -581,7 +576,7 @@
       "PowerHint": "EXPENSIVE_RENDERING",
       "Node": "CPUBigClusterMinFreq",
       "Duration": 0,
-      "Value": "1555200"
+      "Value": "1324800"
     },
     {
       "PowerHint": "EXPENSIVE_RENDERING",
@@ -593,7 +588,7 @@
       "PowerHint": "EXPENSIVE_RENDERING",
       "Node": "GPUMinFreq",
       "Duration": 0,
-      "Value": "439000000"
+      "Value": "324000000"
     },
     {
       "PowerHint": "EXPENSIVE_RENDERING",
