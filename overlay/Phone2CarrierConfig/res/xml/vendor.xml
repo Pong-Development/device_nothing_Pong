@@ -3342,6 +3342,13 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <boolean name="nt_hide_5g_standalone_bool" value="true" />
         <boolean name="carrier_vt_available_bool" value="false" />
     </carrier_config>
+    <carrier_config mcc="228" mnc="74" name="Netplus (net+ / Sweez) Switzerland">
+        <boolean name="carrier_supports_ss_over_ut_bool" value="true" />
+        <string name="imsss.ut_as_server_fqdn_string">xcap.ims.mnc074.mcc228.pub.3gppnetwork.org</string>
+        <int name="imsss.ut_as_server_port_int" value="443" />
+        <string name="bsf.bsf_server_fqdn_string">bsf.ims.mnc074.mcc228.pub.3gppnetwork.org</string>
+        <int name="bsf.bsf_server_port_int" value="443" />
+    </carrier_config>
     <carrier_config mcc="234" mnc="15">
         <boolean name="hide_enhanced_4g_lte_bool" value="true" />
     </carrier_config>
@@ -3589,6 +3596,13 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <string-array name="carrier_service_number_array" num="1">
             <item value="+448003768888" />
         </string-array>
+        <boolean name="hide_enable_2g_bool" value="false" />
+        <boolean name="nt_default_disable_2g_bool" value="true" />
+        <string-array name="nt_5g_plus_display_rules_string_array" num="3">
+            <item value="NR" />
+            <item value="NRCA" />
+            <item value="UWB" />
+        </string-array>
     </carrier_config>
     <carrier_config cid="3" name="Telekom Deutschland (DE)">
         <boolean name="editable_wfc_mode_bool" value="false" />
@@ -3609,7 +3623,6 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <boolean name="enableWapPushSI" value="true" />
         <string name="default_vm_number_string">3311</string>
         <int name="wfc_spn_format_idx_int" value="2" />
-        <boolean name="nt_hide_5g_standalone_bool" value="true" />
     </carrier_config>
     <carrier_config gid1="01" mcc="262" mnc="98" name="Telekom Deutschland (DE)">
         <boolean name="editable_wfc_mode_bool" value="false" />
@@ -3952,6 +3965,9 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <boolean name="hide_enhanced_4g_lte_bool" value="true" />
         <int name="carrier_default_wfc_ims_mode_int" value="10" />
         <boolean name="carrier_default_wfc_ims_enabled_bool" value="true" />
+        <boolean name="show_4g_for_lte_data_icon_bool" value="false" />
+        <boolean name="prefer_2g_bool" value="true" />
+        <boolean name="nt_hide_volte_icon_in_setting_by_defaut_boolean" value="false" />
     </carrier_config>
     <carrier_config cid="8" name="Magyar Telekom">
         <boolean name="show_iccid_in_sim_status_bool" value="true" />
@@ -4245,6 +4261,11 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         </string-array>
         <boolean name="allowEnablingWapPushSI" value="true" />
         <boolean name="enableWapPushSI" value="true" />
+        <string-array name="nt_5g_plus_display_rules_string_array" num="3">
+            <item value="NR" />
+            <item value="NRCA" />
+            <item value="UWB" />
+        </string-array>
     </carrier_config>
     <carrier_config cid="27" name="SFR">
         <string name="nt_carrier_ims_user_agent_string">SFR VOLTE</string>
@@ -4431,8 +4452,10 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <boolean name="carrier_vt_available_bool" value="false" />
         <boolean name="carrier_wfc_ims_available_bool" value="false" />
         <boolean name="nt_carrier_default_sa_enabled_bool" value="true" />
-        <string-array name="nt_5g_plus_display_rules_string_array" num="1">
+        <string-array name="nt_5g_plus_display_rules_string_array" num="3">
             <item value="NR" />
+            <item value="NRCA" />
+            <item value="UWB" />
         </string-array>
         <string name="default_vm_number_string">+34633633633</string>
     </carrier_config>
@@ -4490,6 +4513,8 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <string-array name="carrier_service_number_array" num="1">
             <item value="+448003768888" />
         </string-array>
+        <boolean name="hide_enable_2g_bool" value="false" />
+        <boolean name="nt_default_disable_2g_bool" value="true" />
     </carrier_config>
     <carrier_config cid="747" name="COSMOTE">
         <boolean name="carrier_vt_available_bool" value="false" />
@@ -4824,6 +4849,11 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <string name="nt_carrier_ims_user_agent_string">PRD-IR92/12 term-[B]/[MN]-[DI] device-type/smart-phone</string>
         <boolean name="rtt_supported_bool" value="false" />
     </carrier_config>
+    <carrier_config cid="1404" name="TELUS Mobility">
+        <boolean name="vonr_enabled_bool" value="true" />
+        <boolean name="vonr_on_by_default_bool" value="true" />
+        <boolean name="nt_carrier_default_sa_enabled_bool" value="true" />
+    </carrier_config>
     <carrier_config cid="1413" name="Sunrise">
         <string name="vvm_type_string">vvm_type_omtp</string>
         <boolean name="carrier_vt_available_bool" value="false" />
@@ -4989,6 +5019,11 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <boolean name="call_barring_visibility_bool" value="true" />
         <boolean name="vonr_on_by_default_bool" value="true" />
         <boolean name="nt_carrier_default_sa_enabled_bool" value="true" />
+        <boolean name="carrier_default_wfc_ims_enabled_bool" value="true" />
+        <boolean name="carrier_default_wfc_ims_roaming_enabled_bool" value="true" />
+        <int name="carrier_default_wfc_ims_mode_int" value="1" />
+        <boolean name="nt_default_disable_wfc_when_roaming_bool" value="true" />
+        <boolean name="nt_show_wfc_usage_terms_notification_bool" value="true" />
     </carrier_config>
     <carrier_config cid="1454" name="o2">
         <boolean name="smsUsesSimpleCharactersOnly" value="true" />
@@ -5004,6 +5039,11 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <string-array name="nt_mvno_string_array" num="1">
             <item value="winSIM" />
         </string-array>
+        <boolean name="carrier_default_wfc_ims_enabled_bool" value="true" />
+        <boolean name="carrier_default_wfc_ims_roaming_enabled_bool" value="true" />
+        <int name="carrier_default_wfc_ims_mode_int" value="1" />
+        <boolean name="nt_default_disable_wfc_when_roaming_bool" value="true" />
+        <boolean name="nt_show_wfc_usage_terms_notification_bool" value="true" />
     </carrier_config>
     <carrier_config cid="1456" name="o2">
         <boolean name="smsUsesSimpleCharactersOnly" value="true" />
@@ -5037,13 +5077,19 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <boolean name="vonr_setting_visibility_bool" value="false" />
         <boolean name="nt_hide_volte_icon_bool" value="true" />
         <boolean name="nt_hide_vonr_icon_bool" value="true" />
-        <string-array name="nt_5g_plus_display_rules_string_array" num="1">
+        <string-array name="nt_5g_plus_display_rules_string_array" num="3">
             <item value="NR" />
+            <item value="NRCA" />
+            <item value="UWB" />
         </string-array>
         <boolean name="carrier_vt_available_bool" value="false" />
     </carrier_config>
     <carrier_config cid="1480" name="Telia">
         <int name="maxMessageSize" value="2097152" />
+        <boolean name="nt_carrier_default_sa_enabled_bool" value="true" />
+        <boolean name="vonr_enabled_bool" value="true" />
+        <boolean name="vonr_on_by_default_bool" value="true" />
+        <boolean name="nt_hide_vonr_icon_bool" value="true" />
     </carrier_config>
     <carrier_config cid="1487" name="Bouygues Telecom">
         <boolean name="editable_wfc_mode_bool" value="true" />
@@ -5127,6 +5173,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
     </carrier_config>
     <carrier_config cid="1529" name="Telemach(Tele2)">
         <boolean name="carrier_default_wfc_ims_enabled_bool" value="true" />
+        <boolean name="nt_hide_volte_icon_in_setting_by_defaut_boolean" value="false" />
     </carrier_config>
     <carrier_config cid="1530" name="A1/Tomato">
         <boolean name="carrier_wfc_ims_available_bool" value="false" />
@@ -5334,6 +5381,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <boolean name="carrier_default_wfc_ims_enabled_bool" value="true" />
         <boolean name="display_hd_plus_icon_bool" value="true" />
         <boolean name="nt_hide_volte_icon_in_setting_by_defaut_boolean" value="false" />
+        <int name="carrier_default_wfc_ims_mode_int" value="1" />
     </carrier_config>
     <carrier_config cid="1683" name="STC">
         <boolean name="nt_carrier_enhance_nr_icon_bool" value="true" />
@@ -5426,6 +5474,12 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
     <carrier_config cid="1735" name="Turkcell">
         <boolean name="hide_enhanced_4g_lte_bool" value="true" />
         <boolean name="nt_show_4_5g_for_lte_data_icon_bool" value="true" />
+        <boolean name="vonr_enabled_bool" value="true" />
+        <boolean name="vonr_on_by_default_bool" value="true" />
+        <boolean name="vonr_setting_visibility_bool" value="false" />
+        <boolean name="nt_carrier_default_sa_enabled_bool" value="true" />
+        <boolean name="nt_hide_5g_standalone_bool" value="true" />
+        <boolean name="nt_hide_vt_toggle_bool" value="true" />
     </carrier_config>
     <carrier_config cid="1736" name="Vodafone TR">
         <boolean name="hide_enhanced_4g_lte_bool" value="true" />
@@ -5549,9 +5603,15 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
     </carrier_config>
     <carrier_config cid="1896" name="dtac">
         <boolean name="carrier_allow_transfer_ims_call_bool" value="false" />
+        <boolean name="carrier_supports_ss_over_ut_bool" value="true" />
+        <int name="carrier_default_wfc_ims_mode_int" value="1" />
+        <int name="carrier_default_wfc_ims_roaming_mode_int" value="1" />
     </carrier_config>
     <carrier_config cid="1897" name="dtac">
         <boolean name="carrier_allow_transfer_ims_call_bool" value="false" />
+        <boolean name="carrier_supports_ss_over_ut_bool" value="true" />
+        <int name="carrier_default_wfc_ims_mode_int" value="1" />
+        <int name="carrier_default_wfc_ims_roaming_mode_int" value="1" />
     </carrier_config>
     <carrier_config cid="1898" name="True Move">
         <boolean name="carrier_allow_transfer_ims_call_bool" value="false" />
@@ -5683,16 +5743,20 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <boolean name="vonr_enabled_bool" value="true" />
         <boolean name="vonr_setting_visibility_bool" value="true" />
         <boolean name="vonr_on_by_default_bool" value="true" />
+        <boolean name="nt_carrier_default_sa_enabled_bool" value="true" />
     </carrier_config>
     <carrier_config cid="1997" name="TrueMove H 4G LTE">
         <boolean name="carrier_allow_transfer_ims_call_bool" value="false" />
         <boolean name="vonr_enabled_bool" value="true" />
-        <string-array name="nt_5g_plus_display_rules_string_array" num="2">
+        <string-array name="nt_5g_plus_display_rules_string_array" num="3">
             <item value="NR" />
             <item value="NRCA" />
+            <item value="UWB" />
         </string-array>
         <boolean name="vonr_on_by_default_bool" value="true" />
         <boolean name="nt_carrier_default_sa_enabled_bool" value="true" />
+        <int name="carrier_default_wfc_ims_mode_int" value="1" />
+        <int name="carrier_default_wfc_ims_roaming_mode_int" value="1" />
     </carrier_config>
     <carrier_config cid="1999" name="VIVACOM">
         <boolean name="carrier_vt_available_bool" value="false" />
@@ -5715,7 +5779,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <boolean name="editable_wfc_roaming_mode_bool" value="false" />
         <boolean name="config_disable_clir_over_ut" value="true" />
         <boolean name="config_hide_vt_callforward_option" value="false" />
-        <int name="ims.sa_disable_policy_int" value="1" />
+        <int name="ims.sa_disable_policy_int" value="0" />
         <boolean name="nt_carrier_change_to_auto_mode_bool" value="true" />
         <long name="nt_carrier_change_to_auto_mode_delay_timer_long" value="30000" />
         <boolean name="hide_enhanced_4g_lte_bool" value="true" />
@@ -5873,6 +5937,8 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <string-array name="carrier_service_number_array" num="1">
             <item value="+448003768888" />
         </string-array>
+        <boolean name="hide_enable_2g_bool" value="false" />
+        <boolean name="nt_default_disable_2g_bool" value="true" />
     </carrier_config>
     <carrier_config cid="2102" name="BT Business">
         <int name="wfc_spn_format_idx_int" value="1" />
@@ -5890,6 +5956,8 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <string-array name="carrier_service_number_array" num="1">
             <item value="+448003768888" />
         </string-array>
+        <boolean name="hide_enable_2g_bool" value="false" />
+        <boolean name="nt_default_disable_2g_bool" value="true" />
     </carrier_config>
     <carrier_config cid="2106" name="IIJmio">
         <int name="call_waiting_service_class_int" value="0" />
@@ -5900,6 +5968,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <boolean name="carrier_vt_available_bool" value="false" />
         <boolean name="additional_call_setting_bool" value="false" />
         <string name="nt_carrier_deep_sleep_power_opt_settings_string">0:1:5:900000:0:900000:0:-105:-105:0</string>
+        <boolean name="format_incoming_number_to_national_for_jp_bool" value="true" />
     </carrier_config>
     <carrier_config cid="2118" name="giffgaff">
         <boolean name="carrier_volte_available_bool" value="true" />
@@ -5943,6 +6012,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <int name="vvm_ssl_port_number_int" value="993" />
         <string name="vvm_type_string">vvm_type_omtp</string>
         <string name="carrier_vvm_package_name_string">re.freemobile.android.vvm</string>
+        <int name="carrier_default_wfc_ims_mode_int" value="1" />
     </carrier_config>
     <carrier_config cid="2129" name="ALDI mobile">
         <string name="nt_carrier_ims_user_agent_string">Telstra</string>
@@ -6004,6 +6074,11 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <boolean name="call_barring_visibility_bool" value="true" />
         <boolean name="vonr_on_by_default_bool" value="true" />
         <boolean name="nt_carrier_default_sa_enabled_bool" value="true" />
+        <boolean name="carrier_default_wfc_ims_enabled_bool" value="true" />
+        <boolean name="carrier_default_wfc_ims_roaming_enabled_bool" value="true" />
+        <int name="carrier_default_wfc_ims_mode_int" value="1" />
+        <boolean name="nt_default_disable_wfc_when_roaming_bool" value="true" />
+        <boolean name="nt_show_wfc_usage_terms_notification_bool" value="true" />
     </carrier_config>
     <carrier_config cid="2361" name="o2">
         <boolean name="smsUsesSimpleCharactersOnly" value="true" />
@@ -6016,6 +6091,11 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <boolean name="call_barring_visibility_bool" value="true" />
         <boolean name="vonr_on_by_default_bool" value="true" />
         <boolean name="nt_carrier_default_sa_enabled_bool" value="true" />
+        <boolean name="carrier_default_wfc_ims_enabled_bool" value="true" />
+        <boolean name="carrier_default_wfc_ims_roaming_enabled_bool" value="true" />
+        <int name="carrier_default_wfc_ims_mode_int" value="1" />
+        <boolean name="nt_default_disable_wfc_when_roaming_bool" value="true" />
+        <boolean name="nt_show_wfc_usage_terms_notification_bool" value="true" />
     </carrier_config>
     <carrier_config cid="2364" name="Vodafone">
         <boolean name="enableMMSDeliveryReports" value="true" />
@@ -6072,6 +6152,9 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <boolean name="hide_enhanced_4g_lte_bool" value="true" />
         <int name="carrier_default_wfc_ims_mode_int" value="10" />
         <boolean name="carrier_default_wfc_ims_enabled_bool" value="true" />
+        <boolean name="show_4g_for_lte_data_icon_bool" value="false" />
+        <boolean name="prefer_2g_bool" value="true" />
+        <boolean name="nt_hide_volte_icon_in_setting_by_defaut_boolean" value="false" />
     </carrier_config>
     <carrier_config cid="2368" name="Vodafone">
         <boolean name="carrier_wfc_ims_available_bool" value="false" />
@@ -6213,7 +6296,6 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <boolean name="hide_ims_apn_bool" value="true" />
         <int name="carrier_default_wfc_ims_mode_int" value="10" />
         <int name="carrier_default_wfc_ims_roaming_mode_int" value="10" />
-        <boolean name="nt_hide_5g_standalone_bool" value="true" />
     </carrier_config>
     <carrier_config cid="2397" name="Vodafone">
         <boolean name="enableMMSDeliveryReports" value="true" />
@@ -6299,6 +6381,8 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
     <carrier_config cid="2416" name="Fastweb">
         <boolean name="carrier_vt_available_bool" value="false" />
         <int name="carrier_default_wfc_ims_mode_int" value="1" />
+        <boolean name="nt_hide_volte_icon_bool" value="true" />
+        <boolean name="carrier_supports_ss_over_ut_bool" value="true" />
     </carrier_config>
     <carrier_config cid="2419" name="EE Business">
         <int name="wfc_spn_format_idx_int" value="1" />
@@ -6316,6 +6400,8 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <string-array name="carrier_service_number_array" num="1">
             <item value="+448003768888" />
         </string-array>
+        <boolean name="hide_enable_2g_bool" value="false" />
+        <boolean name="nt_default_disable_2g_bool" value="true" />
     </carrier_config>
     <carrier_config cid="2425" name="iD Mobile">
         <boolean name="nt_hide_3G_mode_bool" value="true" />
@@ -6333,6 +6419,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <boolean name="support_ims_conference_call_bool" value="false" />
         <boolean name="nt_verify_cnap_name_display_bool" value="true" />
         <string name="nt_carrier_deep_sleep_power_opt_settings_string">0:1:5:900000:0:900000:0:-105:-105:0</string>
+        <boolean name="format_incoming_number_to_national_for_jp_bool" value="true" />
     </carrier_config>
     <carrier_config cid="2434" name="giga_sg">
         <boolean name="hide_ims_apn_bool" value="true" />
@@ -6660,15 +6747,6 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
     </carrier_config>
     <carrier_config cid="1366" name="Orange">
         <string name="carrier_name_string">Orange B</string>
-    </carrier_config>
-    <carrier_config cid="1365" name="Proximus">
-        <string name="carrier_name_string">Proximus</string>
-        <string-array name="nt_mvno_string_array" num="4">
-            <item value="Mobile Vikings" />
-            <item value="Pay&amp;Go" />
-            <item value="YOIN BE" />
-            <item value="Scarlet" />
-        </string-array>
     </carrier_config>
     <carrier_config cid="2150" name="Telenet">
         <string name="carrier_name_string">Telenet</string>
@@ -7304,12 +7382,6 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
             <item value="GOLAN T" />
         </string-array>
     </carrier_config>
-    <carrier_config cid="1633" name="Celcom">
-        <string name="carrier_name_string">MY CELCOM</string>
-        <string-array name="nt_mvno_string_array" num="1">
-            <item value="redONE" />
-        </string-array>
-    </carrier_config>
     <carrier_config cid="2038" name="Unifi - P1/Webe">
         <string name="carrier_name_string">unifi</string>
         <string-array name="nt_mvno_string_array" num="1">
@@ -7340,9 +7412,6 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
     </carrier_config>
     <carrier_config cid="1896" name="DTAC">
         <string name="carrier_name_string">dtac</string>
-    </carrier_config>
-    <carrier_config cid="1997" name="TrueMove H 4G LTE">
-        <string name="carrier_name_string">TRUE-H</string>
     </carrier_config>
     <carrier_config cid="1684" name="Mobily">
         <string name="carrier_name_string">mobily</string>

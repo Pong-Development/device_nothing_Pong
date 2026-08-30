@@ -364,7 +364,7 @@
     <string name="config_dozeTapSensorType" translatable="false">co.aospa.sensor.single_touch</string>
 
     <!-- Fingerprint from stock ROM -->
-    <string name="config_stockFingerprint" translatable="false">Nothing/Pong/Pong:12/SKQ1.250415.001/2606181026:user/release-keys</string>
+    <string name="config_stockFingerprint" translatable="false">Nothing/Pong/Pong:12/SKQ1.250415.001/2608181726:user/release-keys</string>
 
     <!-- The default intensity level for haptic feedback. See
          Settings.System.HAPTIC_FEEDBACK_INTENSITY more details on the constant values and
