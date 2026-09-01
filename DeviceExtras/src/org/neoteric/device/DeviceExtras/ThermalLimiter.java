@@ -24,10 +24,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.hardware.display.DisplayManager;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.PowerManager;
 import android.util.Log;
+import android.view.Display;
 import android.widget.Toast;
 import androidx.preference.Preference;
 import androidx.preference.Preference.OnPreferenceChangeListener;
@@ -99,6 +100,7 @@ public class ThermalLimiter implements OnPreferenceChangeListener {
     private static SharedPreferences mPrefs;
     private static BroadcastReceiver mScreenReceiver;
     private static String mThrottledPackage;
+    private static volatile boolean mInteractive = true;
 
     private static String mLittleCeiling;
     private static String mMidCeiling;
@@ -141,6 +143,7 @@ public class ThermalLimiter implements OnPreferenceChangeListener {
         mIsMonitoring = true;
         mHandler = new Handler(Looper.getMainLooper());
         cacheClusterCeilings();
+        seedInteractiveState();
 
         mThermalMonitor = new Runnable() {
             @Override
@@ -428,11 +431,13 @@ public class ThermalLimiter implements OnPreferenceChangeListener {
     }
 
     private static boolean isInteractive() {
-        if (mContext == null) {
-            return false;
-        }
-        final PowerManager pm = mContext.getSystemService(PowerManager.class);
-        return pm == null || pm.isInteractive();
+        return mContext != null && mInteractive;
+    }
+
+    private static void seedInteractiveState() {
+        final DisplayManager dm = mContext.getSystemService(DisplayManager.class);
+        final Display display = dm != null ? dm.getDisplay(Display.DEFAULT_DISPLAY) : null;
+        mInteractive = display == null || display.getState() == Display.STATE_ON;
     }
 
     private static void registerScreenReceiver() {
@@ -443,9 +448,11 @@ public class ThermalLimiter implements OnPreferenceChangeListener {
                     return;
                 }
                 if (Intent.ACTION_SCREEN_OFF.equals(intent.getAction())) {
+                    mInteractive = false;
                     mHandler.removeCallbacks(mThermalMonitor);
                     releaseThrottle();
                 } else if (Intent.ACTION_SCREEN_ON.equals(intent.getAction())) {
+                    mInteractive = true;
                     mHandler.removeCallbacks(mThermalMonitor);
                     mHandler.post(mThermalMonitor);
                 }
