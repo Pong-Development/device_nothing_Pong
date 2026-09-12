@@ -45,4 +45,8 @@
     <!-- Do not translate. Default access point SSID used for tethering -->
     <string name="wifi_tether_configure_ssid_default" translatable="false">Nothing Phone (2)</string>
 
+    <!-- Indicates that STA + bridged AP concurrency mode is supported on this device provided
+         that the device interface combination allows for it-->
+    <bool translatable="false" name="config_wifiStaWithBridgedSoftApConcurrencySupported">true</bool>
+
 </resources>
