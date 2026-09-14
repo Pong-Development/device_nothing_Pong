@@ -122,6 +122,9 @@
     <!-- Boolean indicating whether display white balance is supported. -->
     <bool name="config_displayWhiteBalanceAvailable">true</bool>
 
+    <!-- Boolean indicating whether display white balance should be enabled by default. -->
+    <bool name="config_displayWhiteBalanceEnabledDefault">true</bool>
+
     <!-- Minimum color temperature, in Kelvin, supported by display white balance. -->
     <integer name="config_displayWhiteBalanceColorTemperatureMin">4400</integer>
 
@@ -130,6 +133,12 @@
 
     <!-- Default color temperature, in Kelvin, used by display white balance. -->
     <integer name="config_displayWhiteBalanceColorTemperatureDefault">6500</integer>
+
+    <!-- Duration, in milliseconds, of the display white balance animated transitions when decreasing cct. -->
+    <integer name="config_displayWhiteBalanceTransitionTimeDecrease">3000</integer>
+
+    <!-- Duration, in milliseconds, of the display white balance animated transitions when increasing cct. -->
+    <integer name="config_displayWhiteBalanceTransitionTimeIncrease">3000</integer>
 
     <!-- If true, the display will be shifted around in ambient mode. -->
     <bool name="config_enableBurnInProtection">true</bool>
@@ -345,10 +354,27 @@
     <!-- Fingerprint from stock ROM -->
     <string name="config_stockFingerprint" translatable="false">Nothing/Pong/Pong:12/SKQ1.250415.001/2606181026:user/release-keys</string>
 
-    <integer translatable="false" name="config_brightness_ramp_rate_slow">50</integer>
-    
-    <!-- Fast brightness animation ramp rate in brightness units per second-->
-    <integer translatable="false" name="config_brightness_ramp_rate_fast">200</integer>
+    <!-- Default screen brightness setting set.
+         -2 is invalid so setting will resort to int value specified above.
+         Must be in the range specified by minimum and maximum. -->
+    <item type="dimen" name="config_screenBrightnessSettingDefaultFloat">0.4</item>
+
+    <!-- Minimum screen brightness setting allowed by power manager.
+         -2 is invalid so setting will resort to int value specified above.
+         Set this to 0.0 to allow screen to go to minimal brightness.
+         The user is forbidden from setting the brightness below this level. -->
+    <item type="dimen" name="config_screenBrightnessSettingMinimumFloat">0.0</item>
+
+    <!-- Maximum screen brightness allowed by the power manager.
+         -2 is invalid so setting will resort to int value specified above.
+         Set this to 1.0 for maximum brightness range.
+         The user is forbidden from setting the brightness above this level. -->
+    <item type="dimen" name="config_screenBrightnessSettingMaximumFloat">1.0</item>
+
+    <!-- Screen brightness used to dim the screen when the user activity
+         timeout expires.  May be less than the minimum allowed brightness setting
+         that can be set by the user. -->
+    <item type="dimen" name="config_screenBrightnessDimFloat">0.05</item>
 
     <!-- Array of light sensor lux values to define our levels for auto backlight brightness support.
          The N entries of this array define N + 1 control points as follows:
@@ -386,39 +412,40 @@
         <item>2800</item>
         <item>3500</item>
         <item>4500</item>
+        <item>7000</item>
+        <item>18000</item>
+        <item>40000</item>
     </integer-array>
 
-    <!-- Array of output values for LCD backlight corresponding to the lux values
-         in the config_autoBrightnessLevels array.  This array should have size one greater
-         than the size of the config_autoBrightnessLevels array.
-         The brightness values must be between 0 and 255 and be non-decreasing.
-         This must be overridden in platform specific overlays -->
-    <integer-array name="config_autoBrightnessLcdBacklightValues">
-        <item>17</item>
-        <item>34</item>
-        <item>43</item>
-        <item>73</item>
-        <item>104</item>
-        <item>113</item>
-        <item>117</item>
-        <item>130</item>
-        <item>141</item>
-        <item>147</item>
-        <item>161</item>
-        <item>173</item>
-        <item>188</item>
-        <item>211</item>
-        <item>219</item>
-        <item>255</item>
-    </integer-array>
+    <!-- Array of desired screen brightness in nits corresponding to the lux values
+         in the config_autoBrightnessLevels array. As with config_screenBrightnessMinimumNits and
+         config_screenBrightnessMaximumNits, the display brightness is defined as the measured
+         brightness of an all-white image.
 
-<!-- Stability requirements in milliseconds for accepting a new brightness level.  This is used
-         for debouncing the light sensor.  Different constants are used to debounce the light sensor
-         when adapting to brighter or darker environments.  This parameter controls how quickly
-         brightness changes occur in response to an observed change in light level that exceeds the
-         hysteresis threshold. -->
-    <integer name="config_autoBrightnessBrighteningLightDebounce">500</integer>
-    <integer name="config_autoBrightnessDarkeningLightDebounce">500</integer>
+         This array should have size one greater than the size of the config_autoBrightnessLevels
+         array. The brightness values must be non-negative and non-decreasing. This must be
+         overridden in platform specific overlays -->
+    <array name="config_autoBrightnessDisplayValuesNits">
+        <item>2.0</item>       <!--      0 lux -->
+        <item>8.72</item>      <!--      1 lux -->
+        <item>13.32</item>     <!--      4 lux -->
+        <item>38.03</item>     <!--     10 lux -->
+        <item>72.15</item>     <!--     25 lux -->
+        <item>85.40</item>     <!--     60 lux -->
+        <item>91.10</item>     <!--    150 lux -->
+        <item>114.40</item>    <!--    390 lux -->
+        <item>138.34</item>    <!--    620 lux -->
+        <item>151.64</item>    <!--    750 lux -->
+        <item>181.38</item>    <!--   1000 lux -->
+        <item>210.98</item>    <!--   1300 lux -->
+        <item>251.03</item>    <!--   1700 lux -->
+        <item>321.37</item>    <!--   2800 lux -->
+        <item>351.83</item>    <!--   3500 lux -->
+        <item>490.0</item>     <!--   4500 lux (Transition point to HBM) -->
+        <item>725.02</item>    <!--   7000 lux (HBM step 1) -->
+        <item>868.98</item>    <!--  18000 lux (HBM step 2) -->
+        <item>980.0</item>     <!--  40000 lux (HBM step 3) -->
+    </array>
 
      <!-- Vibrator pattern for feedback about a long screen/key press -->
     <!-- The default intensity level for haptic feedback. See
