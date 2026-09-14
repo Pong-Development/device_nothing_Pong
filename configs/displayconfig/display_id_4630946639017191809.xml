@@ -41,6 +41,7 @@
             <nits>1440.0</nits>
         </point>
     </screenBrightnessMap>
+    <screenBrightnessDefault>0.4</screenBrightnessDefault>
     <highBrightnessMode enabled="true">
         <transitionPoint>0.858364</transitionPoint>
         <minimumLux>6000.0</minimumLux>
@@ -81,4 +82,16 @@
             </point>
         </sdrHdrRatioMap>
     </highBrightnessMode>
+    <autoBrightness enabled="true">
+        <brighteningLightDebounceMillis>1000</brighteningLightDebounceMillis>
+        <darkeningLightDebounceMillis>4000</darkeningLightDebounceMillis>
+    </autoBrightness>
+    <screenBrightnessRampFastDecrease>0.7047244</screenBrightnessRampFastDecrease>
+    <screenBrightnessRampFastIncrease>0.7047244</screenBrightnessRampFastIncrease>
+    <screenBrightnessRampSlowDecrease>0.05</screenBrightnessRampSlowDecrease>
+    <screenBrightnessRampSlowIncrease>0.05</screenBrightnessRampSlowIncrease>
+    <screenBrightnessRampIncreaseMaxMillis>2000</screenBrightnessRampIncreaseMaxMillis>
+    <ambientLightHorizonLong>5000</ambientLightHorizonLong>
+    <ambientLightHorizonShort>50</ambientLightHorizonShort>
+    <defaultDozeBrightness>0.05</defaultDozeBrightness>
 </displayConfiguration>
