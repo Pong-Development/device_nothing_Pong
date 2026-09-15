@@ -18,6 +18,8 @@
 package org.neoteric.device.DeviceExtras;
 
 import android.app.ActivityManager;
+import android.app.ActivityTaskManager;
+import android.app.TaskStackListener;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -99,6 +101,7 @@ public class ThermalLimiter implements OnPreferenceChangeListener {
     private static Context mContext;
     private static SharedPreferences mPrefs;
     private static BroadcastReceiver mScreenReceiver;
+    private static TaskStackListener mTaskStackListener;
     private static String mThrottledPackage;
     private static volatile boolean mInteractive = true;
 
@@ -148,11 +151,14 @@ public class ThermalLimiter implements OnPreferenceChangeListener {
         mThermalMonitor = new Runnable() {
             @Override
             public void run() {
-                mHandler.postDelayed(this, tick());
+                if (mIsMonitoring) {
+                    mHandler.postDelayed(this, tick());
+                }
             }
         };
 
         registerScreenReceiver();
+        registerTaskStackListener();
         mHandler.post(mThermalMonitor);
         Log.i(TAG, "Thermal monitoring started");
     }
@@ -168,7 +174,9 @@ public class ThermalLimiter implements OnPreferenceChangeListener {
         }
 
         unregisterScreenReceiver();
+        unregisterTaskStackListener();
         resetFrequencies();
+        mThrottledPackage = null;
         ThermalLimiterTileService.refreshTile();
         mContext = null;
         mPrefs = null;
@@ -214,6 +222,16 @@ public class ThermalLimiter implements OnPreferenceChangeListener {
             return null;
         }
 
+        try {
+            final ActivityTaskManager.RootTaskInfo task =
+                    ActivityTaskManager.getService().getFocusedRootTaskInfo();
+            if (task != null && task.topActivity != null) {
+                return task.topActivity.getPackageName();
+            }
+        } catch (Exception e) {
+            Log.w(TAG, "Focused task unavailable, falling back to running tasks", e);
+        }
+
         final ActivityManager am = mContext.getSystemService(ActivityManager.class);
         if (am == null) {
             return null;
@@ -227,20 +245,6 @@ public class ThermalLimiter implements OnPreferenceChangeListener {
                         ? task.topActivity : task.baseActivity;
                 if (component != null) {
                     return component.getPackageName();
-                }
-            }
-        } catch (Exception e) {
-            Log.w(TAG, "getRunningTasks unavailable, falling back to process importance", e);
-        }
-
-        try {
-            final List<ActivityManager.RunningAppProcessInfo> procs = am.getRunningAppProcesses();
-            if (procs != null) {
-                for (ActivityManager.RunningAppProcessInfo proc : procs) {
-                    if (proc.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND
-                            && proc.pkgList != null && proc.pkgList.length > 0) {
-                        return proc.pkgList[0];
-                    }
                 }
             }
         } catch (Exception e) {
@@ -262,6 +266,51 @@ public class ThermalLimiter implements OnPreferenceChangeListener {
     public static void setSelectedApps(Context context, Set<String> packages) {
         PreferenceManager.getDefaultSharedPreferences(context).edit()
                 .putStringSet(KEY_APPS, new HashSet<>(packages)).apply();
+        requestImmediateCheck();
+    }
+
+    private static void requestImmediateCheck() {
+        final Handler handler = mHandler;
+        if (handler == null) {
+            return;
+        }
+        handler.post(() -> {
+            if (mIsMonitoring && mInteractive) {
+                mHandler.removeCallbacks(mThermalMonitor);
+                mHandler.post(mThermalMonitor);
+            }
+        });
+    }
+
+    private static void registerTaskStackListener() {
+        mTaskStackListener = new TaskStackListener() {
+            @Override
+            public void onTaskStackChanged() {
+                requestImmediateCheck();
+            }
+
+            @Override
+            public void onTaskFocusChanged(int taskId, boolean focused) {
+                requestImmediateCheck();
+            }
+        };
+        try {
+            ActivityTaskManager.getService().registerTaskStackListener(mTaskStackListener);
+        } catch (Exception e) {
+            mTaskStackListener = null;
+            Log.w(TAG, "Task notifications unavailable; continuing periodic checks", e);
+        }
+    }
+
+    private static void unregisterTaskStackListener() {
+        if (mTaskStackListener != null) {
+            try {
+                ActivityTaskManager.getService().unregisterTaskStackListener(mTaskStackListener);
+            } catch (Exception e) {
+                Log.w(TAG, "Failed to unregister task listener", e);
+            }
+            mTaskStackListener = null;
+        }
     }
 
     private static int[] getThresholds() {
@@ -356,6 +405,28 @@ public class ThermalLimiter implements OnPreferenceChangeListener {
         }
     }
 
+    private static void enforceClusterCeiling(String[] cores, String frequency) {
+        for (String core : cores) {
+            enforceFrequencyCeiling("/sys/devices/system/cpu/" + core
+                    + "/cpufreq/scaling_max_freq", frequency);
+        }
+    }
+
+    private static void enforceFrequencyCeiling(String path, String frequency) {
+        if (!FileUtils.fileWritable(path)) {
+            return;
+        }
+        final String current = FileUtils.readOneLine(path);
+        try {
+            if (current != null && Long.parseLong(current.trim()) <= Long.parseLong(frequency)) {
+                return;
+            }
+        } catch (NumberFormatException e) {
+            Log.w(TAG, "Invalid frequency at " + path + ": " + current);
+        }
+        FileUtils.writeValue(path, frequency);
+    }
+
     private static void adjustFrequencies(int temperature) {
         final int[] thresholds = getThresholds();
 
@@ -411,6 +482,11 @@ public class ThermalLimiter implements OnPreferenceChangeListener {
             }
 
             ThermalLimiterTileService.updateTileState(stateName, tempCelsius);
+        } else if (newState > STATE_NORMAL) {
+            enforceClusterCeiling(CPU_LITTLE_CORES, littleFreq);
+            enforceClusterCeiling(CPU_MID_CORES, midFreq);
+            enforceClusterCeiling(CPU_PRIME_CORES, primeFreq);
+            enforceFrequencyCeiling(GPU_MAX_FREQ, gpuFreq);
         }
     }
 
