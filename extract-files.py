@@ -59,6 +59,7 @@ blob_fixups: blob_fixups_user_type = {
         .add_needed('libaudiobase.so')
         .add_needed('android.hidl.base@1.0.so')
         .replace_needed('android.media.audio.common.types-V4-cpp.so', 'android.media.audio.common.types-V5-cpp.so'),
+        .replace_needed('vendor.qti.hardware.wifidisplaysession_aidl-V1-ndk.so', 'vendor.qti.hardware.wifidisplaysession_aidl-V2-ndk.so'),
     'vendor/bin/qcc-trd': blob_fixup()
         .replace_needed('libgrpc++_unsecure.so', 'libgrpc++_unsecure_prebuilt.so'),
     ('vendor/bin/hw/android.hardware.gnss-aidl-service-qti', 'vendor/lib64/hw/android.hardware.gnss-aidl-impl-qti.so', 'vendor/lib64/libgarden.so', 'vendor/lib64/libgarden_haltests_e2e.so'): blob_fixup()
