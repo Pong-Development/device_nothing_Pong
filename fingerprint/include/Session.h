@@ -14,6 +14,7 @@
 #include <log/log.h>
 
 #include "LockoutTracker.h"
+#include "UdfpsHandler.h"
 
 using ::aidl::android::hardware::biometrics::common::ICancellationSignal;
 using ::aidl::android::hardware::biometrics::common::OperationContext;
@@ -98,6 +99,10 @@ private:
 
     // Binder death handler.
     AIBinder_DeathRecipient* mDeathRecipient;
+
+    bool mIsAod = false;
+    // Destroy the worker before the session state used by vendor callbacks.
+    UdfpsHandler mUdfpsHandler;
 };
 
 } // namespace fingerprint

@@ -105,6 +105,9 @@ fingerprint_device_t* Fingerprint::openHal() {
 Fingerprint::~Fingerprint() {
     ALOGV("~Fingerprint()");
 
+    // Join the illumination worker before closing the device it calls into.
+    mSession.reset();
+
     if (mDevice == nullptr) {
         ALOGE("No valid device");
         return;

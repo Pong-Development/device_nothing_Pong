@@ -15,6 +15,7 @@
 #include "CancellationSignal.h"
 
 #define FOD_HBM_PATH "/sys/devices/platform/soc/soc:qcom,dsi-display-primary/force_fod_ui"
+#define FOD_UI_READY_PATH "/sys/devices/platform/soc/soc:qcom,dsi-display-primary/fod_ui"
 
 namespace aidl {
 namespace android {
@@ -36,7 +37,10 @@ void onClientDeath(void* cookie) {
 
 Session::Session(fingerprint_device_t* device, int32_t userId,
             std::shared_ptr<ISessionCallback> cb, LockoutTracker lockoutTracker)
-            : mDevice(device), mUserId(userId), mLockoutTracker(lockoutTracker), mCb(cb) {
+            : mDevice(device), mLockoutTracker(lockoutTracker), mUserId(userId), mCb(cb),
+              mUdfpsHandler(FOD_UI_READY_PATH, [device](bool down) {
+                  device->goodixExtCmd(device, down ? 1 : 0, 0);
+              }) {
     mDeathRecipient = AIBinder_DeathRecipient_new(onClientDeath);
 
     std::string path = ::android::base::StringPrintf("/data/vendor_de/%d/fpdata/", mUserId);
@@ -53,8 +57,8 @@ ndk::ScopedAStatus Session::generateChallenge() {
 
 ndk::ScopedAStatus Session::revokeChallenge(int64_t challenge) {
     ALOGI("revokeChallenge: %ld", challenge);
+    mUdfpsHandler.onFingerUp();
     setFodHbm(false);
-    mDevice->goodixExtCmd(mDevice, 0, 0);
     mDevice->post_enroll(mDevice);
     mCb->onChallengeRevoked(challenge);
 
@@ -156,6 +160,7 @@ ndk::ScopedAStatus Session::resetLockout(const HardwareAuthToken& /*hat*/) {
 ndk::ScopedAStatus Session::onPointerDown(int32_t /*pointerId*/, int32_t x, int32_t y, float minor,
                                           float major) {
     ALOGI("onPointerDown: x=%d, y=%d, minor=%f, major=%f", x, y, minor, major);
+    mIsAod = false;
 
     return ndk::ScopedAStatus::ok();
 }
@@ -163,7 +168,7 @@ ndk::ScopedAStatus Session::onPointerDown(int32_t /*pointerId*/, int32_t x, int3
 ndk::ScopedAStatus Session::onPointerUp(int32_t /*pointerId*/) {
     ALOGI("onPointerUp");
 
-    mDevice->goodixExtCmd(mDevice, 0, 0);
+    mUdfpsHandler.onFingerUp();
 
     return ndk::ScopedAStatus::ok();
 }
@@ -171,9 +176,9 @@ ndk::ScopedAStatus Session::onPointerUp(int32_t /*pointerId*/) {
 ndk::ScopedAStatus Session::onUiReady() {
     ALOGI("onUiReady");
 
-    // TODO: stub
-
-    mDevice->goodixExtCmd(mDevice, 1, 0);
+    // SystemUI may signal readiness before the panel has finished waking. The kernel
+    // publishes fod_ui only after enabling fingerprint HBM for the pressed layer.
+    mUdfpsHandler.onUiReady(mIsAod);
 
     return ndk::ScopedAStatus::ok();
 }
@@ -197,7 +202,9 @@ ndk::ScopedAStatus Session::detectInteractionWithContext(
 }
 
 ndk::ScopedAStatus Session::onPointerDownWithContext(const PointerContext& context) {
-    return onPointerDown(context.pointerId, context.x, context.y, context.minor, context.major);
+    auto status = onPointerDown(context.pointerId, context.x, context.y, context.minor, context.major);
+    mIsAod = context.isAod;
+    return status;
 }
 
 ndk::ScopedAStatus Session::onPointerUpWithContext(const PointerContext& context) {
@@ -208,8 +215,8 @@ ndk::ScopedAStatus Session::onContextChanged(const common::OperationContext& /*c
     return ndk::ScopedAStatus::ok();
 }
 
-ndk::ScopedAStatus Session::onPointerCancelWithContext(const PointerContext& /*context*/) {
-    return ndk::ScopedAStatus::ok();
+ndk::ScopedAStatus Session::onPointerCancelWithContext(const PointerContext& context) {
+    return onPointerUp(context.pointerId);
 }
 
 ndk::ScopedAStatus Session::setIgnoreDisplayTouches(bool /*shouldIgnore*/) {
@@ -219,8 +226,8 @@ ndk::ScopedAStatus Session::setIgnoreDisplayTouches(bool /*shouldIgnore*/) {
 ndk::ScopedAStatus Session::cancel() {
     ALOGI("cancel");
 
+    mUdfpsHandler.onFingerUp();
     setFodHbm(false);
-    mDevice->goodixExtCmd(mDevice, 0, 0);
 
     int ret = mDevice->cancel(mDevice);
 
@@ -235,8 +242,8 @@ ndk::ScopedAStatus Session::cancel() {
 
 ndk::ScopedAStatus Session::close() {
     ALOGI("close");
+    mUdfpsHandler.onFingerUp();
     setFodHbm(false);
-    mDevice->goodixExtCmd(mDevice, 0, 0);
     mClosed = true;
     mCb->onSessionClosed();
     AIBinder_DeathRecipient_delete(mDeathRecipient);
@@ -315,8 +322,8 @@ bool Session::checkSensorLockout() {
     LockoutMode lockoutMode = mLockoutTracker.getMode();
 
     if (lockoutMode != LockoutMode::NONE) {
+	mUdfpsHandler.onFingerUp();
 	setFodHbm(false);
-	mDevice->goodixExtCmd(mDevice, 0, 0);
     }
 
     if (lockoutMode == LockoutMode::PERMANENT) {
@@ -386,8 +393,8 @@ void Session::notify(const fingerprint_msg_t* msg) {
             mCb->onEnrollmentProgress(msg->data.enroll.finger.fid,
                                       msg->data.enroll.samples_remaining);
             if (msg->data.enroll.samples_remaining == 0) {
+                mUdfpsHandler.onFingerUp();
                 setFodHbm(false);
-                mDevice->goodixExtCmd(mDevice, 0, 0);
             }
         } break;
         case FINGERPRINT_TEMPLATE_REMOVED: {
@@ -407,8 +414,8 @@ void Session::notify(const fingerprint_msg_t* msg) {
 
                 mCb->onAuthenticationSucceeded(msg->data.authenticated.finger.fid, authToken);
                 mLockoutTracker.reset(true);
+                mUdfpsHandler.onFingerUp();
                 setFodHbm(false);
-                mDevice->goodixExtCmd(mDevice, 0, 0);
             } else {
                 mCb->onAuthenticationFailed();
                 mLockoutTracker.addFailedAttempt();
