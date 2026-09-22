@@ -14,6 +14,7 @@
 #include <log/log.h>
 
 #include "LockoutTracker.h"
+#include "UdfpsHandler.h"
 
 using ::aidl::android::hardware::biometrics::common::ICancellationSignal;
 using ::aidl::android::hardware::biometrics::common::OperationContext;
@@ -98,6 +99,9 @@ private:
 
     // Binder death handler.
     AIBinder_DeathRecipient* mDeathRecipient;
+
+    bool mIsAod = false;
+    UdfpsHandler mUdfpsHandler;
 };
 
 } // namespace fingerprint

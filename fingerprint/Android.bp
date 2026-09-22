@@ -16,6 +16,7 @@ cc_binary {
         "Fingerprint.cpp",
         "LockoutTracker.cpp",
         "Session.cpp",
+        "UdfpsHandler.cpp",
         "service.cpp",
     ],
     shared_libs: [
