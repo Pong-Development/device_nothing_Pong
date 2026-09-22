@@ -105,6 +105,8 @@ fingerprint_device_t* Fingerprint::openHal() {
 Fingerprint::~Fingerprint() {
     ALOGV("~Fingerprint()");
 
+    mSession.reset();
+
     if (mDevice == nullptr) {
         ALOGE("No valid device");
         return;
