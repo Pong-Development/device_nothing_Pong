@@ -94,7 +94,7 @@
       "Values": [
         "9999999",
         "1536000",
-        "1283400",
+        "1286400",
         "787200"
       ],
       "ResetOnInit": true
@@ -609,7 +609,7 @@
       "PowerHint": "EXPENSIVE_RENDERING",
       "Node": "CPUBigPlusClusterMinFreq",
       "Duration": 0,
-      "Value": "1283400"
+      "Value": "1286400"
     },
     {
       "PowerHint": "EXPENSIVE_RENDERING",
