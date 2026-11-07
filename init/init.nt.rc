@@ -80,11 +80,10 @@ on property:vendor.post_boot.parsed=1
     write /proc/irq/243/smp_affinity_list 2
     write /proc/irq/240/smp_affinity_list 1
 
-    # Configure uclamp
-    setprop kernel.sched_util_clamp_min_rt_default 128
+    # RT uclamp uses the scheduler's 0..1024 scale.
     write /proc/sys/kernel/sched_util_clamp_min_rt_default 128
 
-    write /dev/cpuctl/top-app/cpu.uclamp.min 15
+    # Cgroup uclamp values are percentages. PowerHAL owns the top-app minimum.
     write /dev/cpuctl/background/cpu.uclamp.max 80
     write /dev/cpuctl/system-background/cpu.uclamp.max 40
     write /dev/cpuctl/nnapi-hal/cpu.uclamp.min 2
