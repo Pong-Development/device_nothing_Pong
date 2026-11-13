@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2024-2026 Lunaris AOSP
+* Copyright (C) 2017 The OmniROM Project
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -15,28 +15,18 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 *
 */
-package org.neoteric.device.DeviceExtras;
+package org.lunaris.device.DeviceExtras;
 
-import androidx.fragment.app.Fragment;
 import android.os.Bundle;
+import androidx.activity.ComponentActivity;
+import org.lunaris.device.DeviceExtras.ui.DeviceExtrasUiKt;
 
-import com.android.settingslib.collapsingtoolbar.CollapsingToolbarBaseActivity;
-
-public class ThermalAppsActivity extends CollapsingToolbarBaseActivity {
+public class DeviceExtrasActivity extends ComponentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setTitle(R.string.thermal_limiter_apps_title);
-
-        Fragment fragment = getSupportFragmentManager().findFragmentById(
-                com.android.settingslib.collapsingtoolbar.R.id.content_frame);
-        if (fragment == null) {
-            getSupportFragmentManager().beginTransaction()
-                .add(com.android.settingslib.collapsingtoolbar.R.id.content_frame,
-                        new ThermalAppsFragment())
-                .commit();
-        }
+        DeviceExtrasUiKt.attachDeviceExtrasUi(this, false);
     }
 }

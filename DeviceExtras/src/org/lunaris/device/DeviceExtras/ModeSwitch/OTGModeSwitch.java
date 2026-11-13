@@ -15,13 +15,15 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 *
 */
-package org.neoteric.device.DeviceExtras;
+package org.lunaris.device.DeviceExtras;
 
 import android.content.Context;
+import android.util.Log;
 import androidx.preference.Preference;
 import androidx.preference.Preference.OnPreferenceChangeListener;
+import androidx.preference.PreferenceManager;
 
-import org.neoteric.device.DeviceExtras.FileUtils;
+import org.lunaris.device.DeviceExtras.FileUtils;
 
 public class OTGModeSwitch implements OnPreferenceChangeListener {
 
@@ -35,10 +37,23 @@ public class OTGModeSwitch implements OnPreferenceChangeListener {
         return (isSupported() && FileUtils.getFileValueAsBoolean(FILE, false, "3", "4"));
     }
 
+    public static boolean setEnabled(Context context, boolean enabled) {
+        final String value = enabled ? "3" : "4";
+        if (!isSupported() || !FileUtils.writeValue(FILE, value)) {
+            return false;
+        }
+        final String current = FileUtils.readLine(FILE);
+        if (current == null || !value.equals(current.trim())) {
+            Log.w("OTGModeSwitch", "OTG state did not match requested value " + value);
+            return false;
+        }
+        PreferenceManager.getDefaultSharedPreferences(context).edit()
+                .putBoolean(DeviceExtras.KEY_OTG_SWITCH, enabled).apply();
+        return true;
+    }
+
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
-        Boolean enabled = (Boolean) newValue;
-        FileUtils.writeValue(FILE, enabled ? "3" : "4");
-        return true;
+        return setEnabled(preference.getContext(), (Boolean) newValue);
     }
 }

@@ -16,7 +16,7 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 *
 */
-package org.neoteric.device.DeviceExtras;
+package org.lunaris.device.DeviceExtras;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -27,12 +27,11 @@ import androidx.preference.PreferenceManager;
 public class Startup extends BroadcastReceiver {
 
     @Override
-    public void onReceive(final Context context, final Intent bootintent) { 
-        boolean enabled = false;
+    public void onReceive(final Context context, final Intent bootintent) {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        enabled = sharedPrefs.getBoolean(DeviceExtras.KEY_OTG_SWITCH, false);
+        boolean enabled = sharedPrefs.getBoolean(DeviceExtras.KEY_OTG_SWITCH, false);
         if (OTGModeSwitch.isSupported() && enabled) {
-        restore(OTGModeSwitch.FILE, enabled);
+            OTGModeSwitch.setEnabled(context, true);
         }
 
         boolean thermalEnabled = sharedPrefs.getBoolean(DeviceExtras.KEY_THERMAL_LIMITER, false);
@@ -41,19 +40,4 @@ public class Startup extends BroadcastReceiver {
         }
     }
 
-    private void restore(String file, boolean enabled) {
-        if (file == null) {
-            return;
-        }
-        if (enabled) {
-            FileUtils.writeValue(file, "1");
-        }
-    }
-
-    private void restore(String file, String value) {
-        if (file == null) {
-            return;
-        }
-        FileUtils.writeValue(file, value);
-    }
 }

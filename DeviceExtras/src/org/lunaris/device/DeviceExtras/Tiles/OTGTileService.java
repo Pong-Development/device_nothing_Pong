@@ -15,14 +15,11 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 *
 */
-package org.neoteric.device.DeviceExtras;
+package org.lunaris.device.DeviceExtras;
 
-import android.content.SharedPreferences;
 import android.service.quicksettings.Tile;
 import android.service.quicksettings.TileService;
-import androidx.preference.PreferenceManager;
-
-import org.neoteric.device.DeviceExtras.DeviceExtras;
+import android.widget.Toast;
 
 public class OTGTileService extends TileService {
     @Override
@@ -38,7 +35,8 @@ public class OTGTileService extends TileService {
             mTile.setSubtitle(enabled ?
                     getString(R.string.accessibility_quick_settings_on) :
                     getString(R.string.accessibility_quick_settings_off));
-            mTile.setState(enabled ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
+            mTile.setState(!OTGModeSwitch.isSupported() ? Tile.STATE_UNAVAILABLE
+                    : enabled ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
             mTile.updateTile();
         }
     }
@@ -46,17 +44,13 @@ public class OTGTileService extends TileService {
     @Override
     public void onClick() {
         super.onClick();
-        setEnabled(!getEnabled());
+        if (!OTGModeSwitch.setEnabled(this, !getEnabled())) {
+            Toast.makeText(this, R.string.device_setting_error, Toast.LENGTH_SHORT).show();
+        }
         updateState();
     }
 
     private boolean getEnabled() {
-        return PreferenceManager.getDefaultSharedPreferences(this).getBoolean(DeviceExtras.KEY_OTG_SWITCH, false);
-    }
-
-    private void setEnabled(boolean enabled) {
-        FileUtils.writeValue(OTGModeSwitch.FILE, enabled ? "3" : "4");
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        sharedPrefs.edit().putBoolean(DeviceExtras.KEY_OTG_SWITCH, enabled).apply();
+        return OTGModeSwitch.isCurrentlyEnabled();
     }
 }
