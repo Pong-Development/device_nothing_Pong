@@ -2,6 +2,7 @@ type nt_chg, domain;
 type nt_chg_exec, file_type, exec_type, vendor_file_type;
 
 init_daemon_domain(nt_chg)
+get_prop(nt_chg, nt_charging_control_prop)
 allow nt_chg servicemanager:binder call;
 hal_client_domain(nt_chg, hal_health)
 

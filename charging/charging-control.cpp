@@ -1,231 +1,194 @@
 #define LOG_TAG "nt-charging-control"
 
-#include <fcntl.h>
+#include <algorithm>
+#include <android-base/parseint.h>
+#include <android-base/properties.h>
+#include <android-base/strings.h>
+#include <cerrno>
 #include <chrono>
-#include <iterator>
-#include <fstream>
-#include <thread>
+#include <cstdio>
 #include <dirent.h>
+#include <fcntl.h>
+#include <fstream>
 #include <log/log.h>
+#include <time.h>
+#include <unistd.h>
+
 #include "charging-control.h"
+#include "charging-policy.h"
 
-#define MAX_PATH		(256)
-#define THERMAL_SYSFS		"/sys/class/thermal/"
-#define TZ_DIR_NAME		"thermal_zone"
-#define TZ_DIR_FMT		"thermal_zone%d"
-#define TZ_TYPE			"type"
+namespace {
+constexpr char kThermalSysfs[] = "/sys/class/thermal/";
+constexpr char kUsbOnline[] = "/sys/class/power_supply/usb/online";
+constexpr char kUsbType[] = "/sys/class/power_supply/usb/usb_type";
+constexpr char kWirelessOnline[] = "/sys/class/power_supply/wireless/online";
+constexpr char kScenarioFcc[] = "/sys/class/qcom-battery/scenario_fcc";
+constexpr char kEnabledProperty[] = "persist.sys.nt_chg.enabled";
+constexpr char kProfileProperty[] = "persist.sys.nt_chg.profile";
+constexpr auto kPollInterval = std::chrono::milliseconds(500);
+constexpr auto kHealthInfoTimeout = std::chrono::minutes(2);
 
-#define USB_CHG_ONLINE "/sys/class/power_supply/usb/online"
-#define USB_CHG_TYPE "/sys/class/power_supply/usb/usb_type"
-#define BATTERY_SCENARIO_FCC "/sys/class/qcom-battery/scenario_fcc"
-#define WLS_CHG_ONLINE "/sys/class/power_supply/wireless/online"
-
-#define CHG_LIMIT_INTERVAL 500
-
-int CHG_VOLT_TBL[] = { 9000, 8500, 8000, 7500, 7000, 6500,
-                      6000, 5500, 5000, 4500, 4000, 3500,
-                      3000, 2500, 2400, 2000, 1600, 1500,
-                      1200, 1000, 500, 0 };
-int ppsTempThresholds[] = { 35000, 37000, 39000, 41000, 43000, 48000 };
-int ppsVoltLimit[] = { 4, 6, 10, 12, 15, 21 };
-int qcTempThresholds[] = { 35000, 37000, 39000, 41000, 48000 };
-int qcVoltLimit[] = { 8, 12, 15, 16, 21 };
-int wlsTempThresholds[] = { 35000, 41000, 48000 };
-int wlsVoltLimit[] = { 15, 19, 21 };
-
-string ChargeStatusListener::read_line(const char *file) {
-    ifstream input_file(file);
-    string output;
-
-    if (!input_file.is_open())
-        ALOGE("open %s failed", file);
-
-    getline(input_file, output);
-    return output;
+std::chrono::seconds bootTime() {
+    timespec time{};
+    if (clock_gettime(CLOCK_BOOTTIME, &time) != 0)
+        return std::chrono::seconds::zero();
+    return std::chrono::seconds(time.tv_sec);
+}
 }
 
-int ChargeStatusListener::write_value(const char *file, const char *value) {
-    int fd;
-    int ret;
+ChargeStatusListener::ChargeStatusListener() : mWorker(&ChargeStatusListener::limitCharge, this) {}
 
-    fd = TEMP_FAILURE_RETRY(open(file, O_WRONLY));
+ChargeStatusListener::~ChargeStatusListener() {
+    {
+        std::lock_guard<std::mutex> lock(mMutex);
+        mStop = true;
+    }
+    mWake.notify_one();
+    mWorker.join();
+}
+
+std::string ChargeStatusListener::read_line(const char *file) {
+    std::ifstream input(file);
+    std::string value;
+    std::getline(input, value);
+    return value;
+}
+
+bool ChargeStatusListener::read_int(const char *file, int *value) {
+    return android::base::ParseInt(android::base::Trim(read_line(file)), value);
+}
+
+int ChargeStatusListener::write_value(const char *file, int value) {
+    const std::string text = std::to_string(value);
+    const int fd = TEMP_FAILURE_RETRY(open(file, O_WRONLY | O_CLOEXEC));
     if (fd < 0) {
         ALOGE("open %s failed, errno = %d", file, errno);
         return -errno;
     }
-
-    ret = TEMP_FAILURE_RETRY(write(fd, value, strlen(value) + 1));
-    if (ret == -1) {
-        ret = -errno;
-    } else {
-        ret = 0;
-    }
-
-    errno = 0;
+    const ssize_t written = TEMP_FAILURE_RETRY(write(fd, text.c_str(), text.size()));
+    const int result =
+        written < 0 ? -errno : (static_cast<size_t>(written) == text.size() ? 0 : -EIO);
     close(fd);
-
-    return ret;
+    if (result != 0)
+        ALOGE("write %s failed: %d", file, result);
+    return result;
 }
 
-int ChargeStatusListener::write_value(const char *file, int value) {
-    return write_value(file, to_string(value).c_str());
-}
+int ChargeStatusListener::get_tzn(const std::string &sensor_name) {
+    const auto cached = mThermalZones.find(sensor_name);
+    if (cached != mThermalZones.end())
+        return cached->second;
 
-int ChargeStatusListener::get_tzn(string sensor_name)
-{
-    DIR *tdir = NULL;
-    struct dirent *tdirent = NULL;
-    int found = -1;
-    int tzn = 0;
-    char name[MAX_PATH] = {0};
-
-    tdir = opendir(THERMAL_SYSFS);
-    if (!tdir) {
-        ALOGE("get_tzn: Unable to open %s", THERMAL_SYSFS);
-        return found;
-    }
-
-    while ((tdirent = readdir(tdir))) {
-        if (strncmp(tdirent->d_name, TZ_DIR_NAME, strlen(TZ_DIR_NAME)) != 0)
+    DIR *directory = opendir(kThermalSysfs);
+    if (!directory)
+        return -1;
+    int zone = -1;
+    while (const auto *entry = readdir(directory)) {
+        int candidate;
+        char extra;
+        if (sscanf(entry->d_name, "thermal_zone%d%c", &candidate, &extra) != 1)
             continue;
-
-        snprintf(name, sizeof(name), "%s%s/%s",
-                 THERMAL_SYSFS, tdirent->d_name, TZ_TYPE);
-
-        string buf = read_line(name);
-        if (buf.empty()) {
-            ALOGE("get_tzn: sensor name read error for tz: %s", tdirent->d_name);
-            continue;
-        }
-
-        if (strncmp(buf.c_str(), sensor_name.c_str(), sensor_name.length()) == 0) {
-            found = 1;
+        const std::string path = std::string(kThermalSysfs) + entry->d_name + "/type";
+        if (android::base::Trim(read_line(path.c_str())) == sensor_name) {
+            zone = candidate;
+            mThermalZones[sensor_name] = zone;
             break;
         }
     }
+    closedir(directory);
+    return zone;
+}
 
-    if (found == 1) {
-        sscanf(tdirent->d_name, TZ_DIR_FMT, &tzn);
-        found = tzn;
-    }
-
-    closedir(tdir);
-    return found;
+std::optional<int> ChargeStatusListener::read_temperature(const std::string &sensor_name) {
+    const int zone = get_tzn(sensor_name);
+    if (zone < 0)
+        return std::nullopt;
+    const std::string path =
+        std::string(kThermalSysfs) + "thermal_zone" + std::to_string(zone) + "/temp";
+    int temperature;
+    if (!read_int(path.c_str(), &temperature))
+        return std::nullopt;
+    return temperature;
 }
 
 int ChargeStatusListener::get_charge_temp() {
-    int tzn, temp;
-    char path[MAX_PATH];
+    const int battery = read_temperature("battery").value_or(mBatteryTemperature);
+    if (battery <= 0)
+        return 0;
 
-    if (usbChgActive) {
-        tzn = get_tzn("shell_front");
-        if (tzn >= 0) {
-            snprintf(path, sizeof(path), "%sthermal_zone%d/temp", THERMAL_SYSFS, tzn);
-            temp = stoi(read_line(path));
-            if (temp > 0) return temp;
-        }
-        tzn = get_tzn("battery");
-        snprintf(path, sizeof(path), "%sthermal_zone%d/temp", THERMAL_SYSFS, tzn);
-        temp = stoi(read_line(path));
-        return temp;
+    if (mUsbChgActive)
+        return std::max(battery, read_temperature("shell_front").value_or(0));
+    if (mWlsChgActive) {
+        return std::max({battery, read_temperature("shell_back").value_or(0),
+                         read_temperature("wls-therm").value_or(0)});
     }
-
-    if (wlsChgActive) {
-        tzn = get_tzn("shell_back");
-        if (tzn >= 0) {
-            snprintf(path, sizeof(path), "%sthermal_zone%d/temp", THERMAL_SYSFS, tzn);
-            temp = stoi(read_line(path));
-            if (temp > 0) return temp;
-        }
-        tzn = get_tzn("wls-therm");
-        snprintf(path, sizeof(path), "%sthermal_zone%d/temp", THERMAL_SYSFS, tzn);
-        temp = stoi(read_line(path));
-        return temp;
-    }
-
-    return 0;
-}
-
-vector<int> ChargeStatusListener::get_charge_tempThresholds() {
-    if (usbChgActive)
-        return usingPps
-            ? vector<int>(begin(ppsTempThresholds), end(ppsTempThresholds))
-            : vector<int>(begin(qcTempThresholds), end(qcTempThresholds));
-    if (wlsChgActive)
-        return vector<int>(begin(wlsTempThresholds), end(wlsTempThresholds));
-    return {};
-}
-
-vector<int> ChargeStatusListener::get_charge_voltLimits() {
-    if (usbChgActive)
-        return usingPps
-            ? vector<int>(begin(ppsVoltLimit), end(ppsVoltLimit))
-            : vector<int>(begin(qcVoltLimit), end(qcVoltLimit));
-    if (wlsChgActive)
-        return vector<int>(begin(wlsVoltLimit), end(wlsVoltLimit));
-    return {};
+    return battery;
 }
 
 void ChargeStatusListener::limitCharge() {
-    ALOGD("Start charging limit process");
-    while (enableChgLimit) {
-        int last_volt_limit = stoi(read_line(BATTERY_SCENARIO_FCC));
-        int volt_limit_index = 0;
-        int current_temp = get_charge_temp();
-        auto tempThresholds = get_charge_tempThresholds();
-        auto voltLimits = get_charge_voltLimits();
-        int i, current_volt_limit;
-
-        for (i = 0; i < tempThresholds.size(); i++) {
-            if (current_temp >= tempThresholds[i]) {
-                volt_limit_index = voltLimits[i];
-            } else {
+    charging::TemperaturePolicy policy;
+    while (true) {
+        HealthInfo info;
+        std::chrono::seconds updated;
+        {
+            std::unique_lock<std::mutex> lock(mMutex);
+            mWake.wait(lock, [this] { return mStop || mHasHealthInfo; });
+            if (mStop)
                 break;
+            info = mHealthInfo;
+            updated = mHealthInfoUpdated;
+        }
+
+        int online;
+        mUsbChgActive = read_int(kUsbOnline, &online)
+                            ? online != 0
+                            : info.chargerUsbOnline || info.chargerAcOnline;
+        mWlsChgActive =
+            read_int(kWirelessOnline, &online) ? online != 0 : info.chargerWirelessOnline;
+        const int tenths = info.batteryTemperatureTenthsCelsius;
+        const auto age = bootTime() - updated;
+        const bool fresh = updated > std::chrono::seconds::zero() &&
+                           age >= std::chrono::seconds::zero() && age <= kHealthInfoTimeout;
+        mBatteryTemperature = fresh && tenths > 0 && tenths <= 1500 ? tenths * 100 : 0;
+
+        const bool enabled = android::base::GetBoolProperty(kEnabledProperty, true);
+        const auto profile =
+            charging::parseProfile(android::base::GetProperty(kProfileProperty, "mid"));
+        int temperature = 0;
+        int current = charging::kUnrestrictedCurrentMa;
+        if (mUsbChgActive || mWlsChgActive) {
+            auto charger = charging::Charger::Wireless;
+            if (mUsbChgActive) {
+                charger = read_line(kUsbType).find("[PD_PPS]") != std::string::npos
+                              ? charging::Charger::Pps
+                              : charging::Charger::Usb;
+            }
+            temperature = get_charge_temp();
+            current = policy.update(temperature, charger, profile, enabled);
+        }
+
+        int previous;
+        if (!read_int(kScenarioFcc, &previous) || previous != current) {
+            if (write_value(kScenarioFcc, current) == 0) {
+                ALOGD("Temperature: %d mC, charging cap: %d mA, limiter enabled: %d", temperature,
+                      current, enabled);
             }
         }
 
-        current_volt_limit = CHG_VOLT_TBL[volt_limit_index];
-        if (current_volt_limit != last_volt_limit) {
-            ALOGD("Current temp: %d, limit charging to %dmA, last charging limit %dmA", 
-                current_temp, current_volt_limit, last_volt_limit);
-            write_value(BATTERY_SCENARIO_FCC, current_volt_limit);
-        }
-
-        this_thread::sleep_for(chrono::milliseconds(CHG_LIMIT_INTERVAL));
-
-        if (!enableChgLimit) {
-            ALOGD("Stop charging limit process");
+        std::unique_lock<std::mutex> lock(mMutex);
+        mWake.wait_for(lock, kPollInterval);
+        if (mStop)
             break;
-        }
     }
 }
 
-ndk::ScopedAStatus ChargeStatusListener::healthInfoChanged(const HealthInfo& info) {
-    ALOGV("healthInfoChanged: %d", info.batteryStatus);
-    if (info.batteryStatus != mStatus) {
-        mStatus = info.batteryStatus;
-        ALOGD("Battery status changed: %d", mStatus);
-        usbChgActive = stoi(read_line(USB_CHG_ONLINE));
-        wlsChgActive = stoi(read_line(WLS_CHG_ONLINE));
-        if (mStatus == BatteryStatus::CHARGING) {
-            if (usbChgActive) {
-                string usbChgType = read_line(USB_CHG_TYPE);
-                usingPps = (usbChgType.find("[PD_PPS]") != string::npos);
-                ALOGD("%s charger connected", usingPps ? "PPS" : "USB");
-            } else {
-                usingPps = false;
-            }
-            if (wlsChgActive) {
-                ALOGD("Wireless charger connected");
-            }
-            enableChgLimit = true;
-            thread([this] {
-                limitCharge();
-            }).detach();
-        } else {
-            enableChgLimit = false;
-            usingPps = false;
-        }
+ndk::ScopedAStatus ChargeStatusListener::healthInfoChanged(const HealthInfo &info) {
+    {
+        std::lock_guard<std::mutex> lock(mMutex);
+        mHealthInfo = info;
+        mHealthInfoUpdated = bootTime();
+        mHasHealthInfo = true;
     }
+    mWake.notify_one();
     return ndk::ScopedAStatus::ok();
 }

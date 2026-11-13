@@ -32,6 +32,30 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:key="charging"
+        android:title="@string/charging_title">
+
+        <SwitchPreferenceCompat
+            android:key="charging_limiter"
+            android:icon="@drawable/ic_charging"
+            android:title="@string/charging_limiter_title"
+            android:summary="@string/charging_limiter_summary"
+            android:persistent="false"
+            android:defaultValue="true" />
+
+        <ListPreference
+            android:key="charging_limiter_profile"
+            android:icon="@drawable/ic_thermal_temp"
+            android:title="@string/charging_limiter_profile_title"
+            android:entries="@array/charging_limiter_profiles"
+            android:entryValues="@array/charging_limiter_profile_values"
+            android:defaultValue="mid"
+            android:persistent="false"
+            android:dependency="charging_limiter"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:key="thermal"
         android:title="@string/thermal_title">
 

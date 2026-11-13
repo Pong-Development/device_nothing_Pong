@@ -24,6 +24,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
+import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceManager;
 import androidx.preference.SeekBarPreference;
@@ -50,6 +52,8 @@ public class DeviceExtras extends SettingsBasePreferenceFragment
     private SeekBarPreference mTempWarm;
     private SeekBarPreference mTempHigh;
     private SeekBarPreference mTempCritical;
+    private TwoStatePreference mChargingLimiter;
+    private ListPreference mChargingProfile;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -64,6 +68,19 @@ public class DeviceExtras extends SettingsBasePreferenceFragment
             mOTGModeSwitch.setOnPreferenceChangeListener(new OTGModeSwitch());
         } else {
             getPreferenceScreen().removePreference(mOTGModeSwitch);
+        }
+
+        mChargingLimiter = (TwoStatePreference) findPreference(ChargingLimiter.KEY_ENABLED);
+        mChargingProfile = (ListPreference) findPreference(ChargingLimiter.KEY_PROFILE);
+        if (ChargingLimiter.isSupported()) {
+            mChargingLimiter.setChecked(ChargingLimiter.isEnabled());
+            mChargingProfile.setValue(ChargingLimiter.getProfile());
+            mChargingLimiter.setOnPreferenceChangeListener(this);
+            mChargingProfile.setOnPreferenceChangeListener(this);
+        } else {
+            getPreferenceScreen().removePreference(findPreference("charging"));
+            mChargingLimiter = null;
+            mChargingProfile = null;
         }
 
         // Thermal Limiter
@@ -97,8 +114,18 @@ public class DeviceExtras extends SettingsBasePreferenceFragment
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
-        final int value = (Integer) newValue;
         final String key = preference.getKey();
+        if (ChargingLimiter.KEY_ENABLED.equals(key) || ChargingLimiter.KEY_PROFILE.equals(key)) {
+            final boolean changed = ChargingLimiter.KEY_ENABLED.equals(key)
+                    ? ChargingLimiter.setEnabled((Boolean) newValue)
+                    : ChargingLimiter.setProfile((String) newValue);
+            if (!changed) {
+                Toast.makeText(getContext(), R.string.charging_limiter_error, Toast.LENGTH_SHORT).show();
+            }
+            return changed;
+        }
+
+        final int value = (Integer) newValue;
 
         if (ThermalLimiter.KEY_TEMP_WARM.equals(key)) {
             if (mTempHigh.getValue() <= value) {
@@ -161,6 +188,10 @@ public class DeviceExtras extends SettingsBasePreferenceFragment
     @Override
     public void onResume() {
         super.onResume();
+        if (mChargingLimiter != null) {
+            mChargingLimiter.setChecked(ChargingLimiter.isEnabled());
+            mChargingProfile.setValue(ChargingLimiter.getProfile());
+        }
         updateAppsPickerSummary();
     }
 

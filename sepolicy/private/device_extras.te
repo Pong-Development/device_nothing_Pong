@@ -2,6 +2,8 @@ typeattribute device_extras mlstrustedsubject;
 
 app_domain(device_extras)
 
+set_prop(device_extras, nt_charging_control_prop)
+
 allow device_extras {
   activity_service
   activity_task_service

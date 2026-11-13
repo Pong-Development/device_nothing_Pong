@@ -7,10 +7,10 @@
 #include "charging-control.h"
 
 int main() {
-    auto service_name = string() + IHealth::descriptor + "/default";
+    auto service_name = std::string() + IHealth::descriptor + "/default";
 
-    shared_ptr<IHealth> mHealth = IHealth::fromBinder(ndk::SpAIBinder(
-        AServiceManager_waitForService(service_name.c_str())));
+    std::shared_ptr<IHealth> mHealth =
+        IHealth::fromBinder(ndk::SpAIBinder(AServiceManager_waitForService(service_name.c_str())));
 
     if (mHealth == NULL) {
         ALOGE("No health service found");
@@ -19,8 +19,13 @@ int main() {
         ALOGI("Got health service");
     }
 
-    shared_ptr<ChargeStatusListener> chgStatusCallback = ndk::SharedRefBase::make<ChargeStatusListener>();
-    mHealth->registerCallback(chgStatusCallback);
+    std::shared_ptr<ChargeStatusListener> chgStatusCallback =
+        ndk::SharedRefBase::make<ChargeStatusListener>();
+    const auto status = mHealth->registerCallback(chgStatusCallback);
+    if (!status.isOk()) {
+        ALOGE("Failed to register health callback: %s", status.getDescription().c_str());
+        return -1;
+    }
 
     // Keep the service running to continue receiving callbacks
     ABinderProcess_setThreadPoolMaxThreadCount(0);

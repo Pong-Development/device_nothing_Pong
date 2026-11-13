@@ -8,6 +8,7 @@
     device_extras
     glyph_app
     nt_chg_recovery
+    nt_charging_control_prop
     proc_charger
     proc_simulated_temp
     sltntc

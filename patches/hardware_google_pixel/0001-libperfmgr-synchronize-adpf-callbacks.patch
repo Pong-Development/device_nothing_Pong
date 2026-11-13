@@ -1,0 +1,189 @@
+From 780aef77ddc52f57a9602f9f36a8469cd5e18d8b Mon Sep 17 00:00:00 2001
+From: Ghosuto <clash.raja10@gmail.com>
+Date: Wed, 11 Nov 2026 13:15:32 +0530
+Subject: [PATCH] libperfmgr: Synchronize ADPF profiles and callback
+ registrations
+
+ADPF event delivery can iterate callback storage while another thread
+registers or unregisters a session. The original implementation permits
+iterator invalidation and access to a callback object that has been freed.
+
+Guard the profile maps, legacy profile index, and callback registry.
+Deliver snapshots of owned callback registrations without holding the
+registry mutex, and mark removed registrations inactive. Callers must
+still protect the lifetime of objects captured by their callbacks.
+
+Keep the two-argument registration behavior and add an overload that
+notifies a new subscriber of the current profile. Serialize that initial
+notification with event delivery so a session registered after construction
+cannot miss a profile change.
+
+The original callback registry reproduced an AddressSanitizer
+heap-use-after-free during concurrent registration and delivery. Host
+checks using the actual header, parser, callback methods, and Lineage HAL
+callback implementation pass ASan, UBSan, and TSan. A full Android build
+and post-flash validation remain necessary.
+
+Signed-off-by: Ghosuto <clash.raja10@gmail.com>
+---
+ power-libperfmgr/libperfmgr/HintManager.cc    | 53 ++++++++++++++++---
+ .../libperfmgr/include/perfmgr/HintManager.h  | 15 +++++-
+ 2 files changed, 59 insertions(+), 9 deletions(-)
+
+diff --git a/power-libperfmgr/libperfmgr/HintManager.cc b/power-libperfmgr/libperfmgr/HintManager.cc
+index 0acb168..656a746 100644
+--- a/power-libperfmgr/libperfmgr/HintManager.cc
++++ b/power-libperfmgr/libperfmgr/HintManager.cc
+@@ -293,7 +293,12 @@ void HintManager::DumpToFd(int fd) {
+         }
+         GetAdpfProfileFromDoHint()->dumpToFd(fd);
+ 
+-        for (const auto &tag_profile : tag_profile_map_) {
++        std::unordered_map<std::string, std::shared_ptr<AdpfConfig>> tag_profiles;
++        {
++            std::lock_guard<std::mutex> lock(adpf_mutex_);
++            tag_profiles = tag_profile_map_;
++        }
++        for (const auto &tag_profile : tag_profiles) {
+             header = StringPrintf("---- Tagged ADPF Profile: %s ----\n", tag_profile.first.c_str());
+             if (!android::base::WriteStringToFd(header, fd)) {
+                 LOG(ERROR) << "Failed to dump fd: " << fd;
+@@ -1060,6 +1065,7 @@ std::vector<std::shared_ptr<AdpfConfig>> HintManager::ParseAdpfConfigs(
+ 
+ // TODO(jimmyshiu@): Deprecated. Remove once all powerhint.json up-to-date.
+ std::shared_ptr<AdpfConfig> HintManager::GetAdpfProfileFromDoHint() const {
++    std::lock_guard<std::mutex> lock(adpf_mutex_);
+     if (adpfs_.empty())
+         return nullptr;
+     return adpfs_[adpf_index_];
+@@ -1067,6 +1073,7 @@ std::shared_ptr<AdpfConfig> HintManager::GetAdpfProfileFromDoHint() const {
+ 
+ // TODO(jimmyshiu@): Deprecated. Remove once all powerhint.json up-to-date.
+ bool HintManager::SetAdpfProfileFromDoHint(const std::string &profile_name) {
++    std::lock_guard<std::mutex> lock(adpf_mutex_);
+     for (std::size_t i = 0; i < adpfs_.size(); ++i) {
+         if (adpfs_[i]->mName == profile_name) {
+             if (adpf_index_ != i) {
+@@ -1086,16 +1093,18 @@ bool HintManager::IsAdpfSupported() const {
+ }
+ 
+ std::shared_ptr<AdpfConfig> HintManager::GetAdpfProfile(const std::string &tag) const {
++    std::lock_guard<std::mutex> lock(adpf_mutex_);
+     if (adpfs_.empty())
+         return nullptr;
+     if (tag_profile_map_.find(tag) == tag_profile_map_.end()) {
+         // TODO(jimmyshiu@): `return adpfs_[0]` once the GetAdpfProfileFromDoHint() retired.
+-        return GetAdpfProfileFromDoHint();
++        return adpfs_[adpf_index_];
+     }
+     return tag_profile_map_.at(tag);
+ }
+ 
+ bool HintManager::SetAdpfProfile(const std::string &tag, const std::string &profile) {
++    std::lock_guard<std::mutex> lock(adpf_mutex_);
+     if (tag_profile_map_.find(tag) == tag_profile_map_.end()) {
+         LOG(WARNING) << "SetAdpfProfile('" << tag << "', " << profile << ") Invalidate Tag!!!";
+         return false;
+@@ -1141,28 +1150,56 @@ void HintManager::OnNodeUpdate(const std::string &name,
+                 LOG(DEBUG) << "OnNodeUpdate:[" << name << "] failed to update '" << value << "'";
+                 return;
+             }
+-            auto &callback_list = tag_update_callback_list_[tag];
+-            for (const auto &callback : callback_list) {
+-                (*callback)(tag_profile_map_[tag]);
++            std::vector<std::shared_ptr<AdpfCallbackRegistration>> callbacks;
++            {
++                std::lock_guard<std::mutex> lock(adpf_mutex_);
++                callbacks = tag_update_callback_list_[tag];
++            }
++            for (const auto &registration : callbacks) {
++                std::lock_guard<std::mutex> lock(registration->mutex);
++                if (registration->active) {
++                    registration->callback(GetAdpfProfile(tag));
++                }
+             }
+         }
+     }
+ }
+ 
+ void HintManager::RegisterAdpfUpdateEvent(const std::string &tag, AdpfCallback *update_adpf_func) {
+-    tag_update_callback_list_[tag].push_back(update_adpf_func);
++    RegisterAdpfUpdateEvent(tag, update_adpf_func, false);
++}
++
++void HintManager::RegisterAdpfUpdateEvent(const std::string &tag, AdpfCallback *update_adpf_func,
++                                         bool notify_current_profile) {
++    if (!update_adpf_func) {
++        return;
++    }
++    auto registration = std::make_shared<AdpfCallbackRegistration>(update_adpf_func);
++    std::lock_guard<std::mutex> callback_lock(registration->mutex);
++    {
++        std::lock_guard<std::mutex> lock(adpf_mutex_);
++        tag_update_callback_list_[tag].push_back(registration);
++    }
++    if (notify_current_profile && registration->active) {
++        auto profile = GetAdpfProfile(tag);
++        if (profile) {
++            registration->callback(profile);
++        }
++    }
+ }
+ 
+ void HintManager::UnregisterAdpfUpdateEvent(const std::string &tag,
+                                             AdpfCallback *update_adpf_func) {
++    std::lock_guard<std::mutex> lock(adpf_mutex_);
+     auto &callback_list = tag_update_callback_list_[tag];
+     // Use std::find to locate the function object
+     auto it = std::find_if(
+             callback_list.begin(), callback_list.end(),
+-            [update_adpf_func](const std::function<void(const std::shared_ptr<AdpfConfig>)> *func) {
+-                return func == update_adpf_func;
++            [update_adpf_func](const std::shared_ptr<AdpfCallbackRegistration> &registration) {
++                return registration->identity == update_adpf_func;
+             });
+     if (it != callback_list.end()) {
++        (*it)->active = false;
+         // Erase the found function object
+         callback_list.erase(it);
+     }
+diff --git a/power-libperfmgr/libperfmgr/include/perfmgr/HintManager.h b/power-libperfmgr/libperfmgr/include/perfmgr/HintManager.h
+index f1159ac..784f886 100644
+--- a/power-libperfmgr/libperfmgr/include/perfmgr/HintManager.h
++++ b/power-libperfmgr/libperfmgr/include/perfmgr/HintManager.h
+@@ -150,6 +150,8 @@ class HintManager {
+ 
+     typedef std::function<void(std::shared_ptr<AdpfConfig>)> AdpfCallback;
+     void RegisterAdpfUpdateEvent(const std::string &tag, AdpfCallback *update_adpf_func);
++    void RegisterAdpfUpdateEvent(const std::string &tag, AdpfCallback *update_adpf_func,
++                                bool notify_current_profile);
+     void UnregisterAdpfUpdateEvent(const std::string &tag, AdpfCallback *update_adpf_func);
+ 
+     std::optional<std::string> gpu_sysfs_config_path() const;
+@@ -211,6 +213,7 @@ class HintManager {
+     sp<NodeLooperThread> nm_;
+     std::unordered_map<std::string, Hint> actions_;
+     std::vector<std::shared_ptr<AdpfConfig>> adpfs_;
++    mutable std::mutex adpf_mutex_;
+     // TODO(jimmyshiu@): Need to be removed once all powerhint.json up-to-date.
+     std::unordered_map<std::string, std::shared_ptr<AdpfConfig>> tag_profile_map_;
+     uint32_t adpf_index_;
+@@ -221,7 +224,17 @@ class HintManager {
+     void OnNodeUpdate(const std::string &name, const std::vector<std::string> &paths,
+                       const std::string &value);
+     // set ADPF config by hint name.
+-    std::unordered_map<std::string, std::vector<AdpfCallback *>> tag_update_callback_list_;
++    struct AdpfCallbackRegistration {
++        explicit AdpfCallbackRegistration(AdpfCallback *source)
++            : identity(source), callback(*source) {}
++
++        AdpfCallback *const identity;
++        const AdpfCallback callback;
++        std::mutex mutex;
++        std::atomic<bool> active{true};
++    };
++    std::unordered_map<std::string, std::vector<std::shared_ptr<AdpfCallbackRegistration>>>
++            tag_update_callback_list_;
+     // Other configurations
+     OtherConfigs other_configs_;
+ };

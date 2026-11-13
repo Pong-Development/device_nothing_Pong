@@ -29,6 +29,22 @@
     <string name="accessibility_quick_settings_off">Off</string>
     <string name="accessibility_quick_settings_on">On</string>
 
+    <string name="charging_title">Charging</string>
+    <string name="charging_limiter_title">Charging temperature limiter</string>
+    <string name="charging_limiter_summary">Reduce charging current as the phone warms up. Charging always pauses at 48°C and resumes below 46°C.</string>
+    <string name="charging_limiter_profile_title">Charging profile</string>
+    <string name="charging_limiter_error">Could not change the charging limiter</string>
+    <string-array name="charging_limiter_profiles">
+        <item>Slow — reduce current from 30°C</item>
+        <item>Mid — original limits from 35°C</item>
+        <item>Fast — wired taper from 40°C, protective cap at 43°C</item>
+    </string-array>
+    <string-array name="charging_limiter_profile_values">
+        <item>slow</item>
+        <item>mid</item>
+        <item>fast</item>
+    </string-array>
+
     <!-- Thermal -->
     <string name="thermal_title">Thermal Management</string>
     <string name="thermal_limiter_title">Thermal Limiter</string>
