@@ -1,4 +1,4 @@
-typeattribute device_extras mlstrustedsubject;
+typeattribute device_extras coredomain, mlstrustedsubject;
 
 app_domain(device_extras)
 
