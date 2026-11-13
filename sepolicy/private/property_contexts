@@ -12,3 +12,6 @@ fingerprint.disable.study                   u:object_r:system_fingerprint_prop:s
 persist.vendor.overlay.fp_model             u:object_r:system_fingerprint_prop:s0
 persist.vendor.overlay.fp_serial            u:object_r:system_fingerprint_prop:s0
 persist.vendor.overlay.fp_vendor            u:object_r:system_fingerprint_prop:s0
+
+persist.sys.nt_chg.enabled                   u:object_r:nt_charging_control_prop:s0 exact bool
+persist.sys.nt_chg.profile                   u:object_r:nt_charging_control_prop:s0 exact enum slow mid fast

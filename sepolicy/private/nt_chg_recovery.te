@@ -1,6 +1,7 @@
 type nt_chg_recovery_exec, file_type, exec_type, system_file_type;
 
 init_daemon_domain(nt_chg_recovery)
+get_prop(nt_chg_recovery, nt_charging_control_prop)
 allow nt_chg_recovery servicemanager:binder call;
 hal_client_domain(nt_chg_recovery, hal_health)
 
