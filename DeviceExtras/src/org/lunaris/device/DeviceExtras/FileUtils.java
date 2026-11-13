@@ -15,7 +15,7 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
  
-package org.neoteric.device.DeviceExtras;
+package org.lunaris.device.DeviceExtras;
 
 import android.content.Context;
 import android.content.Intent;
@@ -56,10 +56,7 @@ public class FileUtils {
      * @return true on success, false on failure
      */
     public static boolean writeValue(String fileName, String value) {
-        BufferedWriter writer = null;
-        
-        try {
-            writer = new BufferedWriter(new FileWriter(fileName));
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
             writer.write(value);
         } catch (FileNotFoundException e) {
             Log.w(TAG, "No such file " + fileName + " for writing", e);
@@ -67,14 +64,6 @@ public class FileUtils {
         } catch (IOException e) {
             Log.e(TAG, "Could not write to file " + fileName, e);
             return false;
-        } finally {
-            try {
-                if (writer != null) {
-                    writer.close();
-                }
-            } catch (IOException e) {
-                // Ignored, not much we can do anyway
-            }
         }
         
         return true;

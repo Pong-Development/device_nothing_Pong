@@ -17,9 +17,6 @@
 android_app {
     name: "Pong_DeviceExtras",
 
-    defaults: [
-        "SettingsLibDefaults",
-    ],
     certificate: "platform",
     platform_apis: true,
     system_ext_specific: true,
@@ -30,10 +27,22 @@ android_app {
         "src/**/*.kt",
     ],
     static_libs: [
-        "androidx.core_core",
+        "androidx.core_core-ktx",
         "androidx.preference_preference",
-        "com.google.android.material_material",
+        "androidx.activity_activity-compose",
+        "androidx.compose.runtime_runtime",
+        "androidx.compose.ui_ui",
+        "androidx.compose.foundation_foundation",
+        "androidx.compose.material3_material3",
+        "androidx.compose.material_material-icons-core",
+        "androidx.compose.animation_animation",
+        "androidx.lifecycle_lifecycle-runtime-ktx",
+        "androidx.lifecycle_lifecycle-runtime-compose",
+        "androidx.lifecycle_lifecycle-viewmodel-ktx",
+        "kotlinx-coroutines-android",
+        "kotlinx-coroutines-core",
     ],
+    kotlincflags: ["-Xjvm-default=all"],
     required: [
         "privapp_whitelist_DeviceExtras",
     ],

@@ -1,4 +1,4 @@
-package org.neoteric.device.DeviceExtras;
+package org.lunaris.device.DeviceExtras;
 
 import android.os.SystemProperties;
 import android.util.Log;

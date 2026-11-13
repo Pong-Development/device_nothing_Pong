@@ -15,7 +15,7 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 *
 */
-package org.neoteric.device.DeviceExtras;
+package org.lunaris.device.DeviceExtras;
 
 import android.app.ActivityManager;
 import android.app.ActivityTaskManager;
@@ -269,7 +269,7 @@ public class ThermalLimiter implements OnPreferenceChangeListener {
         requestImmediateCheck();
     }
 
-    private static void requestImmediateCheck() {
+    public static void requestImmediateCheck() {
         final Handler handler = mHandler;
         if (handler == null) {
             return;
