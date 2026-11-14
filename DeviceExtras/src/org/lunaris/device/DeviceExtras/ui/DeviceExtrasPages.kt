@@ -11,11 +11,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Search
@@ -32,11 +32,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import kotlin.math.roundToInt
+import kotlinx.coroutines.flow.drop
 import org.lunaris.device.DeviceExtras.R
 
 @Composable
@@ -44,6 +46,7 @@ internal fun ThermalAppsPage(state: DeviceExtrasState, model: DeviceExtrasViewMo
     var query by rememberSaveable { mutableStateOf("") }
     var selectedOnly by rememberSaveable { mutableStateOf(false) }
     val keyboard = LocalSoftwareKeyboardController.current
+    val searchLabel = stringResource(R.string.device_search_apps)
     val scroll = rememberLazyListState()
     val motion = MaterialTheme.motionScheme
     val visibleApps = remember(state.apps, state.selectedApps, query, selectedOnly) {
@@ -53,6 +56,9 @@ internal fun ThermalAppsPage(state: DeviceExtrasState, model: DeviceExtrasViewMo
                 (search.isEmpty() || app.label.contains(search, ignoreCase = true) ||
                     app.packageName.contains(search, ignoreCase = true))
         }
+    }
+    LaunchedEffect(scroll) {
+        snapshotFlow { query to selectedOnly }.drop(1).collect { scroll.scrollToItem(0) }
     }
     ExtrasScaffold(
         stringResource(R.string.thermal_limiter_apps_title), back,
@@ -64,16 +70,17 @@ internal fun ThermalAppsPage(state: DeviceExtrasState, model: DeviceExtrasViewMo
             Column(Modifier.widthIn(max = 720.dp).fillMaxSize().padding(horizontal = 20.dp)) {
                 TextField(
                     value = query, onValueChange = { query = it }, singleLine = true,
-                    modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
+                    modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
+                        .semantics { contentDescription = searchLabel },
                     shape = RoundedCornerShape(28.dp),
-                    placeholder = { Text(stringResource(R.string.device_search_apps)) },
-                    label = { Text(stringResource(R.string.device_search_apps)) },
+                    textStyle = MaterialTheme.typography.bodyLarge,
+                    placeholder = { Text(searchLabel) },
                     leadingIcon = { Icon(Icons.Default.Search, null) },
                     trailingIcon = {
                         AnimatedVisibility(query.isNotEmpty(),
                             enter = fadeIn(motion.fastEffectsSpec()),
                             exit = fadeOut(motion.fastEffectsSpec())) {
-                            IconButton(onClick = { query = "" }) {
+                            IconButton(onClick = touchAction { query = "" }, shapes = IconButtonDefaults.shapes()) {
                                 Icon(Icons.Default.Close, stringResource(R.string.device_clear_search))
                             }
                         }
@@ -87,17 +94,32 @@ internal fun ThermalAppsPage(state: DeviceExtrasState, model: DeviceExtrasViewMo
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                     keyboardActions = KeyboardActions(onSearch = { keyboard?.hide() }),
                 )
-                Row(Modifier.fillMaxWidth().padding(vertical = 12.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    FilterChip(
+                FlowRow(Modifier.fillMaxWidth().padding(vertical = 12.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    ExtrasFilterChip(
                         selected = !selectedOnly,
                         onClick = touchAction { selectedOnly = false },
-                        label = { Text(stringResource(R.string.device_all_apps)) },
+                        label = {
+                            Text(stringResource(R.string.device_all_apps),
+                                style = if (!selectedOnly) MaterialTheme.typography.labelLargeEmphasized
+                                    else MaterialTheme.typography.labelLarge)
+                        },
+                        leadingIcon = if (!selectedOnly) {
+                            { Icon(Icons.Default.Check, null, Modifier.size(FilterChipDefaults.IconSize)) }
+                        } else null,
                     )
-                    FilterChip(
+                    ExtrasFilterChip(
                         selected = selectedOnly,
                         onClick = touchAction { selectedOnly = true },
-                        label = { Text(stringResource(R.string.device_selected_filter, state.selectedApps.size)) },
+                        label = {
+                            Text(stringResource(R.string.device_selected_filter, state.selectedApps.size),
+                                style = if (selectedOnly) MaterialTheme.typography.labelLargeEmphasized
+                                    else MaterialTheme.typography.labelLarge)
+                        },
+                        leadingIcon = if (selectedOnly) {
+                            { Icon(Icons.Default.Check, null, Modifier.size(FilterChipDefaults.IconSize)) }
+                        } else null,
                     )
                 }
                 if (state.appsLoading) {
@@ -122,44 +144,45 @@ internal fun ThermalAppsPage(state: DeviceExtrasState, model: DeviceExtrasViewMo
                 }
                 LazyColumn(
                     state = scroll, modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                    verticalArrangement = Arrangement.spacedBy(ExtrasSegmentedGap),
                     contentPadding = PaddingValues(bottom = 24.dp),
                 ) {
                     itemsIndexed(visibleApps, key = { _, app -> app.packageName }) { index, app ->
                         val checked = app.packageName in state.selectedApps
+                        val enabled = !state.saving && !state.loadFailed
+                        val alpha = if (enabled) 1f else 0.38f
                         val toggle = touchAction { model.selectApp(app.packageName, !checked) }
-                        val shape = groupedShape(index == 0, index == visibleApps.lastIndex)
-                        Surface(
-                            shape = shape,
-                            color = MaterialTheme.colorScheme.surfaceBright,
+                        ExtrasListItem(
+                            onClick = toggle, checked = checked, selected = checked,
+                            role = Role.Checkbox, enabled = enabled,
+                            first = index == 0, last = index == visibleApps.lastIndex,
                             modifier = Modifier.animateItem(
                                 fadeInSpec = motion.fastEffectsSpec(),
                                 placementSpec = motion.defaultSpatialSpec(),
                                 fadeOutSpec = motion.fastEffectsSpec(),
-                            ).fillMaxWidth().clip(shape).toggleable(
-                                value = checked, enabled = !state.saving && !state.loadFailed, role = Role.Checkbox,
-                                onValueChange = { toggle() },
-                            ),
-                        ) {
-                            Row(Modifier.padding(horizontal = 20.dp, vertical = 16.dp),
-                                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                                verticalAlignment = Alignment.CenterVertically) {
+                            ).fillMaxWidth(),
+                            leadingContent = {
                                 val icon = app.icon
                                 if (icon != null) {
                                     Image(icon.asImageBitmap(), null,
-                                        Modifier.size(44.dp).clip(MaterialTheme.shapes.small))
+                                        Modifier.size(40.dp).clip(MaterialTheme.shapes.small), alpha = alpha)
                                 } else {
-                                    SettingIcon(R.drawable.ic_thermal_apps)
+                                    SettingIcon(R.drawable.ic_thermal_apps, enabled)
                                 }
-                                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                                    Text(app.label, style = MaterialTheme.typography.titleMediumEmphasized,
-                                        maxLines = 2, overflow = TextOverflow.Ellipsis)
-                                    Text(app.packageName, style = MaterialTheme.typography.bodySmall,
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                        maxLines = 1, overflow = TextOverflow.Ellipsis)
-                                }
-                                Checkbox(checked, onCheckedChange = null, enabled = !state.saving && !state.loadFailed)
-                            }
+                            },
+                            supportingContent = {
+                                Text(app.packageName, style = MaterialTheme.typography.bodySmall,
+                                    maxLines = 1, overflow = TextOverflow.Ellipsis)
+                            },
+                            trailingContent = {
+                                // The row owns multi-selection semantics; this is only the indicator.
+                                RadioButton(selected = checked, onClick = null, enabled = enabled)
+                            },
+                        ) {
+                            Text(app.label,
+                                style = if (checked) MaterialTheme.typography.titleMediumEmphasized
+                                    else MaterialTheme.typography.titleMedium,
+                                maxLines = 2, overflow = TextOverflow.Ellipsis)
                         }
                     }
                 }
@@ -179,7 +202,7 @@ internal fun ThermalThresholdsPage(state: DeviceExtrasState, model: DeviceExtras
             LazyColumn(
                 state = scroll, modifier = Modifier.widthIn(max = 720.dp).fillMaxSize(),
                 contentPadding = PaddingValues(start = 20.dp, end = 20.dp, bottom = 32.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp),
+                verticalArrangement = Arrangement.spacedBy(ExtrasSegmentedGap),
             ) {
                 item {
                     InfoNote(stringResource(R.string.thermal_thresholds_intro))
@@ -219,7 +242,8 @@ internal fun ThermalThresholdsPage(state: DeviceExtrasState, model: DeviceExtras
                     ) {
                         Icon(Icons.Default.Refresh, null, Modifier.size(20.dp))
                         Spacer(Modifier.width(8.dp))
-                        Text(stringResource(R.string.thermal_thresholds_reset))
+                        Text(stringResource(R.string.thermal_thresholds_reset),
+                            style = MaterialTheme.typography.labelLargeEmphasized)
                     }
                     if (!state.thermalEnabled) InfoNote(stringResource(R.string.thermal_enable_first))
                 }
@@ -242,27 +266,31 @@ private fun ThresholdCard(
 ) {
     var draft by remember(value, revision, enabled) { mutableFloatStateOf(value.toFloat()) }
     val motion = MaterialTheme.motionScheme
-    Surface(shape = groupedShape(first, last), color = MaterialTheme.colorScheme.surfaceBright) {
-        Column(Modifier.fillMaxWidth().padding(horizontal = 24.dp, vertical = 20.dp),
+    val alpha = if (enabled) 1f else 0.38f
+    val temperatureDescription = stringResource(R.string.device_integer_temperature, draft.roundToInt())
+    Surface(shape = groupedShape(first, last), color = MaterialTheme.colorScheme.surfaceContainerHigh) {
+        Column(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                 Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                    Text(title, style = MaterialTheme.typography.titleMediumEmphasized)
+                    Text(title, style = MaterialTheme.typography.titleMediumEmphasized,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = alpha))
                     Text(detail, style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = alpha))
                 }
-                Surface(shape = RoundedCornerShape(20.dp), color = MaterialTheme.colorScheme.secondaryContainer,
-                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer) {
+                Surface(shape = RoundedCornerShape(20.dp),
+                    color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = alpha),
+                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = alpha)) {
                     AnimatedContent(
                         targetState = draft.roundToInt(), label = "thresholdValue",
-                        modifier = Modifier.padding(horizontal = 14.dp, vertical = 12.dp),
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
                         transitionSpec = {
                             fadeIn(motion.fastEffectsSpec()) togetherWith fadeOut(motion.fastEffectsSpec())
                         },
                     ) { temperature ->
                         Text(stringResource(R.string.device_integer_temperature, temperature),
-                            style = MaterialTheme.typography.titleLargeEmphasized, textAlign = TextAlign.Center)
+                            style = MaterialTheme.typography.titleMediumEmphasized, textAlign = TextAlign.Center)
                     }
                 }
             }
@@ -272,7 +300,10 @@ private fun ThresholdCard(
                 onValueChangeFinished = { onCommit(draft.roundToInt()) },
                 valueRange = range.first.toFloat()..range.last.toFloat(),
                 steps = (range.last - range.first - 1).coerceAtLeast(0), enabled = enabled,
-                modifier = Modifier.fillMaxWidth().semantics { contentDescription = title },
+                modifier = Modifier.fillMaxWidth().semantics {
+                    contentDescription = title
+                    stateDescription = temperatureDescription
+                },
             )
         }
     }

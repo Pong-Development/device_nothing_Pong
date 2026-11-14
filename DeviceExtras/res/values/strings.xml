@@ -21,6 +21,7 @@
     <string name="device_summary">Adjust device specific settings</string>
     <string name="device_home_subtitle">Charging, thermals and USB</string>
     <string name="device_back">Back</string>
+    <string name="device_done">Done</string>
     <string name="device_setting_error">Could not apply this setting</string>
     <string name="device_settings_load_error">Could not read device settings</string>
     <string name="device_controls_unavailable">Device controls are unavailable</string>
@@ -38,26 +39,31 @@
      <!-- USB -->
     <string name="usb_title">USB</string>
     <string name="otg_mode_title">USB-OTG</string>
-    <string name="otg_mode_summary">Enable USB on-the-go mode</string>
+    <string name="otg_mode_summary">Connect USB drives and accessories</string>
 
     <!-- QS tile -->
     <string name="accessibility_quick_settings_off">Off</string>
     <string name="accessibility_quick_settings_on">On</string>
 
     <string name="charging_title">Charging</string>
-    <string name="charging_limiter_title">Charging temperature limiter</string>
+    <string name="charging_limiter_title">Temperature limit</string>
+    <string name="charging_info_title">About charging</string>
     <string name="charging_limiter_summary">Reduce charging current as the phone warms up. Charging always pauses at 48°C and resumes below 46°C.</string>
     <string name="charging_limiter_profile_title">Charging profile</string>
     <string name="charging_limiter_error">Could not change the charging limiter</string>
-    <string name="charging_switch_detail">Reduce charging current as your phone warms up</string>
+    <string name="charging_switch_detail">Reduces current as your phone warms up.</string>
     <string name="charging_profile_slow">Slow</string>
     <string name="charging_profile_mid">Mid</string>
     <string name="charging_profile_fast">Fast</string>
-    <string name="charging_profile_slow_detail">Earlier tapering from 30°C for cooler charging.</string>
-    <string name="charging_profile_mid_detail">Original charging curve. Tapering starts at 35°C.</string>
-    <string name="charging_profile_fast_detail">Wired tapering starts at 40°C, with a protective cap at 43°C. Wireless keeps the Mid curve.</string>
-    <string name="charging_profiles_disabled">Profiles are off. The temperature cutoff stays active.</string>
-    <string name="charging_temperature_note">Charging pauses at 48°C. The temperature pause clears below 46°C.</string>
+    <string name="charging_profile_slow_detail">Tapers from 30°C for cooler charging.</string>
+    <string name="charging_profile_mid_detail">Tapers from 35°C.</string>
+    <string name="charging_profile_fast_detail">Wired: tapers from 40°C, capped at 43°C. Wireless uses Mid.</string>
+    <string name="charging_profile_slow_summary">Reduces current from 30°C</string>
+    <string name="charging_profile_mid_summary">Reduces current from 35°C</string>
+    <string name="charging_profile_fast_summary">Wired: reduces current from 40°C</string>
+    <string name="charging_profiles_disabled">Profiles off. Temperature protection stays on.</string>
+    <string name="charging_temperature_note">Charging pauses at 48°C. The pause clears below 46°C.</string>
+    <string name="charging_temperature_summary">Pauses at 48°C · clears below 46°C</string>
     <string-array name="charging_limiter_profiles">
         <item>Slow — reduce current from 30°C</item>
         <item>Mid — original limits from 35°C</item>
@@ -70,11 +76,16 @@
     </string-array>
 
     <!-- Thermal -->
-    <string name="thermal_title">Thermal Management</string>
+    <string name="thermal_title">Thermal</string>
+    <string name="thermal_control_title">App limiter</string>
+    <string name="thermal_apps_short_title">Apps</string>
+    <string name="thermal_thresholds_short_title">Thresholds</string>
     <string name="thermal_limiter_title">Thermal Limiter</string>
     <string name="thermal_limiter_summary">Throttle CPU and GPU frequencies while a selected app is in the foreground to prevent overheating</string>
-    <string name="thermal_switch_detail">Control heat in the apps you choose</string>
+    <string name="thermal_switch_detail">Limits heat in selected apps</string>
+    <string name="thermal_switch_active_detail">Selected apps · %1$s</string>
     <string name="thermal_thresholds_title">Temperature thresholds</string>
+    <string name="thermal_thresholds_summary">Adjust heat limits</string>
     <string name="thermal_thresholds_subtitle">Tune each level of thermal limiting</string>
     <string name="thermal_thresholds_values">%1$d°C · %2$d°C · %3$d°C</string>
     <string name="thermal_thresholds_intro">Apply stronger thermal limits as the battery warms up while a selected app is active.</string>
@@ -86,7 +97,7 @@
     <string name="thermal_enable_first">Enable the thermal limiter in Device Extras to adjust these levels.</string>
 
     <string name="thermal_limiter_status_no_apps">No apps selected</string>
-    <string name="thermal_limiter_status_idle">Idle — waiting for a selected app</string>
+    <string name="thermal_limiter_status_idle">Idle</string>
     <string name="thermal_limiter_status_throttling">Throttling</string>
 
     <string name="thermal_limiter_temp_warm_title">Warm threshold</string>
@@ -97,11 +108,15 @@
     <string name="thermal_limiter_temp_critical_summary">Aggressive throttling starts at %1$d°C</string>
 
     <string name="thermal_limiter_apps_title">Selected apps</string>
-    <string name="thermal_limiter_apps_summary">Choose which apps trigger the thermal limiter</string>
+    <string name="thermal_limiter_apps_summary">Choose apps to limit</string>
     <string name="thermal_limiter_apps_loading">Loading apps…</string>
     <string name="thermal_limiter_apps_none">No apps selected</string>
     <plurals name="thermal_limiter_apps_selected">
         <item quantity="one">%1$d app selected</item>
         <item quantity="other">%1$d apps selected</item>
+    </plurals>
+    <plurals name="thermal_apps_count">
+        <item quantity="one">%1$d app</item>
+        <item quantity="other">%1$d apps</item>
     </plurals>
 </resources>

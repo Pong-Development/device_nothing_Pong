@@ -8,7 +8,13 @@ package org.lunaris.device.DeviceExtras.ui
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
+import androidx.compose.foundation.interaction.collectIsHoveredAsState
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -47,11 +54,109 @@ internal fun touchAction(action: () -> Unit): () -> Unit {
 }
 
 internal fun groupedShape(first: Boolean, last: Boolean) = RoundedCornerShape(
-    topStart = if (first) 32.dp else 4.dp,
-    topEnd = if (first) 32.dp else 4.dp,
-    bottomStart = if (last) 32.dp else 4.dp,
-    bottomEnd = if (last) 32.dp else 4.dp,
+    topStart = if (first) 28.dp else 8.dp,
+    topEnd = if (first) 28.dp else 8.dp,
+    bottomStart = if (last) 28.dp else 8.dp,
+    bottomEnd = if (last) 28.dp else 8.dp,
 )
+
+internal val ExtrasSegmentedGap = 2.dp
+
+// Android 16's Material 3 prebuilt predates the expressive segmented-list APIs.
+@Composable
+internal fun ExtrasListItem(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    first: Boolean = true,
+    last: Boolean = true,
+    selected: Boolean = false,
+    checked: Boolean? = null,
+    role: Role = Role.Button,
+    leadingContent: @Composable () -> Unit,
+    supportingContent: (@Composable () -> Unit)? = null,
+    trailingContent: @Composable () -> Unit,
+    content: @Composable () -> Unit,
+) {
+    val interaction = remember { MutableInteractionSource() }
+    val pressed by interaction.collectIsPressedAsState()
+    val focused by interaction.collectIsFocusedAsState()
+    val hovered by interaction.collectIsHoveredAsState()
+    val rounded = selected || pressed || focused || hovered
+    val motion = MaterialTheme.motionScheme
+    val topCorner by animateDpAsState(
+        if (first || rounded) 28.dp else 8.dp, motion.fastSpatialSpec(), label = "listTopCorner",
+    )
+    val bottomCorner by animateDpAsState(
+        if (last || rounded) 28.dp else 8.dp, motion.fastSpatialSpec(), label = "listBottomCorner",
+    )
+    val shape = RoundedCornerShape(
+        topStart = topCorner.coerceAtLeast(0.dp), topEnd = topCorner.coerceAtLeast(0.dp),
+        bottomStart = bottomCorner.coerceAtLeast(0.dp), bottomEnd = bottomCorner.coerceAtLeast(0.dp),
+    )
+    val scheme = MaterialTheme.colorScheme
+    val alpha = if (enabled) 1f else 0.38f
+    val container by animateColorAsState(
+        if (selected) scheme.secondaryContainer else scheme.surfaceContainerHigh,
+        motion.fastEffectsSpec(), label = "listContainer",
+    )
+    val foreground by animateColorAsState(
+        (if (selected) scheme.onSecondaryContainer else scheme.onSurface).copy(alpha = alpha),
+        motion.fastEffectsSpec(), label = "listForeground",
+    )
+    val supporting by animateColorAsState(
+        (if (selected) scheme.onSecondaryContainer else scheme.onSurfaceVariant).copy(alpha = alpha),
+        motion.fastEffectsSpec(), label = "listSupporting",
+    )
+    val action = if (checked == null) {
+        Modifier.clickable(
+            interactionSource = interaction, indication = ripple(), enabled = enabled,
+            role = role, onClick = onClick,
+        )
+    } else {
+        Modifier.toggleable(
+            value = checked, interactionSource = interaction, indication = ripple(),
+            enabled = enabled, role = role, onValueChange = { onClick() },
+        )
+    }
+    Surface(
+        modifier = modifier.fillMaxWidth().animateContentSize(motion.defaultSpatialSpec())
+            .clip(shape).then(action),
+        shape = shape, color = container, contentColor = foreground,
+    ) {
+        Row(Modifier.heightIn(min = 64.dp).padding(horizontal = 16.dp, vertical = 10.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            verticalAlignment = Alignment.CenterVertically) {
+            leadingContent()
+            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                content()
+                if (supportingContent != null) {
+                    CompositionLocalProvider(LocalContentColor provides supporting) { supportingContent() }
+                }
+            }
+            CompositionLocalProvider(LocalContentColor provides supporting) { trailingContent() }
+        }
+    }
+}
+
+@Composable
+internal fun ExtrasFilterChip(
+    selected: Boolean,
+    onClick: () -> Unit,
+    label: @Composable () -> Unit,
+    leadingIcon: (@Composable () -> Unit)? = null,
+) {
+    val interaction = remember { MutableInteractionSource() }
+    val pressed by interaction.collectIsPressedAsState()
+    val corner by animateDpAsState(
+        if (pressed) 8.dp else if (selected) 20.dp else 12.dp,
+        MaterialTheme.motionScheme.fastSpatialSpec(), label = "filterCorner",
+    )
+    FilterChip(
+        selected = selected, onClick = onClick, label = label, leadingIcon = leadingIcon,
+        shape = RoundedCornerShape(corner), interactionSource = interaction,
+    )
+}
 
 @Composable
 internal fun ExtrasScaffold(
@@ -64,7 +169,7 @@ internal fun ExtrasScaffold(
     val scroll = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val colors = TopAppBarDefaults.topAppBarColors(
         containerColor = MaterialTheme.colorScheme.surface,
-        scrolledContainerColor = MaterialTheme.colorScheme.surfaceContainer,
+        scrolledContainerColor = MaterialTheme.colorScheme.surface,
     )
     val navigation: @Composable () -> Unit = {
         FilledTonalIconButton(
@@ -79,37 +184,57 @@ internal fun ExtrasScaffold(
             Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.device_back))
         }
     }
-    val heading: @Composable () -> Unit = {
-        Text(title, maxLines = 1, overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.semantics { heading() })
-    }
-    val supporting: (@Composable () -> Unit)? = subtitle?.let { text -> { Text(text) } }
     Scaffold(
         modifier = Modifier.nestedScroll(scroll.nestedScrollConnection),
         containerColor = MaterialTheme.colorScheme.surface,
         contentWindowInsets = WindowInsets.safeDrawing,
         topBar = {
-            if (large) {
-                LargeFlexibleTopAppBar(
-                    title = heading, subtitle = supporting, navigationIcon = navigation,
-                    colors = colors, scrollBehavior = scroll,
-                )
-            } else {
-                MediumFlexibleTopAppBar(
-                    title = heading, subtitle = supporting, navigationIcon = navigation,
-                    colors = colors, scrollBehavior = scroll,
-                )
-            }
+            TwoRowsTopAppBar(
+                title = { expanded ->
+                    Text(title,
+                        style = when {
+                            !expanded -> MaterialTheme.typography.titleLargeEmphasized
+                            large -> MaterialTheme.typography.headlineLargeEmphasized
+                            else -> MaterialTheme.typography.headlineSmallEmphasized
+                        },
+                        maxLines = 1, overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.semantics { heading() })
+                },
+                subtitle = subtitle?.let { text ->
+                    { expanded ->
+                        Text(text,
+                            style = if (expanded) MaterialTheme.typography.bodySmall
+                                else MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    }
+                },
+                navigationIcon = navigation,
+                expandedHeight = if (large) {
+                    if (subtitle != null) TopAppBarDefaults.LargeFlexibleAppBarWithSubtitleExpandedHeight
+                    else TopAppBarDefaults.LargeFlexibleAppBarWithoutSubtitleExpandedHeight
+                } else {
+                    if (subtitle != null) TopAppBarDefaults.MediumFlexibleAppBarWithSubtitleExpandedHeight
+                    else TopAppBarDefaults.MediumFlexibleAppBarWithoutSubtitleExpandedHeight
+                },
+                colors = colors, scrollBehavior = scroll,
+            )
         },
         content = content,
     )
 }
 
 @Composable
-internal fun SectionHeading(title: String, temperature: Float? = null) {
-    Row(Modifier.fillMaxWidth().padding(top = 12.dp, bottom = 12.dp),
-        verticalAlignment = Alignment.CenterVertically) {
-        Text(title, style = MaterialTheme.typography.titleLargeEmphasized,
+internal fun SectionHeading(
+    title: String,
+    temperature: Float? = null,
+    action: (@Composable () -> Unit)? = null,
+) {
+    Row(Modifier.fillMaxWidth().padding(top = 16.dp, bottom = 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        Text(title, style = MaterialTheme.typography.titleSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.weight(1f).semantics { heading() })
         if (temperature != null) {
             val description = stringResource(R.string.device_battery_temperature_description, temperature)
@@ -124,10 +249,11 @@ internal fun SectionHeading(title: String, temperature: Float? = null) {
                     horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                     Icon(painterResource(R.drawable.ic_thermal_temp), null, Modifier.size(16.dp))
                     Text(stringResource(R.string.device_temperature_value, temperature),
-                        style = MaterialTheme.typography.labelLargeEmphasized)
+                        style = MaterialTheme.typography.labelMedium)
                 }
             }
         }
+        action?.invoke()
     }
 }
 
@@ -137,10 +263,10 @@ internal fun SettingIcon(@DrawableRes icon: Int, enabled: Boolean = true) {
         shape = MaterialTheme.shapes.small,
         color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = if (enabled) 1f else 0.38f),
         contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = if (enabled) 1f else 0.38f),
-        modifier = Modifier.size(44.dp),
+        modifier = Modifier.size(32.dp),
     ) {
         Box(contentAlignment = Alignment.Center) {
-            Icon(painterResource(icon), null, Modifier.size(24.dp))
+            Icon(painterResource(icon), null, Modifier.size(20.dp))
         }
     }
 }
@@ -149,35 +275,22 @@ internal fun SettingIcon(@DrawableRes icon: Int, enabled: Boolean = true) {
 internal fun SwitchCard(
     @DrawableRes icon: Int,
     title: String,
-    detail: String,
+    detail: String?,
     checked: Boolean,
     enabled: Boolean,
     first: Boolean = true,
     last: Boolean = true,
     onChange: (Boolean) -> Unit,
 ) {
-    val container by animateColorAsState(
-        if (checked) MaterialTheme.colorScheme.surfaceContainerHigh else MaterialTheme.colorScheme.surfaceBright,
-        MaterialTheme.motionScheme.fastEffectsSpec(), label = "switchContainer",
-    )
     val toggle = touchAction { onChange(!checked) }
-    val shape = groupedShape(first, last)
-    Surface(
-        color = container,
-        shape = shape,
-        modifier = Modifier.fillMaxWidth().clip(shape).toggleable(
-            value = checked, enabled = enabled, role = Role.Switch, onValueChange = { toggle() },
-        ),
-    ) {
-        Row(Modifier.padding(horizontal = 20.dp, vertical = 20.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-            SettingIcon(icon)
-            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                Text(title, style = MaterialTheme.typography.titleMediumEmphasized)
-                Text(detail, style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant)
-            }
+    ExtrasListItem(
+        onClick = toggle, enabled = enabled, first = first, last = last,
+        checked = checked, role = Role.Switch,
+        leadingContent = { SettingIcon(icon, enabled) },
+        supportingContent = detail?.let { text ->
+            { Text(text, style = MaterialTheme.typography.bodySmall) }
+        },
+        trailingContent = {
             Switch(
                 checked = checked, enabled = enabled, onCheckedChange = null,
                 thumbContent = {
@@ -188,7 +301,9 @@ internal fun SwitchCard(
                     }
                 },
             )
-        }
+        },
+    ) {
+        Text(title, style = MaterialTheme.typography.titleMedium)
     }
 }
 
@@ -197,30 +312,35 @@ internal fun NavigationCard(
     @DrawableRes icon: Int,
     title: String,
     detail: String,
+    summary: String? = null,
     enabled: Boolean = true,
     first: Boolean = false,
     last: Boolean = false,
     onClick: () -> Unit,
 ) {
-    val alpha = if (enabled) 1f else 0.38f
-    val shape = groupedShape(first, last)
-    Surface(
-        shape = shape, color = MaterialTheme.colorScheme.surfaceBright,
-        modifier = Modifier.fillMaxWidth().clip(shape).clickable(enabled = enabled, role = Role.Button,
-            onClick = touchAction(onClick)),
-    ) {
-        Row(Modifier.padding(horizontal = 20.dp, vertical = 20.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-            SettingIcon(icon, enabled)
-            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                Text(title, style = MaterialTheme.typography.titleMediumEmphasized,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = alpha))
-                Text(detail, style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = alpha))
-            }
-            Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, null,
-                tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = alpha))
+    val fontScale = LocalDensity.current.fontScale
+    BoxWithConstraints(Modifier.fillMaxWidth()) {
+        val inlineDetail = maxWidth / fontScale >= 340.dp
+        ExtrasListItem(
+            onClick = touchAction(onClick), enabled = enabled, first = first, last = last,
+            leadingContent = { SettingIcon(icon, enabled) },
+            supportingContent = if (summary == null && inlineDetail) null else {
+                {
+                    Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                        if (summary != null) Text(summary, style = MaterialTheme.typography.bodySmall)
+                        if (!inlineDetail) Text(detail, style = MaterialTheme.typography.bodySmall)
+                    }
+                }
+            },
+            trailingContent = {
+                Row(verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                    if (inlineDetail) Text(detail, style = MaterialTheme.typography.bodySmall)
+                    Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, null)
+                }
+            },
+        ) {
+            Text(title, style = MaterialTheme.typography.titleMedium)
         }
     }
 }
