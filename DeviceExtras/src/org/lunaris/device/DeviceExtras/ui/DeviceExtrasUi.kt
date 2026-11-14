@@ -7,7 +7,6 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.*
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -29,9 +28,12 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.disabled
+import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
@@ -159,7 +161,7 @@ private fun DeviceExtrasHome(
                             stringResource(R.string.charging_switch_detail), state.chargingEnabled,
                             !state.saving && !state.loadFailed, onChange = model::setChargingEnabled,
                         )
-                        Spacer(Modifier.height(16.dp))
+                        Spacer(Modifier.height(12.dp))
                         ChargingProfiles(state, model::setChargingProfile)
                         InfoNote(stringResource(R.string.charging_temperature_note))
                     }
@@ -218,23 +220,34 @@ private fun ChargingProfiles(state: DeviceExtrasState, select: (String) -> Unit)
     val icons = listOf(R.drawable.ic_charging_slow, R.drawable.ic_charging_mid, R.drawable.ic_charging_fast)
     val enabled = state.chargingEnabled && !state.saving && !state.loadFailed
     val motion = MaterialTheme.motionScheme
-    Row(Modifier.fillMaxWidth().selectableGroup(), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-        values.forEachIndexed { index, profile ->
-            val checked = state.chargingProfile == profile
-            val label = stringResource(labels[index])
-            val click = touchAction { select(profile) }
-            val weight by animateFloatAsState(if (checked) 1.12f else 0.94f,
-                MaterialTheme.motionScheme.defaultSpatialSpec(), label = "profileWidth")
-            val container by animateColorAsState(
-                if (checked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceContainerHigh,
-                MaterialTheme.motionScheme.fastEffectsSpec(), label = "profileContainer")
-            val foreground by animateColorAsState(
-                if (checked) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant,
-                MaterialTheme.motionScheme.fastEffectsSpec(), label = "profileForeground")
-            Column(Modifier.weight(weight), horizontalAlignment = Alignment.CenterHorizontally) {
+    Text(stringResource(R.string.charging_limiter_profile_title),
+        style = MaterialTheme.typography.titleSmallEmphasized,
+        modifier = Modifier.padding(start = 4.dp, bottom = 8.dp).semantics { heading() })
+    val fontScale = LocalDensity.current.fontScale
+    BoxWithConstraints(Modifier.fillMaxWidth().selectableGroup()) {
+        val stacked = maxWidth / fontScale < 320.dp
+        Row(Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(ButtonGroupDefaults.ConnectedSpaceBetween),
+            verticalAlignment = Alignment.CenterVertically) {
+            values.forEachIndexed { index, profile ->
+                val checked = state.chargingProfile == profile
+                val label = stringResource(labels[index])
+                val click = touchAction { select(profile) }
+                val container by animateColorAsState(
+                    if (checked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceContainerHigh,
+                    motion.fastEffectsSpec(), label = "profileContainer")
+                val foreground by animateColorAsState(
+                    if (checked) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant,
+                    motion.fastEffectsSpec(), label = "profileForeground")
+                val profileLabel: @Composable () -> Unit = {
+                    Text(label,
+                        style = if (checked) MaterialTheme.typography.labelLargeEmphasized
+                            else MaterialTheme.typography.labelLarge,
+                        textAlign = TextAlign.Center)
+                }
                 ToggleButton(
                     checked = checked, onCheckedChange = { if (!checked) click() }, enabled = enabled,
-                    modifier = Modifier.fillMaxWidth().heightIn(min = 88.dp).clearAndSetSemantics {
+                    modifier = Modifier.weight(1f).heightIn(min = if (stacked) 64.dp else 44.dp).clearAndSetSemantics {
                         role = Role.RadioButton
                         selected = checked
                         contentDescription = label
@@ -250,14 +263,21 @@ private fun ChargingProfiles(state: DeviceExtrasState, select: (String) -> Unit)
                         containerColor = container, contentColor = foreground,
                         checkedContainerColor = container, checkedContentColor = foreground,
                     ),
-                    contentPadding = PaddingValues(16.dp),
+                    elevation = null,
+                    contentPadding = PaddingValues(horizontal = 8.dp, vertical = 6.dp),
                 ) {
-                    Icon(painterResource(icons[index]), null, Modifier.size(28.dp))
+                    if (stacked) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                            Icon(painterResource(icons[index]), null, Modifier.size(20.dp))
+                            profileLabel()
+                        }
+                    } else {
+                        Icon(painterResource(icons[index]), null, Modifier.size(20.dp))
+                        Spacer(Modifier.width(6.dp))
+                        profileLabel()
+                    }
                 }
-                Text(label, modifier = Modifier.padding(top = 10.dp).clearAndSetSemantics {},
-                    style = if (checked) MaterialTheme.typography.labelLargeEmphasized
-                        else MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = if (enabled) 1f else 0.38f))
             }
         }
     }
@@ -269,7 +289,7 @@ private fun ChargingProfiles(state: DeviceExtrasState, select: (String) -> Unit)
         }
     AnimatedContent(
         targetState = detail, label = "chargingProfileDetail",
-        modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
+        modifier = Modifier.fillMaxWidth().padding(top = 12.dp),
         transitionSpec = {
             fadeIn(motion.fastEffectsSpec()) togetherWith fadeOut(motion.fastEffectsSpec())
         },

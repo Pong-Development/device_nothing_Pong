@@ -19,6 +19,7 @@ internal fun DeviceExtrasTheme(content: @Composable () -> Unit) {
     MaterialExpressiveTheme(
         colorScheme = if (isSystemInDarkTheme()) dynamicDarkColorScheme(context)
             else dynamicLightColorScheme(context),
+        typography = rememberDeviceExtrasTypography(),
         motionScheme = MotionScheme.expressive(),
         shapes = Shapes(
             extraSmall = RoundedCornerShape(8.dp),

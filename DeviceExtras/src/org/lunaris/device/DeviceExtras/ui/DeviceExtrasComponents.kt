@@ -7,8 +7,10 @@ package org.lunaris.device.DeviceExtras.ui
 
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.Crossfade
-import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -47,11 +49,30 @@ internal fun touchAction(action: () -> Unit): () -> Unit {
 }
 
 internal fun groupedShape(first: Boolean, last: Boolean) = RoundedCornerShape(
-    topStart = if (first) 32.dp else 4.dp,
-    topEnd = if (first) 32.dp else 4.dp,
-    bottomStart = if (last) 32.dp else 4.dp,
-    bottomEnd = if (last) 32.dp else 4.dp,
+    topStart = if (first) 28.dp else 4.dp,
+    topEnd = if (first) 28.dp else 4.dp,
+    bottomStart = if (last) 28.dp else 4.dp,
+    bottomEnd = if (last) 28.dp else 4.dp,
 )
+
+@Composable
+internal fun ExtrasFilterChip(
+    selected: Boolean,
+    onClick: () -> Unit,
+    label: @Composable () -> Unit,
+    leadingIcon: (@Composable () -> Unit)? = null,
+) {
+    val interaction = remember { MutableInteractionSource() }
+    val pressed by interaction.collectIsPressedAsState()
+    val corner by animateDpAsState(
+        if (pressed) 8.dp else if (selected) 20.dp else 12.dp,
+        MaterialTheme.motionScheme.fastSpatialSpec(), label = "filterCorner",
+    )
+    FilterChip(
+        selected = selected, onClick = onClick, label = label, leadingIcon = leadingIcon,
+        shape = RoundedCornerShape(corner), interactionSource = interaction,
+    )
+}
 
 @Composable
 internal fun ExtrasScaffold(
@@ -64,7 +85,7 @@ internal fun ExtrasScaffold(
     val scroll = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val colors = TopAppBarDefaults.topAppBarColors(
         containerColor = MaterialTheme.colorScheme.surface,
-        scrolledContainerColor = MaterialTheme.colorScheme.surfaceContainer,
+        scrolledContainerColor = MaterialTheme.colorScheme.surface,
     )
     val navigation: @Composable () -> Unit = {
         FilledTonalIconButton(
@@ -79,27 +100,41 @@ internal fun ExtrasScaffold(
             Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.device_back))
         }
     }
-    val heading: @Composable () -> Unit = {
-        Text(title, maxLines = 1, overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.semantics { heading() })
-    }
-    val supporting: (@Composable () -> Unit)? = subtitle?.let { text -> { Text(text) } }
     Scaffold(
         modifier = Modifier.nestedScroll(scroll.nestedScrollConnection),
         containerColor = MaterialTheme.colorScheme.surface,
         contentWindowInsets = WindowInsets.safeDrawing,
         topBar = {
-            if (large) {
-                LargeFlexibleTopAppBar(
-                    title = heading, subtitle = supporting, navigationIcon = navigation,
-                    colors = colors, scrollBehavior = scroll,
-                )
-            } else {
-                MediumFlexibleTopAppBar(
-                    title = heading, subtitle = supporting, navigationIcon = navigation,
-                    colors = colors, scrollBehavior = scroll,
-                )
-            }
+            TwoRowsTopAppBar(
+                title = { expanded ->
+                    Text(title,
+                        style = when {
+                            !expanded -> MaterialTheme.typography.titleLargeEmphasized
+                            large -> MaterialTheme.typography.headlineLargeEmphasized
+                            else -> MaterialTheme.typography.headlineSmallEmphasized
+                        },
+                        maxLines = 1, overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.semantics { heading() })
+                },
+                subtitle = subtitle?.let { text ->
+                    { expanded ->
+                        Text(text,
+                            style = if (expanded) MaterialTheme.typography.bodyMedium
+                                else MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    }
+                },
+                navigationIcon = navigation,
+                expandedHeight = if (large) {
+                    if (subtitle != null) TopAppBarDefaults.LargeFlexibleAppBarWithSubtitleExpandedHeight
+                    else TopAppBarDefaults.LargeFlexibleAppBarWithoutSubtitleExpandedHeight
+                } else {
+                    if (subtitle != null) TopAppBarDefaults.MediumFlexibleAppBarWithSubtitleExpandedHeight
+                    else TopAppBarDefaults.MediumFlexibleAppBarWithoutSubtitleExpandedHeight
+                },
+                colors = colors, scrollBehavior = scroll,
+            )
         },
         content = content,
     )
@@ -107,8 +142,9 @@ internal fun ExtrasScaffold(
 
 @Composable
 internal fun SectionHeading(title: String, temperature: Float? = null) {
-    Row(Modifier.fillMaxWidth().padding(top = 12.dp, bottom = 12.dp),
-        verticalAlignment = Alignment.CenterVertically) {
+    Row(Modifier.fillMaxWidth().padding(top = 16.dp, bottom = 10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(12.dp)) {
         Text(title, style = MaterialTheme.typography.titleLargeEmphasized,
             modifier = Modifier.weight(1f).semantics { heading() })
         if (temperature != null) {
@@ -137,10 +173,10 @@ internal fun SettingIcon(@DrawableRes icon: Int, enabled: Boolean = true) {
         shape = MaterialTheme.shapes.small,
         color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = if (enabled) 1f else 0.38f),
         contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = if (enabled) 1f else 0.38f),
-        modifier = Modifier.size(44.dp),
+        modifier = Modifier.size(40.dp),
     ) {
         Box(contentAlignment = Alignment.Center) {
-            Icon(painterResource(icon), null, Modifier.size(24.dp))
+            Icon(painterResource(icon), null, Modifier.size(22.dp))
         }
     }
 }
@@ -156,27 +192,25 @@ internal fun SwitchCard(
     last: Boolean = true,
     onChange: (Boolean) -> Unit,
 ) {
-    val container by animateColorAsState(
-        if (checked) MaterialTheme.colorScheme.surfaceContainerHigh else MaterialTheme.colorScheme.surfaceBright,
-        MaterialTheme.motionScheme.fastEffectsSpec(), label = "switchContainer",
-    )
+    val alpha = if (enabled) 1f else 0.38f
     val toggle = touchAction { onChange(!checked) }
     val shape = groupedShape(first, last)
     Surface(
-        color = container,
+        color = MaterialTheme.colorScheme.surfaceContainerHigh,
         shape = shape,
         modifier = Modifier.fillMaxWidth().clip(shape).toggleable(
             value = checked, enabled = enabled, role = Role.Switch, onValueChange = { toggle() },
         ),
     ) {
-        Row(Modifier.padding(horizontal = 20.dp, vertical = 20.dp),
+        Row(Modifier.padding(horizontal = 16.dp, vertical = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-            SettingIcon(icon)
+            horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            SettingIcon(icon, enabled)
             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                Text(title, style = MaterialTheme.typography.titleMediumEmphasized)
+                Text(title, style = MaterialTheme.typography.titleMediumEmphasized,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = alpha))
                 Text(detail, style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = alpha))
             }
             Switch(
                 checked = checked, enabled = enabled, onCheckedChange = null,
@@ -205,13 +239,13 @@ internal fun NavigationCard(
     val alpha = if (enabled) 1f else 0.38f
     val shape = groupedShape(first, last)
     Surface(
-        shape = shape, color = MaterialTheme.colorScheme.surfaceBright,
+        shape = shape, color = MaterialTheme.colorScheme.surfaceContainerHigh,
         modifier = Modifier.fillMaxWidth().clip(shape).clickable(enabled = enabled, role = Role.Button,
             onClick = touchAction(onClick)),
     ) {
-        Row(Modifier.padding(horizontal = 20.dp, vertical = 20.dp),
+        Row(Modifier.padding(horizontal = 16.dp, vertical = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+            horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             SettingIcon(icon, enabled)
             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 Text(title, style = MaterialTheme.typography.titleMediumEmphasized,
