@@ -19,10 +19,21 @@
 */
 package org.lunaris.device.DeviceExtras;
 
-public final class DeviceExtras {
+import android.app.Application;
+import androidx.preference.PreferenceManager;
+
+public final class DeviceExtras extends Application {
     public static final String KEY_OTG_SWITCH = "otg";
     public static final String KEY_THERMAL_LIMITER = "thermal_limiter";
     public static final String KEY_THERMAL_APPS_PICKER = "thermal_limiter_apps_picker";
 
-    private DeviceExtras() {}
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        if (PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean(KEY_THERMAL_LIMITER, false)) {
+            ThermalLimiter.startMonitoring(this);
+        }
+    }
 }

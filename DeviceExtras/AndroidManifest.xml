@@ -30,6 +30,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
+        android:name=".DeviceExtras"
         android:label="@string/device_title"
         android:theme="@android:style/Theme.DeviceDefault.NoActionBar"
         android:persistent="true"

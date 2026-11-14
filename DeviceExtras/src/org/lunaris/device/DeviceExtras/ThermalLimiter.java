@@ -43,6 +43,7 @@ import java.util.Set;
 
 public class ThermalLimiter implements OnPreferenceChangeListener {
     private static final String TAG = "ThermalLimiter";
+    private static final String KEY_THERMAL_STATE = "thermal_limiter_state";
 
     public static final String KEY_TEMP_WARM = "thermal_limiter_temp_warm";
     public static final String KEY_TEMP_HIGH = "thermal_limiter_temp_high";
@@ -143,6 +144,8 @@ public class ThermalLimiter implements OnPreferenceChangeListener {
 
         mContext = context.getApplicationContext();
         mPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+        mCurrentThermalState = Math.max(STATE_NORMAL, Math.min(STATE_CRITICAL,
+                mPrefs.getInt(KEY_THERMAL_STATE, STATE_NORMAL)));
         mIsMonitoring = true;
         mHandler = new Handler(Looper.getMainLooper());
         cacheClusterCeilings();
@@ -462,6 +465,7 @@ public class ThermalLimiter implements OnPreferenceChangeListener {
 
         if (newState != mCurrentThermalState) {
             mCurrentThermalState = newState;
+            mPrefs.edit().putInt(KEY_THERMAL_STATE, newState).apply();
 
             setClusterFrequency(CPU_LITTLE_CORES, littleFreq);
             setClusterFrequency(CPU_MID_CORES, midFreq);
@@ -503,6 +507,7 @@ public class ThermalLimiter implements OnPreferenceChangeListener {
         }
 
         mCurrentThermalState = STATE_NORMAL;
+        mPrefs.edit().putInt(KEY_THERMAL_STATE, STATE_NORMAL).apply();
         Log.i(TAG, "Frequencies reset to normal");
     }
 
