@@ -1,6 +1,7 @@
 /*
 * Copyright (C) 2013 The OmniROM Project
 * Copyright (C) 2021 The dot OS Project
+* Copyright (C) 2026 Lunaris AOSP
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -23,6 +24,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import androidx.preference.PreferenceManager;
+import org.lunaris.device.DeviceExtras.kcal.KcalSettings;
 
 public class Startup extends BroadcastReceiver {
 
@@ -38,6 +40,9 @@ public class Startup extends BroadcastReceiver {
         if (ThermalLimiter.isSupported() && thermalEnabled) {
             ThermalLimiter.startMonitoring(context);
         }
+
+        final PendingResult pending = goAsync();
+        KcalSettings.restore(context, pending::finish);
     }
 
 }

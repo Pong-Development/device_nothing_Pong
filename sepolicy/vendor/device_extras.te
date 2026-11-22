@@ -6,3 +6,6 @@ allow device_extras sysfs_kgsl_gpuclk:dir r_dir_perms;
 allow device_extras sysfs_kgsl_gpuclk:{ file lnk_file } rw_file_perms;
 allow device_extras vendor_sysfs_kgsl:dir search;
 allow device_extras vendor_sysfs_kgsl:file { getattr open read write };
+
+# KCAL color calibration
+allow device_extras vendor_sysfs_kcal:file { getattr open read write };

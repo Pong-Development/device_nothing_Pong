@@ -2,6 +2,7 @@
 * Copyright (C) 2016 The OmniROM Project
 * Copyright (C) 2021 The dot X Project
 * Copyright (C) 2018-2021 crDroid Android Project
+* Copyright (C) 2026 Lunaris AOSP
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -21,6 +22,7 @@ package org.lunaris.device.DeviceExtras;
 
 import android.app.Application;
 import androidx.preference.PreferenceManager;
+import org.lunaris.device.DeviceExtras.kcal.KcalSettings;
 
 public final class DeviceExtras extends Application {
     public static final String KEY_OTG_SWITCH = "otg";
@@ -30,6 +32,8 @@ public final class DeviceExtras extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        KcalSettings.restore(this, () -> {});
 
         if (PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean(KEY_THERMAL_LIMITER, false)) {

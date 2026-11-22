@@ -1,5 +1,6 @@
 #
 # Copyright (C) 2023 The LineageOS Project
+# Copyright (C) 2026 Lunaris AOSP
 #
 # SPDX-License-Identifier: Apache-2.0
 #
@@ -7,6 +8,22 @@
 on boot
     # Fingerprint
     chown system system /dev/goodix_fp
+
+    # KCAL: allow Device Extras to adjust the display driver's color parameters.
+    chown system system /sys/module/msm_drm/parameters/kcal_red
+    chmod 0660 /sys/module/msm_drm/parameters/kcal_red
+    chown system system /sys/module/msm_drm/parameters/kcal_green
+    chmod 0660 /sys/module/msm_drm/parameters/kcal_green
+    chown system system /sys/module/msm_drm/parameters/kcal_blue
+    chmod 0660 /sys/module/msm_drm/parameters/kcal_blue
+    chown system system /sys/module/msm_drm/parameters/kcal_sat
+    chmod 0660 /sys/module/msm_drm/parameters/kcal_sat
+    chown system system /sys/module/msm_drm/parameters/kcal_val
+    chmod 0660 /sys/module/msm_drm/parameters/kcal_val
+    chown system system /sys/module/msm_drm/parameters/kcal_cont
+    chmod 0660 /sys/module/msm_drm/parameters/kcal_cont
+    chown system system /sys/module/msm_drm/parameters/kcal_hue
+    chmod 0660 /sys/module/msm_drm/parameters/kcal_hue
 
     # Gestures
     chown system system /sys/devices/platform/goodix_ts.0/edge_mode

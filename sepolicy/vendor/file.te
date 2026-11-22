@@ -3,3 +3,6 @@ type vendor_persist_goodix_file, file_type;
 
 type sysfs_kgsl_gpuclk, sysfs_type, fs_type;
 type sysfs_torch, sysfs_type, fs_type;
+
+# KCAL color calibration
+type vendor_sysfs_kcal, fs_type, sysfs_type;

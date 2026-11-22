@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) 2026 Lunaris AOSP
+ * SPDX-License-Identifier: Apache-2.0
+ */
 @file:OptIn(androidx.compose.material3.ExperimentalMaterial3ExpressiveApi::class)
 
 package org.lunaris.device.DeviceExtras.ui
@@ -58,24 +62,40 @@ fun attachDeviceExtrasUi(activity: ComponentActivity, appsOnly: Boolean) {
         }
     }
     val model = ViewModelProvider(activity, factory)[DeviceExtrasViewModel::class.java]
+    val kcalFactory = object : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            require(modelClass.isAssignableFrom(KcalViewModel::class.java))
+            @Suppress("UNCHECKED_CAST")
+            return KcalViewModel(activity.application) as T
+        }
+    }
+    val kcalModel = ViewModelProvider(activity, kcalFactory)[KcalViewModel::class.java]
     activity.lifecycleScope.launch {
         activity.repeatOnLifecycle(Lifecycle.State.STARTED) {
-            while (isActive) {
-                model.refresh()
-                delay(2000)
+            kcalModel.refresh()
+            try {
+                while (isActive) {
+                    model.refresh()
+                    delay(2000)
+                }
+            } finally {
+                kcalModel.save()
             }
         }
     }
     activity.setContent {
         DeviceExtrasTheme {
-            DeviceExtrasRoot(model, appsOnly, activity::finish)
+            DeviceExtrasRoot(model, kcalModel, appsOnly, activity::finish)
         }
     }
 }
 
 @Composable
-private fun DeviceExtrasRoot(model: DeviceExtrasViewModel, appsOnly: Boolean, finish: () -> Unit) {
+private fun DeviceExtrasRoot(
+    model: DeviceExtrasViewModel, kcalModel: KcalViewModel, appsOnly: Boolean, finish: () -> Unit,
+) {
     val state by model.state.collectAsStateWithLifecycle()
+    val kcal by kcalModel.state.collectAsStateWithLifecycle()
     var page by rememberSaveable { mutableStateOf(if (appsOnly) "apps" else "home") }
     val savedPages = rememberSaveableStateHolder()
     val snackbar = remember { SnackbarHostState() }
@@ -83,6 +103,9 @@ private fun DeviceExtrasRoot(model: DeviceExtrasViewModel, appsOnly: Boolean, fi
     val back: () -> Unit = { if (appsOnly || page == "home") finish() else page = "home" }
     LaunchedEffect(model) {
         model.messages.collect { snackbar.showSnackbar(context.getString(it)) }
+    }
+    LaunchedEffect(kcalModel) {
+        kcalModel.messages.collect { snackbar.showSnackbar(context.getString(it)) }
     }
     LaunchedEffect(page) { if (page == "apps") model.loadApps() }
     Box(Modifier.fillMaxSize()) {
@@ -92,7 +115,8 @@ private fun DeviceExtrasRoot(model: DeviceExtrasViewModel, appsOnly: Boolean, fi
                 when (destination) {
                     "apps" -> ThermalAppsPage(state, model, pageBack)
                     "thresholds" -> ThermalThresholdsPage(state, model, pageBack)
-                    else -> DeviceExtrasHome(state, model, pageBack) { next ->
+                    "kcal" -> KcalPage(kcal, kcalModel, pageBack)
+                    else -> DeviceExtrasHome(state, kcal, model, pageBack) { next ->
                         if (page == destination) page = next
                     }
                 }
@@ -106,6 +130,7 @@ private fun DeviceExtrasRoot(model: DeviceExtrasViewModel, appsOnly: Boolean, fi
 @Composable
 private fun DeviceExtrasHome(
     state: DeviceExtrasState,
+    kcal: KcalState,
     model: DeviceExtrasViewModel,
     back: () -> Unit,
     navigate: (String) -> Unit,
@@ -207,8 +232,21 @@ private fun DeviceExtrasHome(
                         )
                     }
                 }
+                item {
+                    SectionHeading(stringResource(R.string.display_title))
+                    NavigationCard(
+                        R.drawable.ic_color_calibration, stringResource(R.string.kcal_title),
+                        stringResource(when {
+                            kcal.loading -> R.string.kcal_loading
+                            !kcal.supported -> R.string.kcal_unavailable_short
+                            kcal.enabled -> R.string.accessibility_quick_settings_on
+                            else -> R.string.accessibility_quick_settings_off
+                        }),
+                        summary = stringResource(R.string.kcal_summary), first = true, last = true,
+                    ) { navigate("kcal") }
+                }
                 if (!state.loading && !state.loadFailed && !state.chargingSupported &&
-                    !state.thermalSupported && !state.otgSupported) {
+                    !state.thermalSupported && !state.otgSupported && !kcal.loading && !kcal.supported) {
                     item { InfoNote(stringResource(R.string.device_controls_unavailable)) }
                 }
             }

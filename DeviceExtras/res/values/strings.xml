@@ -4,6 +4,7 @@
      Copyright (C) 2021 The Evolution X Project
      Copyright (C) 2018 The Xiaomi-SDM660 Project
      Copyright (C) 2018-2021 crDroid Android Project
+     Copyright (C) 2026 Lunaris AOSP
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -19,9 +20,10 @@
     <!-- Device Extras -->
     <string name="device_title">Device Extras</string>
     <string name="device_summary">Adjust device specific settings</string>
-    <string name="device_home_subtitle">Charging, thermals and USB</string>
+    <string name="device_home_subtitle">Charging, thermals, USB and display</string>
     <string name="device_back">Back</string>
     <string name="device_done">Done</string>
+    <string name="device_cancel">Cancel</string>
     <string name="device_setting_error">Could not apply this setting</string>
     <string name="device_settings_load_error">Could not read device settings</string>
     <string name="device_controls_unavailable">Device controls are unavailable</string>
@@ -74,6 +76,39 @@
         <item>mid</item>
         <item>fast</item>
     </string-array>
+
+    <!-- Display color calibration -->
+    <string name="display_title">Display</string>
+    <string name="kcal_title">Color calibration</string>
+    <string name="kcal_summary">Adjust screen colors and tone</string>
+    <string name="kcal_subtitle">Fine-tune your display</string>
+    <string name="kcal_enable">Use custom colors</string>
+    <string name="kcal_loading">Loading…</string>
+    <string name="kcal_active">Your saved colors are active.</string>
+    <string name="kcal_inactive">Turn on to apply your saved colors.</string>
+    <string name="kcal_unavailable_short">Unavailable</string>
+    <string name="kcal_unavailable">Color calibration is unavailable with this kernel.</string>
+    <string name="kcal_error">Could not apply the change. Your saved colors were kept.</string>
+    <string name="kcal_preview">Color preview</string>
+    <string name="kcal_preview_description">Color spectrum and a black-to-white gradient</string>
+    <string name="kcal_preview_detail">Changes appear as you adjust.</string>
+    <string name="kcal_rgb_title">Color balance</string>
+    <string name="kcal_tone_title">Tone</string>
+    <string name="kcal_red">Red</string>
+    <string name="kcal_green">Green</string>
+    <string name="kcal_blue">Blue</string>
+    <string name="kcal_saturation">Saturation</string>
+    <string name="kcal_value">Value</string>
+    <string name="kcal_contrast">Contrast</string>
+    <string name="kcal_hue">Hue</string>
+    <string name="kcal_precision_detail">Tap a value to enter an exact number.</string>
+    <string name="kcal_value_label">Value</string>
+    <string name="kcal_number">%1$d</string>
+    <string name="kcal_range">%1$d – %2$d</string>
+    <string name="kcal_edit_value">Edit %1$s, currently %2$d</string>
+    <string name="kcal_decrease_value">Decrease %1$s by 1</string>
+    <string name="kcal_increase_value">Increase %1$s by 1</string>
+    <string name="kcal_reset">Reset to defaults</string>
 
     <!-- Thermal -->
     <string name="thermal_title">Thermal</string>

@@ -1,0 +1,1 @@
+allow vendor_init vendor_sysfs_kcal:file setattr;
