@@ -6,10 +6,15 @@
 
 package org.lunaris.device.DeviceExtras.ui
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.snap
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsDraggedAsState
@@ -33,11 +38,13 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.ProgressBarRangeInfo
@@ -65,6 +72,7 @@ private val channelLabels = listOf(
 @Composable
 internal fun KcalPage(state: KcalState, model: KcalViewModel, back: () -> Unit) {
     val scroll = rememberLazyListState()
+    val motion = MaterialTheme.motionScheme
     var editing by rememberSaveable { mutableIntStateOf(-1) }
     val controls = state.supported && !state.loading && !state.loadFailed && !state.saving
     val sliders = controls && state.enabled
@@ -75,71 +83,89 @@ internal fun KcalPage(state: KcalState, model: KcalViewModel, back: () -> Unit) 
         subtitle = stringResource(R.string.kcal_subtitle)) { padding ->
         Box(Modifier.fillMaxSize().padding(padding).consumeWindowInsets(padding),
             contentAlignment = Alignment.TopCenter) {
-            LazyColumn(
-                state = scroll, modifier = Modifier.widthIn(max = 720.dp).fillMaxSize(),
-                contentPadding = PaddingValues(start = 20.dp, top = 16.dp, end = 20.dp, bottom = 32.dp),
-                verticalArrangement = Arrangement.spacedBy(ExtrasSegmentedGap),
-            ) {
-                if (state.loading) {
-                    item {
-                        Box(Modifier.fillMaxWidth().padding(48.dp), contentAlignment = Alignment.Center) {
-                            LoadingIndicator()
-                        }
+            AnimatedContent(
+                targetState = state.loading,
+                modifier = Modifier.widthIn(max = 720.dp).fillMaxSize(),
+                label = "kcalContent",
+                transitionSpec = {
+                    (fadeIn(motion.defaultEffectsSpec()) +
+                        scaleIn(initialScale = 0.96f, animationSpec = motion.defaultSpatialSpec()))
+                        .togetherWith(fadeOut(motion.fastEffectsSpec()))
+                },
+            ) { loading ->
+                if (loading) {
+                    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        LoadingIndicator()
                     }
                 } else {
-                    item {
-                        SwitchCard(
-                            R.drawable.ic_color_calibration, stringResource(R.string.kcal_enable),
-                            stringResource(when {
-                                !state.supported -> R.string.kcal_unavailable
-                                state.enabled -> R.string.kcal_active
-                                else -> R.string.kcal_inactive
-                            }),
-                            checked = state.enabled, enabled = controls, onChange = model::setEnabled,
-                        )
-                    }
-                    if (!state.supported || state.loadFailed) {
+                    LazyColumn(
+                        state = scroll, modifier = Modifier.fillMaxSize(),
+                        contentPadding = PaddingValues(start = 20.dp, top = 16.dp, end = 20.dp, bottom = 32.dp),
+                        verticalArrangement = Arrangement.spacedBy(ExtrasSegmentedGap),
+                    ) {
                         item {
-                            FilledTonalButton(
-                                onClick = touchAction(model::refresh), shapes = ButtonDefaults.shapes(),
-                                modifier = Modifier.fillMaxWidth().padding(top = 12.dp),
-                            ) { Text(stringResource(R.string.device_retry)) }
+                            SwitchCard(
+                                R.drawable.ic_color_calibration, stringResource(R.string.kcal_enable),
+                                stringResource(when {
+                                    !state.supported -> R.string.kcal_unavailable
+                                    state.enabled -> R.string.kcal_active
+                                    else -> R.string.kcal_inactive
+                                }),
+                                checked = state.enabled, enabled = controls,
+                                highlightChecked = true, onChange = model::setEnabled,
+                            )
                         }
-                    } else {
-                        item {
-                            SectionHeading(stringResource(R.string.kcal_preview))
-                            KcalPreview()
-                            InfoNote(stringResource(R.string.kcal_preview_detail))
-                            SectionHeading(stringResource(R.string.kcal_rgb_title))
-                        }
-                        for (index in 0..2) {
-                            item(key = index) {
-                                KcalChannelCard(index, state.profile[index], sliders,
-                                    first = index == 0, last = index == 2,
-                                    onChange = { model.setChannel(index, it) }, onFinish = model::save,
-                                    onEdit = { editing = index })
+                        if (!state.supported || state.loadFailed) {
+                            item {
+                                StatusCard(
+                                    stringResource(if (state.loadFailed) R.string.device_settings_load_error
+                                        else R.string.kcal_unavailable),
+                                    isError = state.loadFailed,
+                                ) {
+                                    FilledTonalButton(
+                                        onClick = touchAction(model::refresh), shapes = ButtonDefaults.shapes(),
+                                    ) {
+                                        Text(stringResource(R.string.device_retry),
+                                            style = MaterialTheme.typography.labelLargeEmphasized)
+                                    }
+                                }
                             }
-                        }
-                        item { SectionHeading(stringResource(R.string.kcal_tone_title)) }
-                        for (index in 3..6) {
-                            item(key = index) {
-                                KcalChannelCard(index, state.profile[index], sliders,
-                                    first = index == 3, last = index == 6,
-                                    onChange = { model.setChannel(index, it) }, onFinish = model::save,
-                                    onEdit = { editing = index })
+                        } else {
+                            item {
+                                SectionHeading(stringResource(R.string.kcal_preview))
+                                KcalPreview()
+                                InfoNote(stringResource(R.string.kcal_preview_detail))
+                                SectionHeading(stringResource(R.string.kcal_rgb_title))
                             }
-                        }
-                        item {
-                            InfoNote(stringResource(R.string.kcal_precision_detail))
-                            FilledTonalButton(
-                                onClick = touchAction(model::reset), shapes = ButtonDefaults.shapes(),
-                                enabled = controls && state.profile != KcalNodes.defaults().toList(),
-                                modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp),
-                            ) {
-                                Icon(Icons.Default.Refresh, null, Modifier.size(20.dp))
-                                Spacer(Modifier.width(8.dp))
-                                Text(stringResource(R.string.kcal_reset),
-                                    style = MaterialTheme.typography.labelLargeEmphasized)
+                            for (index in 0..2) {
+                                item(key = index) {
+                                    KcalChannelCard(index, state.profile[index], sliders,
+                                        first = index == 0, last = index == 2,
+                                        onChange = { model.setChannel(index, it) }, onFinish = model::save,
+                                        onEdit = { editing = index })
+                                }
+                            }
+                            item { SectionHeading(stringResource(R.string.kcal_tone_title)) }
+                            for (index in 3..6) {
+                                item(key = index) {
+                                    KcalChannelCard(index, state.profile[index], sliders,
+                                        first = index == 3, last = index == 6,
+                                        onChange = { model.setChannel(index, it) }, onFinish = model::save,
+                                        onEdit = { editing = index })
+                                }
+                            }
+                            item {
+                                InfoNote(stringResource(R.string.kcal_precision_detail))
+                                FilledTonalButton(
+                                    onClick = touchAction(model::reset), shapes = ButtonDefaults.shapes(),
+                                    enabled = controls && state.profile != KcalNodes.defaults().toList(),
+                                    modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp),
+                                ) {
+                                    Icon(Icons.Default.Refresh, null, Modifier.size(20.dp))
+                                    Spacer(Modifier.width(8.dp))
+                                    Text(stringResource(R.string.kcal_reset),
+                                        style = MaterialTheme.typography.labelLargeEmphasized)
+                                }
                             }
                         }
                     }
@@ -159,7 +185,7 @@ internal fun KcalPage(state: KcalState, model: KcalViewModel, back: () -> Unit) 
 @Composable
 private fun KcalPreview() {
     val description = stringResource(R.string.kcal_preview_description)
-    Surface(shape = MaterialTheme.shapes.large, color = MaterialTheme.colorScheme.surfaceContainerHigh,
+    Surface(shape = MaterialTheme.shapes.large, color = MaterialTheme.colorScheme.surfaceBright,
         modifier = Modifier.fillMaxWidth().clearAndSetSemantics { contentDescription = description }) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Surface(shape = RoundedCornerShape(12.dp)) {
@@ -201,7 +227,7 @@ private fun KcalChannelCard(
         if (last || active) 28.dp else 8.dp, motion.fastSpatialSpec(), label = "kcalBottomCorner",
     )
     val container by animateColorAsState(
-        if (active) scheme.surfaceContainerHighest else scheme.surfaceContainerHigh,
+        if (active) scheme.surfaceContainerHighest else scheme.surfaceBright,
         motion.fastEffectsSpec(), label = "kcalContainer",
     )
     val foreground by animateColorAsState(
@@ -215,6 +241,7 @@ private fun KcalChannelCard(
     val minimum = KcalNodes.minimum(index)
     val maximum = KcalNodes.maximum(index)
     val rtl = LocalLayoutDirection.current == LayoutDirection.Rtl
+    val haptics = LocalHapticFeedback.current
     val shape = RoundedCornerShape(
         topStart = topCorner.coerceAtLeast(0.dp), topEnd = topCorner.coerceAtLeast(0.dp),
         bottomStart = bottomCorner.coerceAtLeast(0.dp), bottomEnd = bottomCorner.coerceAtLeast(0.dp),
@@ -231,7 +258,11 @@ private fun KcalChannelCard(
                     shapes = ButtonDefaults.shapes(), contentPadding = PaddingValues(horizontal = 16.dp),
                     modifier = Modifier.heightIn(min = 48.dp)
                         .semantics { contentDescription = editDescription }) {
-                    Text(number, style = MaterialTheme.typography.titleMediumEmphasized)
+                    RollingNumberText(
+                        value = value,
+                        format = { stringResource(R.string.kcal_number, it) },
+                        style = MaterialTheme.typography.titleMediumEmphasized,
+                    )
                 }
             }
             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically,
@@ -242,7 +273,13 @@ private fun KcalChannelCard(
                 }
                 Slider(
                     value = position.coerceIn(0f, 1f), interactionSource = interaction,
-                    onValueChange = { onChange(KcalSliderScale.value(index, it)) },
+                    onValueChange = {
+                        val next = KcalSliderScale.value(index, it)
+                        if (next != value) {
+                            haptics.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                            onChange(next)
+                        }
+                    },
                     onValueChangeFinished = onFinish, enabled = enabled,
                     modifier = Modifier.weight(1f).onPreviewKeyEvent { event ->
                         if (!enabled || event.type != KeyEventType.KeyDown) return@onPreviewKeyEvent false
@@ -319,7 +356,10 @@ private fun KcalValueDialog(index: Int, value: Int, dismiss: () -> Unit, confirm
     val parsed = input.text.toIntOrNull()?.takeIf { it in range }
     AlertDialog(
         onDismissRequest = dismiss,
-        title = { Text(stringResource(channelLabels[index])) },
+        title = {
+            Text(stringResource(channelLabels[index]),
+                style = MaterialTheme.typography.headlineSmallEmphasized)
+        },
         text = {
             OutlinedTextField(
                 value = input, onValueChange = { edited ->
@@ -335,12 +375,18 @@ private fun KcalValueDialog(index: Int, value: Int, dismiss: () -> Unit, confirm
             LaunchedEffect(focus) { focus.requestFocus() }
         },
         confirmButton = {
-            TextButton(onClick = touchAction { parsed?.let(confirm) }, enabled = parsed != null) {
-                Text(stringResource(R.string.device_done))
+            FilledTonalButton(
+                onClick = touchAction { parsed?.let(confirm) },
+                enabled = parsed != null,
+                shapes = ButtonDefaults.shapes(),
+            ) {
+                Text(stringResource(R.string.device_done), style = MaterialTheme.typography.labelLargeEmphasized)
             }
         },
         dismissButton = {
-            TextButton(onClick = touchAction(dismiss)) { Text(stringResource(R.string.device_cancel)) }
+            TextButton(onClick = touchAction(dismiss), shapes = ButtonDefaults.shapes()) {
+                Text(stringResource(R.string.device_cancel))
+            }
         },
     )
 }

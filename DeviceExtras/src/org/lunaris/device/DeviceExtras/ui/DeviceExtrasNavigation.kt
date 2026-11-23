@@ -85,7 +85,7 @@ internal fun ExtrasPageTransition(
         }
     }
 
-    Box(Modifier.fillMaxSize().clipToBounds().background(MaterialTheme.colorScheme.surface)) {
+    Box(Modifier.fillMaxSize().clipToBounds().background(MaterialTheme.colorScheme.background)) {
         transition.AnimatedContent(
             modifier = Modifier.fillMaxSize(),
             transitionSpec = {

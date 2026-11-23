@@ -6,10 +6,16 @@
 package org.lunaris.device.DeviceExtras.ui
 
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
@@ -17,6 +23,7 @@ import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.toggleable
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -40,6 +47,8 @@ import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import org.lunaris.device.DeviceExtras.R
@@ -97,7 +106,7 @@ internal fun ExtrasListItem(
     val scheme = MaterialTheme.colorScheme
     val alpha = if (enabled) 1f else 0.38f
     val container by animateColorAsState(
-        if (selected) scheme.secondaryContainer else scheme.surfaceContainerHigh,
+        if (selected) scheme.secondaryContainer else scheme.surfaceBright,
         motion.fastEffectsSpec(), label = "listContainer",
     )
     val foreground by animateColorAsState(
@@ -140,25 +149,6 @@ internal fun ExtrasListItem(
 }
 
 @Composable
-internal fun ExtrasFilterChip(
-    selected: Boolean,
-    onClick: () -> Unit,
-    label: @Composable () -> Unit,
-    leadingIcon: (@Composable () -> Unit)? = null,
-) {
-    val interaction = remember { MutableInteractionSource() }
-    val pressed by interaction.collectIsPressedAsState()
-    val corner by animateDpAsState(
-        if (pressed) 8.dp else if (selected) 20.dp else 12.dp,
-        MaterialTheme.motionScheme.fastSpatialSpec(), label = "filterCorner",
-    )
-    FilterChip(
-        selected = selected, onClick = onClick, label = label, leadingIcon = leadingIcon,
-        shape = RoundedCornerShape(corner), interactionSource = interaction,
-    )
-}
-
-@Composable
 internal fun ExtrasScaffold(
     title: String,
     onBack: () -> Unit,
@@ -168,15 +158,15 @@ internal fun ExtrasScaffold(
 ) {
     val scroll = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val colors = TopAppBarDefaults.topAppBarColors(
-        containerColor = MaterialTheme.colorScheme.surface,
-        scrolledContainerColor = MaterialTheme.colorScheme.surface,
+        containerColor = MaterialTheme.colorScheme.background,
+        scrolledContainerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
     )
     val navigation: @Composable () -> Unit = {
         FilledTonalIconButton(
             onClick = touchAction(onBack),
             shapes = IconButtonDefaults.shapes(),
             colors = IconButtonDefaults.filledTonalIconButtonColors(
-                containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                containerColor = MaterialTheme.colorScheme.surfaceBright,
                 contentColor = MaterialTheme.colorScheme.onSurface,
             ),
             modifier = Modifier.padding(start = 12.dp).size(48.dp),
@@ -186,7 +176,7 @@ internal fun ExtrasScaffold(
     }
     Scaffold(
         modifier = Modifier.nestedScroll(scroll.nestedScrollConnection),
-        containerColor = MaterialTheme.colorScheme.surface,
+        containerColor = MaterialTheme.colorScheme.background,
         contentWindowInsets = WindowInsets.safeDrawing,
         topBar = {
             TwoRowsTopAppBar(
@@ -230,18 +220,36 @@ internal fun SectionHeading(
     temperature: Float? = null,
     action: (@Composable () -> Unit)? = null,
 ) {
+    val scheme = MaterialTheme.colorScheme
+    val motion = MaterialTheme.motionScheme
     Row(Modifier.fillMaxWidth().padding(top = 16.dp, bottom = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-        Text(title, style = MaterialTheme.typography.titleSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        Text(title, style = MaterialTheme.typography.titleSmallEmphasized,
+            color = scheme.primary,
             modifier = Modifier.weight(1f).semantics { heading() })
         if (temperature != null) {
             val description = stringResource(R.string.device_battery_temperature_description, temperature)
+            val badgeContainer by animateColorAsState(
+                when {
+                    temperature >= 42f -> scheme.errorContainer
+                    temperature >= 38f -> scheme.tertiaryContainer
+                    else -> scheme.secondaryContainer
+                },
+                motion.defaultEffectsSpec(), label = "tempContainer",
+            )
+            val badgeContent by animateColorAsState(
+                when {
+                    temperature >= 42f -> scheme.onErrorContainer
+                    temperature >= 38f -> scheme.onTertiaryContainer
+                    else -> scheme.onSecondaryContainer
+                },
+                motion.defaultEffectsSpec(), label = "tempContent",
+            )
             Surface(
-                shape = RoundedCornerShape(50),
-                color = MaterialTheme.colorScheme.secondaryContainer,
-                contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                shape = CircleShape,
+                color = badgeContainer,
+                contentColor = badgeContent,
                 modifier = Modifier.clearAndSetSemantics { contentDescription = description },
             ) {
                 Row(Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
@@ -249,7 +257,7 @@ internal fun SectionHeading(
                     horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                     Icon(painterResource(R.drawable.ic_thermal_temp), null, Modifier.size(16.dp))
                     Text(stringResource(R.string.device_temperature_value, temperature),
-                        style = MaterialTheme.typography.labelMedium)
+                        style = MaterialTheme.typography.labelMediumEmphasized)
                 }
             }
         }
@@ -258,12 +266,26 @@ internal fun SectionHeading(
 }
 
 @Composable
-internal fun SettingIcon(@DrawableRes icon: Int, enabled: Boolean = true) {
+internal fun SettingIcon(@DrawableRes icon: Int, enabled: Boolean = true, active: Boolean = false) {
+    val scheme = MaterialTheme.colorScheme
+    val motion = MaterialTheme.motionScheme
+    val alpha = if (enabled) 1f else 0.38f
+    val corner by animateDpAsState(
+        if (active) 20.dp else 12.dp, motion.fastSpatialSpec(), label = "settingIconCorner",
+    )
+    val container by animateColorAsState(
+        (if (active) scheme.primaryContainer else scheme.secondaryContainer).copy(alpha = alpha),
+        motion.fastEffectsSpec(), label = "settingIconContainer",
+    )
+    val content by animateColorAsState(
+        (if (active) scheme.onPrimaryContainer else scheme.onSecondaryContainer).copy(alpha = alpha),
+        motion.fastEffectsSpec(), label = "settingIconContent",
+    )
     Surface(
-        shape = MaterialTheme.shapes.small,
-        color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = if (enabled) 1f else 0.38f),
-        contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = if (enabled) 1f else 0.38f),
-        modifier = Modifier.size(32.dp),
+        shape = RoundedCornerShape(corner.coerceAtLeast(0.dp)),
+        color = container,
+        contentColor = content,
+        modifier = Modifier.size(40.dp),
     ) {
         Box(contentAlignment = Alignment.Center) {
             Icon(painterResource(icon), null, Modifier.size(20.dp))
@@ -280,19 +302,22 @@ internal fun SwitchCard(
     enabled: Boolean,
     first: Boolean = true,
     last: Boolean = true,
+    highlightChecked: Boolean = false,
     onChange: (Boolean) -> Unit,
 ) {
     val toggle = touchAction { onChange(!checked) }
     ExtrasListItem(
         onClick = toggle, enabled = enabled, first = first, last = last,
+        selected = highlightChecked && checked,
         checked = checked, role = Role.Switch,
-        leadingContent = { SettingIcon(icon, enabled) },
+        leadingContent = { SettingIcon(icon, enabled, active = checked) },
         supportingContent = detail?.let { text ->
             { Text(text, style = MaterialTheme.typography.bodySmall) }
         },
         trailingContent = {
             Switch(
                 checked = checked, enabled = enabled, onCheckedChange = null,
+                colors = SwitchDefaults.colors(),
                 thumbContent = {
                     Crossfade(checked, animationSpec = MaterialTheme.motionScheme.fastEffectsSpec(),
                         label = "switchIcon") { active ->
@@ -303,7 +328,8 @@ internal fun SwitchCard(
             )
         },
     ) {
-        Text(title, style = MaterialTheme.typography.titleMedium)
+        Text(title, style = if (highlightChecked && checked) MaterialTheme.typography.titleMediumEmphasized
+            else MaterialTheme.typography.titleMedium)
     }
 }
 
@@ -353,5 +379,70 @@ internal fun InfoNote(text: String, modifier: Modifier = Modifier) {
             tint = MaterialTheme.colorScheme.onSurfaceVariant)
         Text(text, style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant)
+    }
+}
+
+@Composable
+internal fun StatusCard(
+    text: String,
+    modifier: Modifier = Modifier,
+    isError: Boolean = false,
+    action: (@Composable () -> Unit)? = null,
+) {
+    val scheme = MaterialTheme.colorScheme
+    Surface(
+        shape = MaterialTheme.shapes.large,
+        color = scheme.surfaceContainerHigh,
+        modifier = modifier.fillMaxWidth().padding(vertical = 8.dp),
+    ) {
+        Column(
+            Modifier.fillMaxWidth().padding(horizontal = 24.dp, vertical = 20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            Surface(
+                shape = CircleShape,
+                color = if (isError) scheme.errorContainer else scheme.secondaryContainer,
+                contentColor = if (isError) scheme.onErrorContainer else scheme.onSecondaryContainer,
+                modifier = Modifier.size(48.dp),
+            ) {
+                Box(contentAlignment = Alignment.Center) {
+                    Icon(Icons.Default.Info, null, Modifier.size(24.dp))
+                }
+            }
+            Text(
+                text,
+                style = MaterialTheme.typography.bodyMedium,
+                color = scheme.onSurfaceVariant,
+                textAlign = TextAlign.Center,
+            )
+            action?.invoke()
+        }
+    }
+}
+
+@Composable
+internal fun RollingNumberText(
+    value: Int,
+    format: @Composable (Int) -> String,
+    style: TextStyle,
+    modifier: Modifier = Modifier,
+) {
+    val motion = MaterialTheme.motionScheme
+    AnimatedContent(
+        targetState = value,
+        modifier = modifier,
+        label = "rollingNumber",
+        transitionSpec = {
+            val direction = if (targetState >= initialState) 1 else -1
+            (slideInVertically(motion.fastSpatialSpec()) { direction * it / 2 } +
+                fadeIn(motion.fastEffectsSpec()))
+                .togetherWith(
+                    slideOutVertically(motion.fastSpatialSpec()) { -direction * it / 2 } +
+                        fadeOut(motion.fastEffectsSpec()),
+                )
+        },
+    ) { current ->
+        Text(format(current), style = style, textAlign = TextAlign.Center)
     }
 }

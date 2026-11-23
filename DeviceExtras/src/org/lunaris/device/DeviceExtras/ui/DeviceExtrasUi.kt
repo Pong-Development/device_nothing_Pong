@@ -136,118 +136,129 @@ private fun DeviceExtrasHome(
     navigate: (String) -> Unit,
 ) {
     val scroll = rememberLazyListState()
+    val motion = MaterialTheme.motionScheme
     var showChargingInfo by rememberSaveable { mutableStateOf(false) }
     ExtrasScaffold(stringResource(R.string.device_title), back,
-        subtitle = stringResource(R.string.device_home_subtitle)) { padding ->
+        subtitle = stringResource(R.string.device_home_subtitle), large = true) { padding ->
         Box(Modifier.fillMaxSize().padding(padding).consumeWindowInsets(padding),
             contentAlignment = Alignment.TopCenter) {
-            LazyColumn(
-                state = scroll,
+            AnimatedContent(
+                targetState = state.loading,
                 modifier = Modifier.widthIn(max = 720.dp).fillMaxSize(),
-                contentPadding = PaddingValues(start = 20.dp, end = 20.dp, bottom = 32.dp),
-            ) {
-                if (state.loading) {
-                    item {
-                        Box(Modifier.fillMaxWidth().padding(48.dp), contentAlignment = Alignment.Center) {
-                            LoadingIndicator()
-                        }
+                label = "homeContent",
+                transitionSpec = {
+                    (fadeIn(motion.defaultEffectsSpec()) +
+                        scaleIn(initialScale = 0.96f, animationSpec = motion.defaultSpatialSpec()))
+                        .togetherWith(fadeOut(motion.fastEffectsSpec()))
+                },
+            ) { loading ->
+                if (loading) {
+                    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        LoadingIndicator()
                     }
-                }
-                if (state.loadFailed) {
-                    item {
-                        InfoNote(stringResource(R.string.device_settings_load_error))
-                        FilledTonalButton(
-                            onClick = touchAction(model::retryRefresh), shapes = ButtonDefaults.shapes(),
-                            modifier = Modifier.fillMaxWidth(),
-                        ) {
-                            Text(stringResource(R.string.device_retry))
-                        }
-                    }
-                }
-                if (state.chargingSupported) {
-                    item {
-                        SectionHeading(stringResource(R.string.charging_title), state.temperature) {
-                            IconButton(
-                                onClick = touchAction { showChargingInfo = true },
-                                shapes = IconButtonDefaults.shapes(),
-                                modifier = Modifier.size(48.dp),
-                            ) {
-                                Icon(Icons.Default.Info, stringResource(R.string.charging_info_title),
-                                    Modifier.size(20.dp), tint = MaterialTheme.colorScheme.onSurfaceVariant)
+                } else {
+                    LazyColumn(
+                        state = scroll,
+                        modifier = Modifier.fillMaxSize(),
+                        contentPadding = PaddingValues(start = 20.dp, end = 20.dp, bottom = 32.dp),
+                    ) {
+                        if (state.loadFailed) {
+                            item {
+                                StatusCard(stringResource(R.string.device_settings_load_error), isError = true) {
+                                    FilledTonalButton(
+                                        onClick = touchAction(model::retryRefresh), shapes = ButtonDefaults.shapes(),
+                                    ) {
+                                        Text(stringResource(R.string.device_retry),
+                                            style = MaterialTheme.typography.labelLargeEmphasized)
+                                    }
+                                }
                             }
                         }
-                        Surface(
-                            shape = MaterialTheme.shapes.large,
-                            color = MaterialTheme.colorScheme.surfaceContainerHigh,
-                        ) {
-                            Column {
+                        if (state.chargingSupported) {
+                            item {
+                                SectionHeading(stringResource(R.string.charging_title), state.temperature) {
+                                    IconButton(
+                                        onClick = touchAction { showChargingInfo = true },
+                                        shapes = IconButtonDefaults.shapes(),
+                                        modifier = Modifier.size(48.dp),
+                                    ) {
+                                        Icon(Icons.Default.Info, stringResource(R.string.charging_info_title),
+                                            Modifier.size(20.dp), tint = MaterialTheme.colorScheme.onSurfaceVariant)
+                                    }
+                                }
                                 SwitchCard(
                                     R.drawable.ic_charging, stringResource(R.string.charging_limiter_title),
                                     stringResource(R.string.charging_switch_detail), state.chargingEnabled,
                                     !state.saving && !state.loadFailed,
                                     last = false, onChange = model::setChargingEnabled,
                                 )
-                                ChargingProfiles(state, model::setChargingProfile,
-                                    Modifier.padding(start = 12.dp, end = 12.dp, bottom = 12.dp))
+                                Spacer(Modifier.height(ExtrasSegmentedGap))
+                                Surface(
+                                    shape = groupedShape(first = false, last = true),
+                                    color = MaterialTheme.colorScheme.surfaceBright,
+                                ) {
+                                    ChargingProfiles(state, model::setChargingProfile, Modifier.padding(12.dp))
+                                }
                             }
                         }
+                        if (state.thermalSupported) {
+                            item {
+                                SectionHeading(stringResource(R.string.thermal_title))
+                                SwitchCard(
+                                    R.drawable.ic_thermal, stringResource(R.string.thermal_control_title),
+                                    if (!state.thermalEnabled) stringResource(R.string.thermal_switch_detail)
+                                        else if (state.selectedApps.isEmpty()) state.thermalStatus
+                                        else stringResource(R.string.thermal_switch_active_detail, state.thermalStatus),
+                                    state.thermalEnabled, !state.saving && !state.loadFailed, last = false,
+                                    onChange = model::setThermalEnabled,
+                                )
+                                Spacer(Modifier.height(ExtrasSegmentedGap))
+                                NavigationCard(
+                                    R.drawable.ic_thermal_apps, stringResource(R.string.thermal_apps_short_title),
+                                    pluralStringResource(R.plurals.thermal_apps_count,
+                                        state.selectedApps.size, state.selectedApps.size),
+                                    summary = stringResource(R.string.thermal_limiter_apps_summary),
+                                    enabled = state.thermalEnabled && !state.saving && !state.loadFailed,
+                                ) { navigate("apps") }
+                                Spacer(Modifier.height(ExtrasSegmentedGap))
+                                NavigationCard(
+                                    R.drawable.ic_thermal_temp, stringResource(R.string.thermal_thresholds_short_title),
+                                    stringResource(R.string.thermal_thresholds_values, state.warm, state.high, state.critical),
+                                    summary = stringResource(R.string.thermal_thresholds_summary),
+                                    enabled = state.thermalEnabled && !state.saving && !state.loadFailed, last = true,
+                                ) { navigate("thresholds") }
+                            }
+                        }
+                        if (state.otgSupported) {
+                            item {
+                                SectionHeading(stringResource(R.string.usb_title))
+                                SwitchCard(
+                                    R.drawable.ic_otg_mode, stringResource(R.string.otg_mode_title),
+                                    stringResource(R.string.otg_mode_summary), state.otgEnabled,
+                                    !state.saving && !state.loadFailed,
+                                    highlightChecked = true,
+                                    onChange = model::setOtgEnabled,
+                                )
+                            }
+                        }
+                        item {
+                            SectionHeading(stringResource(R.string.display_title))
+                            NavigationCard(
+                                R.drawable.ic_color_calibration, stringResource(R.string.kcal_title),
+                                stringResource(when {
+                                    kcal.loading -> R.string.kcal_loading
+                                    !kcal.supported -> R.string.kcal_unavailable_short
+                                    kcal.enabled -> R.string.accessibility_quick_settings_on
+                                    else -> R.string.accessibility_quick_settings_off
+                                }),
+                                summary = stringResource(R.string.kcal_summary), first = true, last = true,
+                            ) { navigate("kcal") }
+                        }
+                        if (!state.loadFailed && !state.chargingSupported &&
+                            !state.thermalSupported && !state.otgSupported && !kcal.loading && !kcal.supported) {
+                            item { StatusCard(stringResource(R.string.device_controls_unavailable)) }
+                        }
                     }
-                }
-                if (state.thermalSupported) {
-                    item {
-                        SectionHeading(stringResource(R.string.thermal_title))
-                        SwitchCard(
-                            R.drawable.ic_thermal, stringResource(R.string.thermal_control_title),
-                            if (!state.thermalEnabled) stringResource(R.string.thermal_switch_detail)
-                                else if (state.selectedApps.isEmpty()) state.thermalStatus
-                                else stringResource(R.string.thermal_switch_active_detail, state.thermalStatus),
-                            state.thermalEnabled, !state.saving && !state.loadFailed, last = false,
-                            onChange = model::setThermalEnabled,
-                        )
-                        Spacer(Modifier.height(ExtrasSegmentedGap))
-                        NavigationCard(
-                            R.drawable.ic_thermal_apps, stringResource(R.string.thermal_apps_short_title),
-                            pluralStringResource(R.plurals.thermal_apps_count,
-                                state.selectedApps.size, state.selectedApps.size),
-                            summary = stringResource(R.string.thermal_limiter_apps_summary),
-                            enabled = state.thermalEnabled && !state.saving && !state.loadFailed,
-                        ) { navigate("apps") }
-                        Spacer(Modifier.height(ExtrasSegmentedGap))
-                        NavigationCard(
-                            R.drawable.ic_thermal_temp, stringResource(R.string.thermal_thresholds_short_title),
-                            stringResource(R.string.thermal_thresholds_values, state.warm, state.high, state.critical),
-                            summary = stringResource(R.string.thermal_thresholds_summary),
-                            enabled = state.thermalEnabled && !state.saving && !state.loadFailed, last = true,
-                        ) { navigate("thresholds") }
-                    }
-                }
-                if (state.otgSupported) {
-                    item {
-                        SectionHeading(stringResource(R.string.usb_title))
-                        SwitchCard(
-                            R.drawable.ic_otg_mode, stringResource(R.string.otg_mode_title),
-                            stringResource(R.string.otg_mode_summary), state.otgEnabled,
-                            !state.saving && !state.loadFailed,
-                            onChange = model::setOtgEnabled,
-                        )
-                    }
-                }
-                item {
-                    SectionHeading(stringResource(R.string.display_title))
-                    NavigationCard(
-                        R.drawable.ic_color_calibration, stringResource(R.string.kcal_title),
-                        stringResource(when {
-                            kcal.loading -> R.string.kcal_loading
-                            !kcal.supported -> R.string.kcal_unavailable_short
-                            kcal.enabled -> R.string.accessibility_quick_settings_on
-                            else -> R.string.accessibility_quick_settings_off
-                        }),
-                        summary = stringResource(R.string.kcal_summary), first = true, last = true,
-                    ) { navigate("kcal") }
-                }
-                if (!state.loading && !state.loadFailed && !state.chargingSupported &&
-                    !state.thermalSupported && !state.otgSupported && !kcal.loading && !kcal.supported) {
-                    item { InfoNote(stringResource(R.string.device_controls_unavailable)) }
                 }
             }
         }
@@ -350,14 +361,17 @@ private fun ChargingInfoDialog(chargingEnabled: Boolean, dismiss: () -> Unit) {
     AlertDialog(
         onDismissRequest = dismiss,
         icon = { Icon(Icons.Default.Info, null) },
-        title = { Text(stringResource(R.string.charging_info_title)) },
+        title = {
+            Text(stringResource(R.string.charging_info_title),
+                style = MaterialTheme.typography.headlineSmallEmphasized)
+        },
         text = {
             Column(Modifier.verticalScroll(rememberScrollState()),
                 verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 Text(stringResource(R.string.charging_switch_detail))
                 profiles.forEach { (label, detail) ->
                     Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                        Text(stringResource(label), style = MaterialTheme.typography.titleSmall)
+                        Text(stringResource(label), style = MaterialTheme.typography.titleSmallEmphasized)
                         Text(stringResource(detail))
                     }
                 }
@@ -366,7 +380,9 @@ private fun ChargingInfoDialog(chargingEnabled: Boolean, dismiss: () -> Unit) {
             }
         },
         confirmButton = {
-            TextButton(onClick = touchAction(dismiss)) { Text(stringResource(R.string.device_done)) }
+            FilledTonalButton(onClick = touchAction(dismiss), shapes = ButtonDefaults.shapes()) {
+                Text(stringResource(R.string.device_done), style = MaterialTheme.typography.labelLargeEmphasized)
+            }
         },
     )
 }
